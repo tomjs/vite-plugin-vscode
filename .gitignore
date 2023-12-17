@@ -1,0 +1,59 @@
+# logs
+*.log
+lerna-debug.log*
+logs
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# diagnostic reports (https://nodejs.org/api/report.html)
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# runtime data
+*.pid
+*.pid.lock
+*.seed
+pids
+
+# dependency directory
+bower_components
+jspm_packages
+node_modules
+web_modules
+
+# cache
+.cache
+.npm
+.tmp
+.temp
+.eslintcache
+.stylelintcache
+tsconfig.tsbuildinfo
+
+# environment
+*.local
+
+# macOS
+.DS_Store
+
+# package files
+*.7z
+*.gz
+*.gzip
+*.rar
+*.tar
+*.tar.*
+*.tgz
+*.zip
+
+# IDEA
+.idea
+
+# vscode
+.history
+
+# build output
+build
+dist
+release

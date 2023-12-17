@@ -1,0 +1,14 @@
+# IDE
+.vscode
+.idea
+.history
+.git
+
+# temp
+.cache
+.temp
+.tmp
+
+# project
+node_modules
+dist

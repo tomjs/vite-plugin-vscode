@@ -1,0 +1,83 @@
+{
+  "name": "@tomjs/vite-plugin-vscode",
+  "version": "0.0.0",
+  "description": "The vite plugin for vscode extension, supports esm and cjs.",
+  "keywords": [
+    "vite",
+    "plugin",
+    "vscode",
+    "extension",
+    "webview",
+    "esm",
+    "cjs"
+  ],
+  "author": {
+    "name": "Tom Gao",
+    "email": "tom@tomgao.cc"
+  },
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=16"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tomgao365/vite-plugin-vscode.git"
+  },
+  "scripts": {
+    "dev": "tsup --watch",
+    "build": "tsup",
+    "lint": "run-s lint:eslint lint:stylelint lint:prettier",
+    "lint:eslint": "eslint \"{src,scripts,examples}/**/*.ts\" *.{js,cjs,ts} --fix --cache",
+    "lint:stylelint": "stylelint \"examples/**/*.{css,scss,less,vue,html}\" --fix --cache",
+    "lint:prettier": "prettier --write .",
+    "prepare": "husky install",
+    "prepublishOnly": "npm run build && np --any-branch --no-yarn --yolo --no-publish --message \"chore: release v%s\""
+  },
+  "dependencies": {
+    "@tomjs/vscode-webview-dev": "^1.0.0",
+    "kolorist": "^1.8.0",
+    "lodash.clonedeep": "^4.5.0",
+    "lodash.merge": "^4.6.2"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^18.4.3",
+    "@tomjs/commitlint": "^2.0.8",
+    "@tomjs/eslint": "^1.1.4",
+    "@tomjs/prettier": "^1.0.9",
+    "@tomjs/stylelint": "^2.0.2",
+    "@tomjs/tsconfig": "^1.1.5",
+    "@types/lodash.clonedeep": "^4.5.9",
+    "@types/lodash.merge": "^4.6.9",
+    "@types/node": "^18.19.3",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.56.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0",
+    "np": "^9.2.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^3.1.1",
+    "rimraf": "^5.0.5",
+    "stylelint": "^16.0.2",
+    "tsup": "^8.0.1",
+    "tsx": "^4.6.2",
+    "typescript": "~5.3.3",
+    "vite": "^5.0.10"
+  }
+}
