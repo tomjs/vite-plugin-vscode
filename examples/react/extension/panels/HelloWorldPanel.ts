@@ -72,11 +72,8 @@ export class HelloWorldPanel {
         {
           // Enable JavaScript in the webview
           enableScripts: true,
-          // Restrict the webview to only load resources from the `out` and `webview-ui/build` directories
-          localResourceRoots: [
-            // Uri.joinPath(extensionUri, 'dist'),
-            Uri.joinPath(extensionUri, 'dist/web'),
-          ],
+          // Restrict the webview to only load resources from the `dist/webview` directories
+          localResourceRoots: [Uri.joinPath(extensionUri, 'dist/webview')],
         },
       );
 
@@ -114,10 +111,11 @@ export class HelloWorldPanel {
    * rendered within the webview panel
    */
   private _getWebviewContent(webview: Webview, extensionUri: Uri) {
+    console.log('extensionUri:', extensionUri);
     // The CSS file from the Vue build output
-    const stylesUri = getUri(webview, extensionUri, ['dist', 'web', 'assets', 'index.css']);
+    const stylesUri = getUri(webview, extensionUri, ['dist', 'webview', 'assets', 'index.css']);
     // The JS file from the Vue build output
-    const scriptUri = getUri(webview, extensionUri, ['dist', 'web', 'assets', 'index.js']);
+    const scriptUri = getUri(webview, extensionUri, ['dist', 'webview', 'assets', 'index.js']);
 
     const nonce = uuid();
 
@@ -136,12 +134,12 @@ export class HelloWorldPanel {
           <meta charset="UTF-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
           <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource}; script-src 'nonce-${nonce}';">
-          <link rel="stylesheet" type="text/css" href="${stylesUri}">
+          <script type="module" crossorigin nonce="${nonce}" src="${scriptUri}"></script>
+          <link rel="stylesheet" crossorigin href="${stylesUri}">
           <title>Hello World</title>
         </head>
         <body>
           <div id="app"></div>
-          <script type="module" nonce="${nonce}" src="${scriptUri}"></script>
         </body>
       </html>
     `;
