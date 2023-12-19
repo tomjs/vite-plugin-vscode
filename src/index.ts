@@ -56,7 +56,7 @@ function preMergeOptions(options?: PluginOptions): PluginOptions {
 
   ['entry', 'format'].forEach(prop => {
     const value = opt[prop];
-    if (!Array.isArray(value)) {
+    if (!Array.isArray(value) && value) {
       opt[prop] = [value];
     }
   });

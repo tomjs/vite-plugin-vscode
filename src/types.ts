@@ -1,5 +1,8 @@
 import type { Options } from 'tsup';
 
+/**
+ * vscode extension options. See [tsup](https://tsup.egoist.dev/) and [API Doc](https://paka.dev/npm/tsup) for more information.
+ */
 export interface ExtensionOptions
   extends Omit<Options, 'entry' | 'format' | 'outDir' | 'watch' | 'onSuccess'> {
   /**
