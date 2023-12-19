@@ -1,32 +1,58 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue';
+import { ref } from 'vue';
+import { allComponents, provideVSCodeDesignSystem } from '@vscode/webview-ui-toolkit';
+import { vscode } from './utils';
+
+provideVSCodeDesignSystem().register(allComponents);
+
+function onPostMessage() {
+  vscode.postMessage({
+    command: 'hello',
+    text: 'Hey there partner! 🤠',
+  });
+}
+
+const message = ref('');
+const state = ref('');
+
+const onSetState = () => {
+  vscode.setState(state.value);
+};
+
+const onGetState = () => {
+  state.value = vscode.getState() as string;
+};
 </script>
 
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+  <main>
+    <h1>Hello Vue!</h1>
+    <vscode-button @click="onPostMessage">Test VSCode Message</vscode-button>
+    <div>
+      <vscode-text-field :value="message" @input="e => (message = e.target.value)">
+        Please enter a message
+      </vscode-text-field>
+      <div>Message is: {{ message }}</div>
+    </div>
+    <div>
+      <vscode-text-field :value="state" @input="e => (state = e.target.value)">
+        Please enter a state
+      </vscode-text-field>
+      <div>State is: {{ state }}</div>
+      <div>
+        <vscode-button @click="onSetState">setState</vscode-button>
+        <vscode-button style="margin-left: 8px" @click="onGetState">getState</vscode-button>
+      </div>
+    </div>
+  </main>
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+<style>
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  height: 100%;
 }
 </style>

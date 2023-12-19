@@ -6,6 +6,8 @@
 
 > [vscode extension](https://code.visualstudio.com/api) 的 [vite](https://cn.vitejs.dev/) 插件，支持 `esm` 和 `cjs`。
 
+给 vscode 扩展代码和 web 客户端代码中注入 [@tomjs/vscode-extension-webview](https://github.com/tomgao365/vscode-extension-webview)，可以让 webview 在开发阶段支持 `HMR`
+
 ## 安装
 
 ```bash

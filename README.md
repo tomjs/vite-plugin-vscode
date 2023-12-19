@@ -6,6 +6,8 @@
 
 > The [vite](https://cn.vitejs.dev/) plugin for [vscode extension](https://code.visualstudio.com/api), supports `esm` and `cjs`.
 
+Inject [@tomjs/vscode-extension-webview](https://github.com/tomgao365/vscode-extension-webview) into vscode extension code and web client code, so that webview can support HMR during the development stage.
+
 ## Install
 
 ```bash

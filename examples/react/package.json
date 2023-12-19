@@ -2,9 +2,21 @@
   "name": "template-react",
   "version": "0.0.0",
   "description": "vite + react",
-  "type": "module",
   "engines": {
-    "node": ">=18"
+    "node": ">=18",
+    "vscode": "^1.56.0"
+  },
+  "main": "dist/extension/index.js",
+  "activationEvents": [
+    "onCommand:hello-world.showHelloWorld"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "hello-world.showHelloWorld",
+        "title": "Hello World: Show"
+      }
+    ]
   },
   "scripts": {
     "dev": "vite",
@@ -12,13 +24,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vscode/webview-ui-toolkit": "^1.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@tomjs/vite-plugin-vscode": "workspace:^",
+    "@tomjs/vscode-extension-webview": "^1.0.1",
     "@types/node": "^18.19.3",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.18",
+    "@types/vscode": "^1.85.0",
+    "@types/vscode-webview": "^1.57.4",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "cross-env": "^7.0.3",
     "typescript": "~5.3.3",
