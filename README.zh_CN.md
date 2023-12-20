@@ -222,7 +222,7 @@ export default defineConfig({
 
 ## Debug
 
-通过 `vscode` 运行 `Debug Extension` 调试，调试工具参考 [官方文档](https://code.visualstudio.com/docs/editor/debugging)
+通过 `vscode` 运行 `Run Extension` 调试，调试工具参考 [官方文档](https://code.visualstudio.com/docs/editor/debugging)
 
 `launch.json` 配置如下：
 
