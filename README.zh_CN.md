@@ -29,6 +29,12 @@ yarn add @tomjs/vite-plugin-vscode -D
 npm i @tomjs/vite-plugin-vscode --save-dev
 ```
 
+如果使用 `pnpm` 且开启 `webview` 调试，需要额外安装[@tomjs/vscode-extension-webview](https://github.com/tomgao365/vscode-extension-webview) 这个依赖 
+
+```bash
+pnpm add @tomjs/vscode-extension-webview -D
+```
+
 ## 使用说明
 
 ### 推荐约定
