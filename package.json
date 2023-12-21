@@ -51,7 +51,7 @@
     "prepublishOnly": "npm run build && np --any-branch --no-yarn --yolo --no-publish --message \"chore: release v%s\""
   },
   "dependencies": {
-    "@tomjs/vscode-extension-webview": "^1.0.1",
+    "@tomjs/vscode-extension-webview": "^1.0.3",
     "dayjs": "^1.11.10",
     "kolorist": "^1.8.0",
     "lodash.clonedeep": "^4.5.0",
@@ -60,11 +60,11 @@
   },
   "devDependencies": {
     "@commitlint/cli": "^18.4.3",
-    "@tomjs/commitlint": "^2.0.8",
-    "@tomjs/eslint": "^1.1.4",
-    "@tomjs/prettier": "^1.0.9",
-    "@tomjs/stylelint": "^2.0.2",
-    "@tomjs/tsconfig": "^1.1.5",
+    "@tomjs/commitlint": "^2.1.1",
+    "@tomjs/eslint": "^1.2.1",
+    "@tomjs/prettier": "^1.1.1",
+    "@tomjs/stylelint": "^2.1.1",
+    "@tomjs/tsconfig": "^1.2.1",
     "@types/lodash.clonedeep": "^4.5.9",
     "@types/lodash.merge": "^4.6.9",
     "@types/node": "^18.19.3",
@@ -77,7 +77,7 @@
     "prettier": "^3.1.1",
     "rimraf": "^5.0.5",
     "stylelint": "^16.0.2",
-    "tsx": "^4.6.2",
+    "tsx": "^4.7.0",
     "typescript": "~5.3.3"
   },
   "peerDependencies": {
