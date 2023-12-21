@@ -6,7 +6,7 @@
 
 > [vscode extension](https://code.visualstudio.com/api) 的 [vite](https://cn.vitejs.dev/) 插件，支持 `esm` 和 `cjs`。
 
-给 vscode 扩展代码和 web 客户端代码中注入 [@tomjs/vscode-extension-webview](https://github.com/tomgao365/vscode-extension-webview)，可以让 webview 在开发阶段支持 `HMR`
+给 vscode 扩展代码和 web 客户端代码中注入 [@tomjs/vscode-extension-webview](https://github.com/tomjs/vscode-extension-webview)，可以让 webview 在开发阶段支持 `HMR`
 
 ## 特性
 
@@ -29,7 +29,7 @@ yarn add @tomjs/vite-plugin-vscode -D
 npm i @tomjs/vite-plugin-vscode --save-dev
 ```
 
-如果使用 `pnpm` 且开启 `webview` 调试，需要额外安装[@tomjs/vscode-extension-webview](https://github.com/tomgao365/vscode-extension-webview) 这个依赖 
+如果使用 `pnpm` 且开启 `webview` 调试，需要额外安装[@tomjs/vscode-extension-webview](https://github.com/tomjs/vscode-extension-webview) 这个依赖
 
 ```bash
 pnpm add @tomjs/vscode-extension-webview -D
@@ -189,7 +189,7 @@ export default defineConfig({
 | --- | --- | --- | --- |
 | recommended | `boolean` | `true` | 这个选项是为了提供推荐的默认参数和行为 |
 | extension | [ExtensionOptions](#ExtensionOptions) |  | vscode extension 可选配置 |
-| webview | `boolean` | `false` | 在vscode扩展代码和Web客户端代码中注入[@tomjs/vscode-extension-webview](https://github.com/tomgao365/vscode-extension-webview)，以便webview在开发阶段可以支持HMR。 |
+| webview | `boolean` | `false` | 在vscode扩展代码和Web客户端代码中注入[@tomjs/vscode-extension-webview](https://github.com/tomjs/vscode-extension-webview)，以便webview在开发阶段可以支持HMR。 |
 
 **Notice**
 

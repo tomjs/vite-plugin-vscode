@@ -6,7 +6,7 @@
 
 > The [vite](https://cn.vitejs.dev/) plugin for [vscode extension](https://code.visualstudio.com/api), supports `esm` and `cjs`.
 
-Inject [@tomjs/vscode-extension-webview](https://github.com/tomgao365/vscode-extension-webview) into vscode extension code and web client code, so that webview can support HMR during the development stage.
+Inject [@tomjs/vscode-extension-webview](https://github.com/tomjs/vscode-extension-webview) into vscode extension code and web client code, so that webview can support HMR during the development stage.
 
 ## Features
 
@@ -29,7 +29,7 @@ yarn add @tomjs/vite-plugin-vscode -D
 npm i @tomjs/vite-plugin-vscode --save-dev
 ```
 
-If you use `pnpm` and enable `webview` debugging, you need to additionally install the dependency [@tomjs/vscode-extension-webview](https://github.com/tomgao365/vscode-extension-webview)
+If you use `pnpm` and enable `webview` debugging, you need to additionally install the dependency [@tomjs/vscode-extension-webview](https://github.com/tomjs/vscode-extension-webview)
 
 ```bash
 pnpm add @tomjs/vscode-extension-webview -D
@@ -189,7 +189,7 @@ export default defineConfig({
 | --- | --- | --- | --- |
 | recommended | `boolean` | `true` | This option is intended to provide recommended default parameters and behavior. |
 | extension | [ExtensionOptions](#ExtensionOptions) |  | Configuration options for the vscode extension. |
-| webview | `boolean` | `false` | Inject [@tomjs/vscode-extension-webview](https://github.com/tomgao365/vscode-extension-webview) into vscode extension code and web client code, so that webview can support HMR during the development stage. |
+| webview | `boolean` | `false` | Inject [@tomjs/vscode-extension-webview](https://github.com/tomjs/vscode-extension-webview) into vscode extension code and web client code, so that webview can support HMR during the development stage. |
 
 **Notice**
 

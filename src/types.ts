@@ -38,7 +38,7 @@ export interface PluginOptions {
    */
   recommended?: boolean;
   /**
-   * Inject [@tomjs/vscode-extension-webview](https://github.com/tomgao365/vscode-extension-webview) into vscode extension code and web client code, so that webview can support HMR during the development stage.
+   * Inject [@tomjs/vscode-extension-webview](https://github.com/tomjs/vscode-extension-webview) into vscode extension code and web client code, so that webview can support HMR during the development stage.
    *
    * * extension: Inject `import getDevWebviewHtml from '@tomjs/vscode-extension-webview';` above the file that calls the `getDevWebviewHtml` method
    * * web: Add `<script>` tag to index.html and inject `@tomjs/vscode-extension-webview/client` code
