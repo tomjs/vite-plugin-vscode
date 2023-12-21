@@ -229,7 +229,7 @@ Based on [Options](https://paka.dev/npm/tsup) of [tsup](https://tsup.egoist.dev/
 
 ## Debug
 
-Run `Run Extension` through `vscode` to debug. For debugging tools, refer to [Official Documentation](https://code.visualstudio.com/docs/editor/debugging)
+Run `Debug Extension` through `vscode` to debug. For debugging tools, refer to [Official Documentation](https://code.visualstudio.com/docs/editor/debugging)
 
 `launch.json` is configured as follows:
 
@@ -238,7 +238,7 @@ Run `Run Extension` through `vscode` to debug. For debugging tools, refer to [Of
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Run Extension",
+      "name": "Debug Extension",
       "type": "extensionHost",
       "request": "launch",
       "args": ["--extensionDevelopmentPath=${workspaceFolder}"],
@@ -287,3 +287,17 @@ Run `Run Extension` through `vscode` to debug. For debugging tools, refer to [Of
   ]
 }
 ```
+
+## Examples
+
+First execute the following command to install dependencies and generate library files:
+
+```bash
+pnpm install
+pnpm build
+```
+
+Open the [examples](./examples) directory, there are `vue` and `react` examples.
+
+- [react](./examples/react)
+- [vue](./examples/vue)

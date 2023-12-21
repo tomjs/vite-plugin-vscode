@@ -228,7 +228,7 @@ export default defineConfig({
 
 ## Debug
 
-通过 `vscode` 运行 `Run Extension` 调试，调试工具参考 [官方文档](https://code.visualstudio.com/docs/editor/debugging)
+通过 `vscode` 运行 `Debug Extension` 调试，调试工具参考 [官方文档](https://code.visualstudio.com/docs/editor/debugging)
 
 `launch.json` 配置如下：
 
@@ -237,7 +237,7 @@ export default defineConfig({
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Run Extension",
+      "name": "Debug Extension",
       "type": "extensionHost",
       "request": "launch",
       "args": ["--extensionDevelopmentPath=${workspaceFolder}"],
@@ -286,3 +286,17 @@ export default defineConfig({
   ]
 }
 ```
+
+## 示例
+
+先执行以下命令安装依赖，并生成库文件：
+
+```bash
+pnpm install
+pnpm build
+```
+
+打开 [examples](./examples) 目录，有 `vue` 和 `react` 示例。
+
+- [react](./examples/react)
+- [vue](./examples/vue)
