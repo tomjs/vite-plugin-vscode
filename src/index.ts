@@ -40,6 +40,7 @@ function preMergeOptions(options?: PluginOptions): PluginOptions {
         outDir: 'dist-extension',
         target: ['es2019', 'node14'],
         format: 'cjs',
+        shims: true,
         clean: true,
         dts: false,
         treeshake: !!isDev,
