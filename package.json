@@ -51,7 +51,7 @@
     "prepublishOnly": "npm run build && np --any-branch --no-yarn --yolo --no-publish --message \"chore: release v%s\""
   },
   "dependencies": {
-    "@tomjs/vscode-extension-webview": "^1.0.3",
+    "@tomjs/vscode-extension-webview": "^1.2.0",
     "dayjs": "^1.11.10",
     "kolorist": "^1.8.0",
     "lodash.clonedeep": "^4.5.0",
@@ -67,7 +67,7 @@
     "@tomjs/tsconfig": "^1.2.1",
     "@types/lodash.clonedeep": "^4.5.9",
     "@types/lodash.merge": "^4.6.9",
-    "@types/node": "^18.19.3",
+    "@types/node": "^18.19.4",
     "cross-env": "^7.0.3",
     "eslint": "^8.56.0",
     "husky": "^8.0.3",
@@ -76,7 +76,7 @@
     "npm-run-all": "^4.1.5",
     "prettier": "^3.1.1",
     "rimraf": "^5.0.5",
-    "stylelint": "^16.0.2",
+    "stylelint": "^16.1.0",
     "tsx": "^4.7.0",
     "typescript": "~5.3.3"
   },
