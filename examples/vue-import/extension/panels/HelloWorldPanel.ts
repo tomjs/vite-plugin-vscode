@@ -113,9 +113,17 @@ export class HelloWorldPanel {
   private _getWebviewContent(webview: Webview, extensionUri: Uri) {
     console.log('extensionUri:', extensionUri);
     // The CSS file from the Vue build output
-    const stylesUri = getUri(webview, extensionUri, ['dist', 'webview', 'assets', 'index.css']);
+    const stylesUri = getUri(webview, extensionUri, ['dist/webview/assets/index.css']);
+    const scriptUri = getUri(webview, extensionUri, ['dist/webview/assets/index.js']);
     // The JS file from the Vue build output
-    const scriptUri = getUri(webview, extensionUri, ['dist', 'webview', 'assets', 'index.js']);
+    // const scriptUri = getUri(webview, extensionUri, ['dist', 'webview', 'assets', 'index.js']);
+    console.log(
+      'scriptUri:',
+      getUri(webview, extensionUri, ['dist', 'webview', 'assets', 'index.js']),
+    );
+
+    const baseUri = getUri(webview, extensionUri, ['dist/webview']);
+    console.log('baseUri:', baseUri, baseUri.toString());
 
     const nonce = uuid();
 
@@ -126,6 +134,34 @@ export class HelloWorldPanel {
       return __getWebviewHtml__({ serverUrl: process.env.VITE_DEV_SERVER_URL });
     }
 
+    // const jsFiles = [
+    //   'dist/webview/assets/batchSamplersUniformGroup.js',
+    //   'dist/webview/assets/browserAll.js',
+    //   'dist/webview/assets/CanvasPool.js',
+    //   'dist/webview/assets/localUniformBit.js',
+    //   'dist/webview/assets/SharedSystems.js',
+    //   'dist/webview/assets/WebGLRenderer.js',
+    //   'dist/webview/assets/WebGPURenderer.js',
+    //   'dist/webview/assets/webworkerAll.js',
+    // ];
+
+    const jsDistFiles = process.env.VITE_DIST_FILES;
+    let jsFiles = [];
+    try {
+      if (jsDistFiles) {
+        jsFiles = JSON.parse(jsDistFiles || '');
+      }
+    } catch {}
+
+    const injectScripts = jsFiles
+      .map(
+        s =>
+          `<script type="module" src="${getUri(webview, extensionUri, [
+            s,
+          ])}" nonce="${nonce}"></script>`,
+      )
+      .join('\n');
+
     // Tip: Install the es6-string-html VS Code extension to enable code highlighting below
     return /*html*/ `
       <!doctype html>
@@ -133,7 +169,9 @@ export class HelloWorldPanel {
         <head>
           <meta charset="UTF-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource}; script-src 'nonce-${nonce}';">
+          <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource} 'unsafe-inline'; script-src 'nonce-${nonce}' 'unsafe-eval';">
+          <base href="${baseUri}" />
+          ${injectScripts}
           <script type="module" crossorigin nonce="${nonce}" src="${scriptUri}"></script>
           <link rel="stylesheet" crossorigin href="${stylesUri}">
           <title>Hello World</title>

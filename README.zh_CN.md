@@ -80,15 +80,15 @@ const panel = window.createWebviewPanel('showHelloWorld', 'Hello World', ViewCol
 ```ts
 private _getWebviewContent(webview: Webview, extensionUri: Uri) {
     // The CSS file from the Vue build output
-    const stylesUri = getUri(webview, extensionUri, ['dist', 'webview', 'assets', 'index.css']);
+    const stylesUri = getUri(webview, extensionUri, ['dist/webview/assets/index.css']);
     // The JS file from the Vue build output
-    const scriptUri = getUri(webview, extensionUri, ['dist', 'webview', 'assets', 'index.js']);
+    const scriptUri = getUri(webview, extensionUri, ['dist/webview/assets/index.js']);
 
     const nonce = uuid();
 
     if (process.env.VITE_DEV_SERVER_URL) {
       // @ts-ignore
-      return __getWebviewHtml({ serverUrl: process.env.VITE_DEV_SERVER_URL });
+      return __getWebviewHtml__({ serverUrl: process.env.VITE_DEV_SERVER_URL });
     }
 
     // Tip: Install the es6-string-html VS Code extension to enable code highlighting below
@@ -140,15 +140,6 @@ export default defineConfig({
     }),
     vscode(),
   ],
-  build: {
-    rollupOptions: {
-      output: {
-        entryFileNames: `assets/[name].js`,
-        chunkFileNames: `assets/[name].js`,
-        assetFileNames: `assets/[name].[ext]`,
-      },
-    },
-  },
 });
 ```
 
@@ -164,15 +155,6 @@ import react from '@vitejs/plugin-react-swc';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), vscode()],
-  build: {
-    rollupOptions: {
-      output: {
-        entryFileNames: `assets/[name].js`,
-        chunkFileNames: `assets/[name].js`,
-        assetFileNames: `assets/[name].[ext]`,
-      },
-    },
-  },
 });
 ```
 
@@ -222,9 +204,17 @@ export default defineConfig({
 
 `vscode extension` 使用
 
+- `development` 模式
+
 | 变量                  | 描述                  |
 | --------------------- | --------------------- |
-| `VITE_DEV_SERVER_URL` | Vite 开发服务器的 URL |
+| `VITE_DEV_SERVER_URL` | vite开发服务器的url。 |
+
+- `production` 模式
+
+| 变量              | 描述                                                            |
+| ----------------- | --------------------------------------------------------------- |
+| `VITE_DIST_FILES` | dist目录下的所有js文件，不包括index.js。 它是一个 json 字符串。 |
 
 ## Debug
 
@@ -298,5 +288,6 @@ pnpm build
 
 打开 [examples](./examples) 目录，有 `vue` 和 `react` 示例。
 
-- [react](./examples/react)
-- [vue](./examples/vue)
+- [react](./examples/react)：简单的 react 示例。
+- [vue](./examples/vue)：简单的 vue 示例。
+- [vue-import](./examples/vue-import)：动态 import() 示例。

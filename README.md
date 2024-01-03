@@ -88,7 +88,7 @@ private _getWebviewContent(webview: Webview, extensionUri: Uri) {
 
     if (process.env.VITE_DEV_SERVER_URL) {
       // @ts-ignore
-      return __getWebviewHtml({ serverUrl: process.env.VITE_DEV_SERVER_URL });
+      return __getWebviewHtml__({ serverUrl: process.env.VITE_DEV_SERVER_URL });
     }
 
     // Tip: Install the es6-string-html VS Code extension to enable code highlighting below
@@ -223,9 +223,17 @@ Based on [Options](https://paka.dev/npm/tsup) of [tsup](https://tsup.egoist.dev/
 
 `vscode extension` use.
 
-| Variable              | Description                |
-| --------------------- | -------------------------- |
-| `VITE_DEV_SERVER_URL` | The url of the dev server. |
+- `development` mode
+
+| Variable              | Description                     |
+| --------------------- | ------------------------------- |
+| `VITE_DEV_SERVER_URL` | The url of the vite dev server. |
+
+- `production` mode
+
+| Variable | Description |
+| --- | --- |
+| `VITE_DIST_FILES` | All js files in the dist directory, excluding index.js. It's to be a json string. |
 
 ## Debug
 
@@ -299,5 +307,6 @@ pnpm build
 
 Open the [examples](./examples) directory, there are `vue` and `react` examples.
 
-- [react](./examples/react)
-- [vue](./examples/vue)
+- [react](./examples/react): simple react example.
+- [vue](./examples/vue): simple vue example.
+- [vue-import](./examples/vue-import): dynamic import() example.

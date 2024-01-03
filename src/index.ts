@@ -1,4 +1,4 @@
-import type { Plugin, UserConfig } from 'vite';
+import type { Plugin, ResolvedConfig, UserConfig } from 'vite';
 import type { ExtensionOptions, PluginOptions } from './types';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -81,6 +81,14 @@ function preMergeOptions(options?: PluginOptions): PluginOptions {
   return opts;
 }
 
+function readAllFiles(dir: string): string[] {
+  return fs.readdirSync(dir).reduce((files, file) => {
+    const name = path.join(dir, file);
+    const isDir = fs.statSync(name).isDirectory();
+    return isDir ? [...files, ...readAllFiles(name)] : [...files, name];
+  }, [] as string[]);
+}
+
 export function useVSCodePlugin(options?: PluginOptions): Plugin[] {
   const opts = preMergeOptions(options);
 
@@ -92,10 +100,28 @@ export function useVSCodePlugin(options?: PluginOptions): Plugin[] {
       outDir = path.resolve(outDir, 'webview');
     }
 
+    // assets
+    const assetsDir = config?.build?.assetsDir || 'assets';
+    const output = {
+      chunkFileNames: `${assetsDir}/[name].js`,
+      entryFileNames: `${assetsDir}/[name].js`,
+      assetFileNames: `${assetsDir}/[name].[ext]`,
+    };
+
+    let rollupOutput = config?.build?.rollupOptions?.output ?? {};
+    if (Array.isArray(rollupOutput)) {
+      rollupOutput.map(s => Object.assign(s, output));
+    } else {
+      rollupOutput = Object.assign({}, rollupOutput, output);
+    }
+
     return {
       build: {
         outDir,
         sourcemap: isDev ? true : config?.build?.sourcemap,
+        rollupOptions: {
+          output: rollupOutput,
+        },
       },
     };
   };
@@ -116,6 +142,8 @@ export function useVSCodePlugin(options?: PluginOptions): Plugin[] {
       }
     }
   }
+
+  let buildConfig: ResolvedConfig;
 
   return [
     {
@@ -193,8 +221,30 @@ export function useVSCodePlugin(options?: PluginOptions): Plugin[] {
       config(config) {
         return handleConfig(config);
       },
+      configResolved(config) {
+        buildConfig = config;
+      },
       closeBundle() {
-        tsupBuild(opts.extension as TsupOptions);
+        // merge file
+        const { outDir } = buildConfig.build;
+        const cwd = process.cwd();
+        const allFiles = readAllFiles(outDir)
+          .filter(file => file.endsWith('.js') && !file.endsWith('index.js'))
+          .map(s => s.replace(cwd, '').replaceAll('\\', '/').substring(1));
+
+        const { onSuccess: _onSuccess, ...tsupOptions } = opts.extension || {};
+        tsupBuild(
+          merge(tsupOptions, {
+            env: {
+              VITE_DIST_FILES: JSON.stringify(allFiles),
+            },
+            async onSuccess() {
+              if (typeof _onSuccess === 'function') {
+                await _onSuccess();
+              }
+            },
+          }) as TsupOptions,
+        );
       },
     },
   ];

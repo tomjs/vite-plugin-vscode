@@ -8,10 +8,14 @@ declare namespace NodeJS {
     /**
      * Node.js environment
      */
-    NODE_ENV: UnionType<'development' | 'test' | 'production'>;
+    NODE_ENV: UnionType<'development' | 'production'>;
     /**
-     * The url of the dev server.
+     * development mode. The url of the vite dev server.
      */
     VITE_DEV_SERVER_URL?: string;
+    /**
+     * production mode. All js files in the dist directory, excluding index.js. It's to be a json string.
+     */
+    VITE_DIST_FILES?: string;
   }
 }

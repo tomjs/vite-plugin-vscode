@@ -12,6 +12,13 @@ export default defineConfig({
         },
       },
     }),
-    vscode(),
+    vscode({
+      extension: {
+        minify: false,
+      },
+    }),
   ],
+  build: {
+    minify: false,
+  },
 });
