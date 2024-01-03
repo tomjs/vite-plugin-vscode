@@ -1,6 +1,6 @@
 {
   "name": "@tomjs/vite-plugin-vscode",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "description": "The vite plugin for vscode extension, supports esm and cjs.",
   "keywords": [
     "vite",
