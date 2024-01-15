@@ -24,13 +24,13 @@ function getUri(webview: Webview, extensionUri: Uri, pathList: string[]) {
  * - Setting the HTML (and by proxy CSS/JavaScript) content of the webview panel
  * - Setting message listeners so data can be passed between the webview and extension
  */
-export class HelloWorldPanel {
-  public static currentPanel: HelloWorldPanel | undefined;
+export class MainPanel {
+  public static currentPanel: MainPanel | undefined;
   private readonly _panel: WebviewPanel;
   private _disposables: Disposable[] = [];
 
   /**
-   * The HelloWorldPanel class private constructor (called only from the render method).
+   * The MainPanel class private constructor (called only from the render method).
    *
    * @param panel A reference to the webview panel
    * @param extensionUri The URI of the directory containing the extension
@@ -56,9 +56,9 @@ export class HelloWorldPanel {
    * @param extensionUri The URI of the directory containing the extension.
    */
   public static render(extensionUri: Uri) {
-    if (HelloWorldPanel.currentPanel) {
+    if (MainPanel.currentPanel) {
       // If the webview panel already exists reveal it
-      HelloWorldPanel.currentPanel._panel.reveal(ViewColumn.One);
+      MainPanel.currentPanel._panel.reveal(ViewColumn.One);
     } else {
       // If a webview panel does not already exist create and show a new one
       const panel = window.createWebviewPanel(
@@ -77,7 +77,7 @@ export class HelloWorldPanel {
         },
       );
 
-      HelloWorldPanel.currentPanel = new HelloWorldPanel(panel, extensionUri);
+      MainPanel.currentPanel = new MainPanel(panel, extensionUri);
     }
   }
 
@@ -85,7 +85,7 @@ export class HelloWorldPanel {
    * Cleans up and disposes of webview resources when the webview panel is closed.
    */
   public dispose() {
-    HelloWorldPanel.currentPanel = undefined;
+    MainPanel.currentPanel = undefined;
 
     // Dispose of the current webview panel
     this._panel.dispose();
@@ -113,18 +113,53 @@ export class HelloWorldPanel {
   private _getWebviewContent(webview: Webview, extensionUri: Uri) {
     console.log('extensionUri:', extensionUri);
     // The CSS file from the Vue build output
-    const stylesUri = getUri(webview, extensionUri, ['dist', 'webview', 'assets', 'index.css']);
+    const stylesUri = getUri(webview, extensionUri, ['dist/webview/assets/index.css']);
+    const scriptUri = getUri(webview, extensionUri, ['dist/webview/assets/index.js']);
     // The JS file from the Vue build output
-    const scriptUri = getUri(webview, extensionUri, ['dist', 'webview', 'assets', 'index.js']);
+    // const scriptUri = getUri(webview, extensionUri, ['dist', 'webview', 'assets', 'index.js']);
+    console.log(
+      'scriptUri:',
+      getUri(webview, extensionUri, ['dist', 'webview', 'assets', 'index.js']),
+    );
+
+    const baseUri = getUri(webview, extensionUri, ['dist/webview']);
+    console.log('baseUri:', baseUri, baseUri.toString());
 
     const nonce = uuid();
 
     console.log('VITE_DEV_SERVER_URL:', process.env.VITE_DEV_SERVER_URL);
 
     if (process.env.VITE_DEV_SERVER_URL) {
-      // @ts-ignore
-      return __getWebviewHtml__({ serverUrl: process.env.VITE_DEV_SERVER_URL });
+      return __getWebviewHtml__(process.env.VITE_DEV_SERVER_URL);
     }
+
+    // const jsFiles = [
+    //   'dist/webview/assets/batchSamplersUniformGroup.js',
+    //   'dist/webview/assets/browserAll.js',
+    //   'dist/webview/assets/CanvasPool.js',
+    //   'dist/webview/assets/localUniformBit.js',
+    //   'dist/webview/assets/SharedSystems.js',
+    //   'dist/webview/assets/WebGLRenderer.js',
+    //   'dist/webview/assets/WebGPURenderer.js',
+    //   'dist/webview/assets/webworkerAll.js',
+    // ];
+
+    const jsDistFiles = process.env.VITE_DIST_FILES;
+    let jsFiles = [];
+    try {
+      if (jsDistFiles) {
+        jsFiles = JSON.parse(jsDistFiles || '');
+      }
+    } catch {}
+
+    const injectScripts = jsFiles
+      .map(
+        s =>
+          `<script type="module" src="${getUri(webview, extensionUri, [
+            s,
+          ])}" nonce="${nonce}"></script>`,
+      )
+      .join('\n');
 
     // Tip: Install the es6-string-html VS Code extension to enable code highlighting below
     return /*html*/ `
@@ -133,7 +168,9 @@ export class HelloWorldPanel {
         <head>
           <meta charset="UTF-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource}; script-src 'nonce-${nonce}';">
+          <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource} 'unsafe-inline'; script-src 'nonce-${nonce}' 'unsafe-eval';">
+          <base href="${baseUri}" />
+          ${injectScripts}
           <script type="module" crossorigin nonce="${nonce}" src="${scriptUri}"></script>
           <link rel="stylesheet" crossorigin href="${stylesUri}">
           <title>Hello World</title>

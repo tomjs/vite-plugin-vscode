@@ -87,8 +87,7 @@ private _getWebviewContent(webview: Webview, extensionUri: Uri) {
     const nonce = uuid();
 
     if (process.env.VITE_DEV_SERVER_URL) {
-      // @ts-ignore
-      return __getWebviewHtml__({ serverUrl: process.env.VITE_DEV_SERVER_URL });
+      return __getWebviewHtml__(process.env.VITE_DEV_SERVER_URL);
     }
 
     // Tip: Install the es6-string-html VS Code extension to enable code highlighting below
