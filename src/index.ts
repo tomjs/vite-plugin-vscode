@@ -28,8 +28,7 @@ function getPkg() {
 }
 
 function preMergeOptions(options?: PluginOptions): PluginOptions {
-  getPkg();
-
+  const pkg = getPkg();
   const opts: PluginOptions = merge(
     {
       webview: true,
@@ -43,11 +42,12 @@ function preMergeOptions(options?: PluginOptions): PluginOptions {
         shims: true,
         clean: true,
         dts: false,
-        treeshake: !!isDev,
+        treeshake: isDev ? false : 'smallest',
         outExtension() {
           return { js: '.js' };
         },
         external: ['vscode'],
+        skipNodeModulesBundle: isDev,
       } as ExtensionOptions,
     },
     cloneDeep(options),
@@ -70,6 +70,12 @@ function preMergeOptions(options?: PluginOptions): PluginOptions {
   opt.external = (['vscode', WEBVIEW_PACKAGE_NAME] as (string | RegExp)[]).concat(
     opt.external ?? [],
   );
+
+  if (!opt.skipNodeModulesBundle) {
+    opt.noExternal = Object.keys(pkg.dependencies || {}).concat(
+      Object.keys(pkg.peerDependencies || {}),
+    );
+  }
 
   opts.extension = opt;
 

@@ -10,7 +10,7 @@
         "owner": "typescript",
         "fileLocation": "relative",
         "pattern": {
-          "regexp": "^([a-zA-Z]\\:\/?([\\w\\-]\/?)+\\.\\w+):(\\d+):(\\d+): (ERROR|WARNING)\\: (.*)$",
+          "regexp": "^([a-zA-Z]\\:/?([\\w\\-]/?)+\\.\\w+):(\\d+):(\\d+): (ERROR|WARNING)\\: (.*)$",
           "file": 1,
           "line": 3,
           "column": 4,
@@ -31,6 +31,15 @@
         "kind": "build",
         "isDefault": true
       }
+    },
+    {
+      "type": "npm",
+      "script": "build",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
     }
   ]
 }

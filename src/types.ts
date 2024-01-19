@@ -4,7 +4,10 @@ import type { Options } from 'tsup';
  * vscode extension options. See [tsup](https://tsup.egoist.dev/) and [API Doc](https://paka.dev/npm/tsup) for more information.
  */
 export interface ExtensionOptions
-  extends Omit<Options, 'entry' | 'format' | 'outDir' | 'watch' | 'onSuccess'> {
+  extends Omit<
+    Options,
+    'entry' | 'format' | 'outDir' | 'watch' | 'onSuccess' | 'skipNodeModulesBundle'
+  > {
   /**
    * The extension entry file.
    * @default "extension/index.ts"
@@ -19,6 +22,10 @@ export interface ExtensionOptions
    * The bundle format. Currently only supports cjs.
    */
   format?: 'cjs';
+  /**
+   * Skip dependencies and peerDependencies bundle. Default is false.
+   */
+  skipNodeModulesBundle?: boolean;
   /**
    * A function that will be executed after the build succeeds.
    */
