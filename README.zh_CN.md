@@ -186,7 +186,7 @@ process.env.VITE_DEV_SERVER_URL
 function __getWebviewHtml__(options?: string | { serverUrl: string }): string;
 
 /**
- *   `[vite serve]` 在生产模式获取webview的html
+ *   `[vite build]` 在生产模式获取webview的html
  * @param webview 扩展的 Webview 实例
  * @param context 扩展的 ExtensionContext 实例
  * @param inputName vite build.rollupOptions.input 设置的名称. 默认 `index`.

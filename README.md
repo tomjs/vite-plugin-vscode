@@ -182,7 +182,7 @@ process.env.VITE_DEV_SERVER_URL
 function __getWebviewHtml__(options?: string | { serverUrl: string }): string;
 
 /**
- *  `[vite serve]` Gets the html of webview in production mode.
+ *  `[vite build]` Gets the html of webview in production mode.
  * @param webview The WebviewPanel instance of the extension.
  * @param context The ExtensionContext instance of the extension.
  * @param inputName vite build.rollupOptions.input name. Default is `index`.
