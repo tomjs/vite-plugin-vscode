@@ -6,6 +6,8 @@
     "vite",
     "plugin",
     "vscode",
+    "html",
+    "hmr",
     "extension",
     "webview",
     "esm",
