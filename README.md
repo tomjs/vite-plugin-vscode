@@ -4,17 +4,18 @@
 
 **English** | [中文](./README.zh_CN.md)
 
-> The [vite](https://cn.vitejs.dev/) plugin for [vscode extension](https://code.visualstudio.com/api), supports `esm` and `cjs`.
+> Use `vue`/`react` to develop [vscode extension webview](https://code.visualstudio.com/api/references/vscode-api#WebviewPanel), supporting `esm` and `cjs`.
 
-Inject [@tomjs/vscode-extension-webview](https://github.com/tomjs/vscode-extension-webview) into vscode extension code and web client code, so that webview can support HMR during the development stage.
+In development mode, inject the code of [@tomjs/vscode-extension-webview](https://github.com/tomjs/vscode-extension-webview) into `vscode extension code` and `web page code`, use To support `HMR`; during production build, the final generated `index.html` code is injected into `vscode extension code` to reduce the workload.
 
 ## Features
 
-- Fast build `extension` with [tsup](https://github.com/egoist/tsup)
-- Little configuration, focus on business
+- Use [tsup](https://github.com/egoist/tsup) to quickly build `extension code`
+- Simple configuration, focus on business
 - Support `esm` and `cjs`
 - Support webview `HMR`
-- Support `vue` and `react` and other [frameworks](https://vitejs.dev/guide/#trying-vite-online) supported by `vite`
+- Support [Multi-Page App](https://vitejs.dev/guide/build.html#multi-page-app)
+- Supports `vue` and `react` and other [frameworks](https://cn.vitejs.dev/guide/#trying-vite-online) supported by `vite`
 
 ## Install
 
@@ -75,39 +76,11 @@ const panel = window.createWebviewPanel('showHelloWorld', 'Hello World', ViewCol
   enableScripts: true,
   localResourceRoots: [Uri.joinPath(extensionUri, 'dist/webview')],
 });
-```
 
-```ts
-private _getWebviewContent(webview: Webview, extensionUri: Uri) {
-    // The CSS file from the Vue build output
-    const stylesUri = getUri(webview, extensionUri, ['dist', 'webview', 'assets', 'index.css']);
-    // The JS file from the Vue build output
-    const scriptUri = getUri(webview, extensionUri, ['dist', 'webview', 'assets', 'index.js']);
-
-    const nonce = uuid();
-
-    if (process.env.VITE_DEV_SERVER_URL) {
-      return __getWebviewHtml__(process.env.VITE_DEV_SERVER_URL);
-    }
-
-    // Tip: Install the es6-string-html VS Code extension to enable code highlighting below
-    return /*html*/ `
-      <!doctype html>
-      <html lang="en">
-        <head>
-          <meta charset="UTF-8" />
-          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource}; script-src 'nonce-${nonce}';">
-          <script type="module" crossorigin nonce="${nonce}" src="${scriptUri}"></script>
-          <link rel="stylesheet" crossorigin href="${stylesUri}">
-          <title>Hello World</title>
-        </head>
-        <body>
-          <div id="app"></div>
-        </body>
-      </html>
-    `;
-  }
+// Vite development mode and production mode inject different webview codes to reduce development work
+panel.webview.html = process.env.VITE_DEV_SERVER_URL
+  ? __getWebviewHtml__(process.env.VITE_DEV_SERVER_URL)
+  : __getWebviewHtml__(webview, context);
 ```
 
 - `package.json`
@@ -155,6 +128,70 @@ import react from '@vitejs/plugin-react-swc';
 export default defineConfig({
   plugins: [react(), vscode()],
 });
+```
+
+### Multi-page application
+
+See [vue-import](./examples/vue-import) example
+
+- `vite.config.ts`
+
+```ts
+import path from 'node:path';
+import vscode from '@tomjs/vite-plugin-vscode';
+
+export default defineConfig({
+  build: {
+    plugins: [vscode()]
+    rollupOptions: {
+      // https://cn.vitejs.dev/guide/build.html#multi-page-app
+      input: [path.resolve(__dirname, 'index.html'), path.resolve(__dirname, 'index2.html')],
+      // You can also customize the name
+      // input:{
+      //   'index': path.resolve(__dirname, 'index.html'),
+      //   'index2': path.resolve(__dirname, 'index2.html'),
+      // }
+    },
+  },
+});
+```
+
+- page one
+
+```ts
+process.env.VITE_DEV_SERVER_URL
+  ? __getWebviewHtml__(process.env.VITE_DEV_SERVER_URL)
+  : __getWebviewHtml__(webview, context);
+```
+
+- page two
+
+```ts
+process.env.VITE_DEV_SERVER_URL
+  ? __getWebviewHtml__(`${process.env.VITE_DEV_SERVER_URL}/index2.html`)
+  : __getWebviewHtml__(webview, context, 'index2');
+```
+
+**getWebviewHtml** Description
+
+```ts
+/**
+ *  `[vite serve]` Gets the html of webview in development mode.
+ * @param options serverUrl: The url of the vite dev server.
+ */
+function __getWebviewHtml__(options?: string | { serverUrl: string }): string;
+
+/**
+ *  `[vite serve]` Gets the html of webview in production mode.
+ * @param webview The WebviewPanel instance of the extension.
+ * @param context The ExtensionContext instance of the extension.
+ * @param inputName vite build.rollupOptions.input name. Default is `index`.
+ */
+function __getWebviewHtml__(
+  webview: Webview,
+  context: ExtensionContext,
+  inputName?: string,
+): string;
 ```
 
 ## Documentation
@@ -206,15 +243,15 @@ Based on [Options](https://paka.dev/npm/tsup) of [tsup](https://tsup.egoist.dev/
 
 - `development` mode
 
-| Variable              | Description                     |
-| --------------------- | ------------------------------- |
-| `VITE_DEV_SERVER_URL` | The url of the vite dev server. |
+| Variable              | Description                    |
+| --------------------- | ------------------------------ |
+| `VITE_DEV_SERVER_URL` | The url of the vite dev server |
 
 - `production` mode
 
-| Variable | Description |
-| --- | --- |
-| `VITE_DIST_FILES` | All js files in the dist directory, excluding index.js. It's to be a json string. |
+| Variable            | Description                   |
+| ------------------- | ----------------------------- |
+| `VITE_WEBVIEW_DIST` | vite webview page output path |
 
 ## Debug
 
@@ -232,7 +269,15 @@ Run `Debug Extension` through `vscode` to debug. For debugging tools, refer to [
       "request": "launch",
       "args": ["--extensionDevelopmentPath=${workspaceFolder}"],
       "outFiles": ["${workspaceFolder}/dist/extension/*.js"],
-      "preLaunchTask": "${defaultBuildTask}"
+      "preLaunchTask": "npm: dev"
+    },
+    {
+      "name": "Preview Extension",
+      "type": "extensionHost",
+      "request": "launch",
+      "args": ["--extensionDevelopmentPath=${workspaceFolder}"],
+      "outFiles": ["${workspaceFolder}/dist/extension/*.js"],
+      "preLaunchTask": "npm: build"
     }
   ]
 }
@@ -272,6 +317,15 @@ Run `Debug Extension` through `vscode` to debug. For debugging tools, refer to [
         "kind": "build",
         "isDefault": true
       }
+    },
+    {
+      "type": "npm",
+      "script": "build",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
     }
   ]
 }
@@ -288,6 +342,6 @@ pnpm build
 
 Open the [examples](./examples) directory, there are `vue` and `react` examples.
 
-- [react](./examples/react): simple react example.
-- [vue](./examples/vue): simple vue example.
-- [vue-import](./examples/vue-import): dynamic import() example.
+- [react](./examples/react): Simple react example.
+- [vue](./examples/vue): Simple vue example.
+- [vue-import](./examples/vue-import): Dynamic import() and multi-page examples.

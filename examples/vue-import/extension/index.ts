@@ -1,14 +1,18 @@
 import { commands, ExtensionContext } from 'vscode';
-import { MainPanel } from './panels/MainPanel';
+import { MainPanel, MainPanel2 } from './views';
 
 export function activate(context: ExtensionContext) {
-  // Create the show hello world command
-  const showHelloWorldCommand = commands.registerCommand('hello-world.showHelloWorld', async () => {
-    MainPanel.render(context.extensionUri);
-  });
-
   // Add command to the extension context
-  context.subscriptions.push(showHelloWorldCommand);
+  context.subscriptions.push(
+    commands.registerCommand('hello-world.showPage1', async () => {
+      MainPanel.render(context);
+    }),
+  );
+  context.subscriptions.push(
+    commands.registerCommand('hello-world.showPage2', async () => {
+      MainPanel2.render(context);
+    }),
+  );
 }
 
 export function deactivate() {}

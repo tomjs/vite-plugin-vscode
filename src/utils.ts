@@ -12,6 +12,13 @@ export function writeJson(path: string, data: any) {
   fs.writeFileSync(path, JSON.stringify(data, null, 2), 'utf8');
 }
 
+export function emptyPath(dest: string) {
+  if (fs.existsSync(dest)) {
+    fs.rmSync(dest, { recursive: true });
+  }
+  fs.mkdirSync(dest, { recursive: true });
+}
+
 export const getNodeExternal = (externals?: (string | RegExp)[]) => {
   const modules: (string | RegExp)[] = builtinModules.filter(
     x => !/^_|^(internal|v8|node-inspect|fsevents)\/|\//.test(x),

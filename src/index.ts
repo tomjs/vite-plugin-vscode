@@ -5,10 +5,11 @@ import path from 'node:path';
 import { cwd } from 'node:process';
 import cloneDeep from 'lodash.clonedeep';
 import merge from 'lodash.merge';
+import { parse as htmlParser } from 'node-html-parser';
 import { build as tsupBuild, type Options as TsupOptions } from 'tsup';
-import { WEBVIEW_METHOD_NAME, WEBVIEW_PACKAGE_NAME } from './constants';
+import { PACKAGE_NAME, WEBVIEW_METHOD_NAME, WEBVIEW_PACKAGE_NAME } from './constants';
 import { createLogger } from './logger';
-import { readJson, resolveServerUrl } from './utils';
+import { emptyPath, readJson, resolveServerUrl } from './utils';
 
 const isDev = process.env.NODE_ENV === 'development';
 const logger = createLogger();
@@ -87,12 +88,73 @@ function preMergeOptions(options?: PluginOptions): PluginOptions {
   return opts;
 }
 
-function readAllFiles(dir: string): string[] {
-  return fs.readdirSync(dir).reduce((files, file) => {
-    const name = path.join(dir, file);
-    const isDir = fs.statSync(name).isDirectory();
-    return isDir ? [...files, ...readAllFiles(name)] : [...files, name];
-  }, [] as string[]);
+const prodCachePkgName = `${PACKAGE_NAME}-inject`;
+function genProdWebviewCode(cache: Record<string, string>) {
+  const prodCacheFolder = path.join(cwd(), 'node_modules', prodCachePkgName);
+  emptyPath(prodCacheFolder);
+  const destFile = path.join(prodCacheFolder, 'index.ts');
+
+  function handleHtmlCode(html) {
+    const root = htmlParser(html);
+    const head = root.querySelector('head')!;
+    if (!head) {
+      root?.insertAdjacentHTML('beforeend', '<head></head>');
+    }
+
+    head.insertAdjacentHTML(
+      'afterbegin',
+      `\n<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src {{cspSource}} 'unsafe-inline'; script-src 'nonce-{{nonce}}' 'unsafe-eval';">`,
+    );
+
+    const tags = {
+      script: 'src',
+      link: 'href',
+    };
+
+    Object.keys(tags).forEach(tag => {
+      const elements = root.querySelectorAll(tag);
+      elements.forEach(element => {
+        const attr = element.getAttribute(tags[tag]);
+        if (attr) {
+          element.setAttribute(tags[tag], `{{baseUri}}${attr}`);
+        }
+
+        element.setAttribute('nonce', '{{nonce}}');
+      });
+    });
+
+    return root.toString();
+  }
+
+  const cacheCode = /* js */ `const htmlCode = {
+    ${Object.keys(cache)
+      .map(s => `${s}: \`${handleHtmlCode(cache[s])}\`,`)
+      .join('\n')}
+  };`;
+
+  const code = /* js */ `import { ExtensionContext, Uri, Webview } from 'vscode';
+
+${cacheCode}
+
+function uuid() {
+  let text = '';
+  const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  for (let i = 0; i < 32; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+  return text;
+}
+
+export default function getWebviewHtml(webview: Webview, context: ExtensionContext, inputName?:string){
+  const nonce = uuid();
+  const baseUri = webview.asWebviewUri(Uri.joinPath(context.extensionUri, (process.env.VITE_WEBVIEW_DIST || 'dist')));
+  const html = htmlCode[inputName || 'index'] || '';
+  return html.replaceAll('{{cspSource}}',webview.cspSource).replaceAll('{{nonce}}', nonce).replaceAll('{{baseUri}}', baseUri);
+}
+  `;
+  fs.writeFileSync(destFile, code, { encoding: 'utf8' });
+
+  return destFile.replaceAll('\\', '/');
 }
 
 export function useVSCodePlugin(options?: PluginOptions): Plugin[] {
@@ -150,6 +212,8 @@ export function useVSCodePlugin(options?: PluginOptions): Plugin[] {
   }
 
   let buildConfig: ResolvedConfig;
+  // multiple entry index.html
+  const prodHtmlCache: Record<string, string> = {};
 
   return [
     {
@@ -224,30 +288,69 @@ export function useVSCodePlugin(options?: PluginOptions): Plugin[] {
     {
       name: '@tomjs:vscode',
       apply: 'build',
+      enforce: 'post',
       config(config) {
         return handleConfig(config);
       },
       configResolved(config) {
         buildConfig = config;
       },
+      transformIndexHtml(html, ctx) {
+        if (!opts.webview) {
+          return html;
+        }
+
+        prodHtmlCache[ctx.chunk?.name as string] = html;
+        return html;
+      },
       closeBundle() {
-        // merge file
-        const { outDir } = buildConfig.build;
-        const cwd = process.cwd();
-        const allFiles = readAllFiles(outDir)
-          .filter(file => file.endsWith('.js') && !file.endsWith('index.js'))
-          .map(s => s.replace(cwd, '').replaceAll('\\', '/').substring(1));
+        let webviewPath: string;
+        if (opts.webview) {
+          webviewPath = genProdWebviewCode(prodHtmlCache);
+        }
+
+        let outDir = buildConfig.build.outDir.replace(cwd(), '').replaceAll('\\', '/');
+        if (outDir.startsWith('/')) {
+          outDir = outDir.substring(1);
+        }
+        const env = {
+          NODE_ENV: buildConfig.mode || 'production',
+          VITE_WEBVIEW_DIST: outDir,
+        };
+
+        logger.info('extension build start');
 
         const { onSuccess: _onSuccess, ...tsupOptions } = opts.extension || {};
         tsupBuild(
           merge(tsupOptions, {
-            env: {
-              VITE_DIST_FILES: JSON.stringify(allFiles),
-            },
+            env,
+            silent: true,
+            esbuildPlugins: !opts.webview
+              ? []
+              : [
+                  {
+                    name: '@tomjs:vscode:inject',
+                    setup(build) {
+                      build.onLoad({ filter: /\.ts$/ }, async args => {
+                        const file = fs.readFileSync(args.path, 'utf-8');
+                        if (file.includes(`${opts.webview}(`)) {
+                          return {
+                            contents: `import ${opts.webview} from \`${webviewPath}\`;\n` + file,
+                            loader: 'ts',
+                          };
+                        }
+
+                        return {};
+                      });
+                    },
+                  },
+                ],
             async onSuccess() {
               if (typeof _onSuccess === 'function') {
                 await _onSuccess();
               }
+
+              logger.info('extension build success');
             },
           }) as TsupOptions,
         );

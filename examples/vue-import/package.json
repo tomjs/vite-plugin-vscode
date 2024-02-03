@@ -1,20 +1,22 @@
 {
-  "name": "template-vue",
+  "name": "template-vue-import",
   "version": "0.0.0",
   "description": "vite + vue",
   "engines": {
     "node": ">=18",
-    "vscode": "^1.56.0"
+    "vscode": "^1.75.0"
   },
   "main": "dist/extension/index.js",
-  "activationEvents": [
-    "onCommand:hello-world.showHelloWorld"
-  ],
+  "activationEvents": [],
   "contributes": {
     "commands": [
       {
-        "command": "hello-world.showHelloWorld",
-        "title": "Hello World: Show"
+        "command": "hello-world.showPage1",
+        "title": "Hello World: Show Page 1"
+      },
+      {
+        "command": "hello-world.showPage2",
+        "title": "Hello World: Show Page 2"
       }
     ]
   },
@@ -25,14 +27,14 @@
   },
   "dependencies": {
     "@vscode/webview-ui-toolkit": "^1.4.0",
-    "pixi.js": "8.0.0-rc",
+    "pixi.js": "8.0.0-rc.7",
     "vue": "^3.4.3"
   },
   "devDependencies": {
     "@tomjs/vite-plugin-vscode": "workspace:^",
     "@tomjs/vscode-extension-webview": "^1.2.0",
     "@types/node": "^18.19.4",
-    "@types/vscode": "^1.85.0",
+    "@types/vscode": "^1.75.0",
     "@types/vscode-webview": "^1.57.4",
     "@vitejs/plugin-vue": "^4.6.2",
     "cross-env": "^7.0.3",

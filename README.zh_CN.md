@@ -4,17 +4,18 @@
 
 [English](./README.md) | **中文**
 
-> [vscode extension](https://code.visualstudio.com/api) 的 [vite](https://cn.vitejs.dev/) 插件，支持 `esm` 和 `cjs`。
+> 用 `vue`/`react` 来开发 [vscode extension webview](https://code.visualstudio.com/api/references/vscode-api#WebviewPanel) ，支持 `esm` 和 `cjs`。
 
-给 vscode 扩展代码和 web 客户端代码中注入 [@tomjs/vscode-extension-webview](https://github.com/tomjs/vscode-extension-webview)，可以让 webview 在开发阶段支持 `HMR`
+在开发模式时，给 `vscode 扩展代码` 和 `web 页面代码`中注入 [@tomjs/vscode-extension-webview](https://github.com/tomjs/vscode-extension-webview) 的代码，用来支持 `HMR`；生产构建时，将最终生成的`index.html` 代码注入到 `vscode 扩展代码` 中，减少工作量。
 
 ## 特性
 
-- 使用 [tsup](https://github.com/egoist/tsup) 快速构建 `main` 和 `preload`
+- 使用 [tsup](https://github.com/egoist/tsup) 快速构建 `扩展代码`
 - 配置简单，专注业务
 - 支持 `esm`和 `cjs`
 - 支持 webview `HMR`
-- 支持 `vue` 和 `react` 等其他 `vite` 支持的[框架](https://cn.vitejs.dev/guide/#trying-vite-online)
+- 支持[多页面应用](https://cn.vitejs.dev/guide/build.html#multi-page-app)
+- 支持 `vue` 、`react` 等其他 `vite` 支持的[框架](https://cn.vitejs.dev/guide/#trying-vite-online)
 
 ## 安装
 
@@ -75,39 +76,15 @@ const panel = window.createWebviewPanel('showHelloWorld', 'Hello World', ViewCol
   enableScripts: true,
   localResourceRoots: [Uri.joinPath(extensionUri, 'dist/webview')],
 });
-```
 
-```ts
-private _getWebviewContent(webview: Webview, extensionUri: Uri) {
-    // The CSS file from the Vue build output
-    const stylesUri = getUri(webview, extensionUri, ['dist/webview/assets/index.css']);
-    // The JS file from the Vue build output
-    const scriptUri = getUri(webview, extensionUri, ['dist/webview/assets/index.js']);
+// vite 开发模式和生产模式注入不同的webview代码，减少开发工作
+function getHtml(webview: Webview, context: ExtensionContext) {
+  process.env.VITE_DEV_SERVER_URL
+    ? __getWebviewHtml__(process.env.VITE_DEV_SERVER_URL)
+    : __getWebviewHtml__(webview, context);
+}
 
-    const nonce = uuid();
-
-    if (process.env.VITE_DEV_SERVER_URL) {
-      return __getWebviewHtml__(process.env.VITE_DEV_SERVER_URL);
-    }
-
-    // Tip: Install the es6-string-html VS Code extension to enable code highlighting below
-    return /*html*/ `
-      <!doctype html>
-      <html lang="en">
-        <head>
-          <meta charset="UTF-8" />
-          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource}; script-src 'nonce-${nonce}';">
-          <script type="module" crossorigin nonce="${nonce}" src="${scriptUri}"></script>
-          <link rel="stylesheet" crossorigin href="${stylesUri}">
-          <title>Hello World</title>
-        </head>
-        <body>
-          <div id="app"></div>
-        </body>
-      </html>
-    `;
-  }
+panel.webview.html = getHtml(webview, context);
 ```
 
 - `package.json`
@@ -155,6 +132,70 @@ import react from '@vitejs/plugin-react-swc';
 export default defineConfig({
   plugins: [react(), vscode()],
 });
+```
+
+### **getWebviewHtml**
+
+可查看 [vue-import](./examples/vue-import) 示例
+
+- `vite.config.ts`
+
+```ts
+import path from 'node:path';
+import vscode from '@tomjs/vite-plugin-vscode';
+
+export default defineConfig({
+  build: {
+    plugins: [vscode()]
+    rollupOptions: {
+      // https://cn.vitejs.dev/guide/build.html#multi-page-app
+      input: [path.resolve(__dirname, 'index.html'), path.resolve(__dirname, 'index2.html')],
+      // 也可自定义名称
+      // input:{
+      //   'index': path.resolve(__dirname, 'index.html'),
+      //   'index2': path.resolve(__dirname, 'index2.html'),
+      // }
+    },
+  },
+});
+```
+
+- 页面一
+
+```ts
+process.env.VITE_DEV_SERVER_URL
+  ? __getWebviewHtml__(process.env.VITE_DEV_SERVER_URL)
+  : __getWebviewHtml__(webview, context);
+```
+
+- 页面二
+
+```ts
+process.env.VITE_DEV_SERVER_URL
+  ? __getWebviewHtml__(`${process.env.VITE_DEV_SERVER_URL}/index2.html`)
+  : __getWebviewHtml__(webview, context, 'index2');
+```
+
+**getWebviewHtml** 说明
+
+```ts
+/**
+ *  `[vite serve]` 在开发模式获取webview的html
+ * @param options serverUrl: vite开发服务器的url
+ */
+function __getWebviewHtml__(options?: string | { serverUrl: string }): string;
+
+/**
+ *   `[vite serve]` 在生产模式获取webview的html
+ * @param webview 扩展的 Webview 实例
+ * @param context 扩展的 ExtensionContext 实例
+ * @param inputName vite build.rollupOptions.input 设置的名称. 默认 `index`.
+ */
+function __getWebviewHtml__(
+  webview: Webview,
+  context: ExtensionContext,
+  inputName?: string,
+): string;
 ```
 
 ## 文档
@@ -205,15 +246,15 @@ export default defineConfig({
 
 - `development` 模式
 
-| 变量                  | 描述                  |
-| --------------------- | --------------------- |
-| `VITE_DEV_SERVER_URL` | vite开发服务器的url。 |
+| 变量                  | 描述                |
+| --------------------- | ------------------- |
+| `VITE_DEV_SERVER_URL` | vite开发服务器的url |
 
 - `production` 模式
 
-| 变量              | 描述                                                            |
-| ----------------- | --------------------------------------------------------------- |
-| `VITE_DIST_FILES` | dist目录下的所有js文件，不包括index.js。 它是一个 json 字符串。 |
+| 变量                | 描述                      |
+| ------------------- | ------------------------- |
+| `VITE_WEBVIEW_DIST` | vite webview 页面输出路径 |
 
 ## Debug
 
@@ -231,7 +272,15 @@ export default defineConfig({
       "request": "launch",
       "args": ["--extensionDevelopmentPath=${workspaceFolder}"],
       "outFiles": ["${workspaceFolder}/dist/extension/*.js"],
-      "preLaunchTask": "${defaultBuildTask}"
+      "preLaunchTask": "npm: dev"
+    },
+    {
+      "name": "Preview Extension",
+      "type": "extensionHost",
+      "request": "launch",
+      "args": ["--extensionDevelopmentPath=${workspaceFolder}"],
+      "outFiles": ["${workspaceFolder}/dist/extension/*.js"],
+      "preLaunchTask": "npm: build"
     }
   ]
 }
@@ -271,6 +320,15 @@ export default defineConfig({
         "kind": "build",
         "isDefault": true
       }
+    },
+    {
+      "type": "npm",
+      "script": "build",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
     }
   ]
 }
@@ -289,4 +347,4 @@ pnpm build
 
 - [react](./examples/react)：简单的 react 示例。
 - [vue](./examples/vue)：简单的 vue 示例。
-- [vue-import](./examples/vue-import)：动态 import() 示例。
+- [vue-import](./examples/vue-import)：动态 import() 和多页面示例。
