@@ -20,7 +20,7 @@ export class WebviewHelper {
   public static setupHtml2(webview: Webview, context: ExtensionContext) {
     console.log(process.env.NODE_ENV, process.env.VITE_WEBVIEW_DIST);
     return process.env.VITE_DEV_SERVER_URL
-      ? __getWebviewHtml__(process.env.VITE_DEV_SERVER_URL)
+      ? __getWebviewHtml__(`${process.env.VITE_DEV_SERVER_URL}/index2.html`)
       : __getWebviewHtml__(webview, context, 'index2');
   }
 
