@@ -121,8 +121,8 @@ export default defineConfig({
       },
     }),
     vscode(),
-    // Modify the web source code path to webview
-    // vscode({ recommended: 'webview' })
+    // Modify the extension source code entry path, and also modify the `index.html` entry file path
+    // vscode({ extension: { entry: 'src/index.ts' } }),
   ],
 });
 ```
