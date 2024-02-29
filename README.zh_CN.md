@@ -40,9 +40,11 @@ pnpm add @tomjs/vscode-extension-webview -D
 
 ### 推荐约定
 
+设置 `recommended` 参数会修改一些预置配置，详细查看 [PluginOptions](#pluginoptions) 和 `recommended` 参数说明。
+
 #### 目录结构
 
-- 推荐 `extension` 和 页面 `src` 代码目录结构
+- 默认情况下，`recommended:true` 会根据如下目录结构作为约定
 
 ```
 |--extension      // extension code
@@ -63,9 +65,15 @@ pnpm add @tomjs/vscode-extension-webview -D
 |  |  |--index.html
 ```
 
-#### 默认配置和行为
+- 如果你想修改 `extension` 源码目录为 `src`，可以设置 `{ extension: { entry: 'src/index.ts' } }`
 
-详细查看 [PluginOptions](#pluginoptions) 和 `recommended` 参数说明
+```
+|--src            // extension code
+|  |--index.ts
+|--webview        // front-end code
+|  |--App.vue
+|  |--main.ts
+```
 
 ### extension
 
@@ -115,6 +123,8 @@ export default defineConfig({
       },
     }),
     vscode(),
+    // 修改扩展源码入口路径，同时修改`index.html`入口文件路径
+    // vscode({ extension: { entry: 'src/index.ts' } }),
   ],
 });
 ```

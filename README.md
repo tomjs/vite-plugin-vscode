@@ -38,11 +38,13 @@ pnpm add @tomjs/vscode-extension-webview -D
 
 ## Usage
 
-### Recommended Agreement
+### Recommended
+
+Setting `recommended` will modify some preset configurations. See [PluginOptions](#pluginoptions) and `recommended` parameter descriptions in detail.
 
 #### Directory Structure
 
-- Recommend `extension` and page `src` code directory structure
+- By default, `recommended:true` will be based on the following directory structure as a convention.
 
 ```
 |--extension      // extension code
@@ -50,6 +52,7 @@ pnpm add @tomjs/vscode-extension-webview -D
 |--src            // front-end code
 |  |--App.vue
 |  |--main.ts
+|--index.html
 ```
 
 - Zero configuration, default dist output directory
@@ -63,9 +66,16 @@ pnpm add @tomjs/vscode-extension-webview -D
 |  |  |--index.html
 ```
 
-#### Default configuration and behavior
+- If you want to modify the `extension` source code directory to `src`, you can set `{ extension: { entry: 'src/index.ts' } }`
 
-See [PluginOptions](#pluginoptions) and `recommended` parameter descriptions in detail
+```
+|--src            // extension code
+|  |--index.ts
+|--webview        // front-end code
+|  |--App.vue
+|  |--main.ts
+|--index.html
+```
 
 ### extension
 
@@ -111,6 +121,8 @@ export default defineConfig({
       },
     }),
     vscode(),
+    // Modify the web source code path to webview
+    // vscode({ recommended: 'webview' })
   ],
 });
 ```
