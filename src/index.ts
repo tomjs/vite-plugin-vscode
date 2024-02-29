@@ -9,7 +9,7 @@ import { parse as htmlParser } from 'node-html-parser';
 import { build as tsupBuild, type Options as TsupOptions } from 'tsup';
 import { PACKAGE_NAME, WEBVIEW_METHOD_NAME, WEBVIEW_PACKAGE_NAME } from './constants';
 import { createLogger } from './logger';
-import { emptyPath, readJson, resolveServerUrl } from './utils';
+import { emptyPath, getWebviewNpmPath, readJson, resolveServerUrl } from './utils';
 
 const isDev = process.env.NODE_ENV === 'development';
 const logger = createLogger();
@@ -195,10 +195,10 @@ export function useVSCodePlugin(options?: PluginOptions): Plugin[] {
   };
 
   let webviewClient: string;
-  let webviewNpmPath: string;
+  let webviewNpmPath: string | undefined;
   if (opts.webview) {
-    webviewNpmPath = path.join(cwd(), 'node_modules', WEBVIEW_PACKAGE_NAME, '/dist');
-    if (!fs.existsSync(webviewNpmPath)) {
+    webviewNpmPath = getWebviewNpmPath();
+    if (!webviewNpmPath || !fs.existsSync(webviewNpmPath)) {
       logger.warn(`[${WEBVIEW_PACKAGE_NAME}] is not installed, please install it first!`);
     } else {
       const fileName = 'client.global.js';

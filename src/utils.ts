@@ -1,7 +1,11 @@
 import type { AddressInfo } from 'node:net';
 import type { ViteDevServer } from 'vite';
+import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import { builtinModules } from 'node:module';
+import path from 'node:path';
+import { cwd } from 'node:process';
+import { PACKAGE_NAME, WEBVIEW_PACKAGE_NAME } from './constants';
 
 export function readJson(path: string) {
   if (fs.existsSync(path)) {
@@ -101,5 +105,45 @@ export function resolveServerUrl(server: ViteDevServer) {
     const url = path.startsWith('http') ? path : `${protocol}://${hostname}:${port}${path}`;
 
     return url;
+  }
+}
+
+export function getWebviewNpmPath() {
+  let npmPath = path.join(cwd(), 'node_modules', WEBVIEW_PACKAGE_NAME);
+
+  if (!fs.existsSync(npmPath)) {
+    try {
+      const res = spawnSync(
+        process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm',
+        ['list', '--dev', '--depth=1', '--json'],
+        {
+          // stdio: ['inherit', 'ignore'],
+          cwd: process.cwd(),
+          encoding: 'utf-8',
+        },
+      );
+
+      if (res.status === 0 && res.stdout) {
+        const list = JSON.parse(res.stdout.trim());
+        if (list.length === 0) {
+          return;
+        }
+        const self = (list[0].devDependencies || {})[PACKAGE_NAME];
+        if (!self) {
+          return;
+        }
+
+        const dep = self.dependencies[WEBVIEW_PACKAGE_NAME];
+        if (dep) {
+          npmPath = dep.path;
+        }
+      }
+    } catch {
+      npmPath = '';
+    }
+
+    if (npmPath) {
+      return path.join(npmPath, 'dist');
+    }
   }
 }

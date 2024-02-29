@@ -30,12 +30,6 @@ yarn add @tomjs/vite-plugin-vscode -D
 npm i @tomjs/vite-plugin-vscode --save-dev
 ```
 
-If you use `pnpm` and enable `webview` debugging, you need to additionally install the dependency [@tomjs/vscode-extension-webview](https://github.com/tomjs/vscode-extension-webview)
-
-```bash
-pnpm add @tomjs/vscode-extension-webview -D
-```
-
 ## Usage
 
 ### Recommended

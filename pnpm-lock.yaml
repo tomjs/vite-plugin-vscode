@@ -152,9 +152,6 @@ importers:
       '@tomjs/vite-plugin-vscode':
         specifier: workspace:^
         version: link:../..
-      '@tomjs/vscode-extension-webview':
-        specifier: ^1.2.0
-        version: 1.2.0
       '@types/node':
         specifier: ^18.19.4
         version: 18.19.4
