@@ -46,6 +46,7 @@ npm i @tomjs/vite-plugin-vscode --save-dev
 |--src            // front-end code
 |  |--App.vue
 |  |--main.ts
+|--index.html
 ```
 
 - 零配置，默认 dist 输出目录
@@ -67,6 +68,7 @@ npm i @tomjs/vite-plugin-vscode --save-dev
 |--webview        // front-end code
 |  |--App.vue
 |  |--main.ts
+|--index.html
 ```
 
 ### extension
