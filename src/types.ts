@@ -33,6 +33,20 @@ export interface ExtensionOptions
 }
 
 /**
+ * vscode webview options.
+ */
+export interface WebviewOption {
+  /**
+   * The method name to inject. Default is '__getWebviewHtml__'
+   */
+  name?: string;
+  /**
+   * The CSP meta for the webview. Default is `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src {{cspSource}} 'unsafe-inline'; script-src 'nonce-{{nonce}}' 'unsafe-eval';">`
+   */
+  csp?: string;
+}
+
+/**
  * vite plugin options.
  */
 export interface PluginOptions {
@@ -74,7 +88,7 @@ export interface PluginOptions {
    * </html>
    * ```
    */
-  webview?: boolean | string;
+  webview?: boolean | string | WebviewOption;
   /**
    * extension vite config.
    */

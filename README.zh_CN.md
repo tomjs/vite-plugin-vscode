@@ -217,7 +217,7 @@ function __getWebviewHtml__(
 | --- | --- | --- | --- |
 | recommended | `boolean` | `true` | 这个选项是为了提供推荐的默认参数和行为 |
 | extension | [ExtensionOptions](#ExtensionOptions) |  | vscode extension 可选配置 |
-| webview | `boolean` | `false` | 在vscode扩展代码和Web客户端代码中注入[@tomjs/vscode-extension-webview](https://github.com/tomjs/vscode-extension-webview)，以便webview在开发阶段可以支持HMR。 |
+| webview | `boolean` \| `string` \| [WebviewOption](#WebviewOption) | `__getWebviewHtml__` | 注入 html 代码 |
 
 **Notice**
 
@@ -226,6 +226,16 @@ function __getWebviewHtml__(
 - 输出目录根据 `vite` 的 `build.outDir` 参数， 将 `extension`、`src` 分别输出到 `dist/extension`、`dist/webview`
 
 - 其他待实现的行为
+
+**Webview**
+
+在 vscode 扩展代码和 web 客户端代码中注入 [@tomjs/vscode-extension-webview](https://github.com/tomjs/vscode-extension-webview)，使 `webview` 在开发阶段能够支持 `HMR`。
+
+- vite serve
+  - extension: 在调用 `__getWebviewHtml__` 方法的文件上方注入 `import __getWebviewHtml__ from '@tomjs/vscode-extension-webview';`
+  - web: 在 index.html 中添加 `<script>` 标签，注入 `@tomjs/vscode-extension-webview/client` 代码
+- vite build
+  - extension: 在调用 `__getWebviewHtml__` 方法的文件上方注入 `import __getWebviewHtml__ from '@tomjs/vite-plugin-vscode-inject';` 如果为字符串，则设置注入方法名，默认为 `__getWebviewHtml__`。
 
 ### ExtensionOptions
 
@@ -236,6 +246,16 @@ function __getWebviewHtml__(
 | entry | `string` | `extension/index.ts` | 入口文件 |
 | outDir | `string` | `dist-extension/main` | 输出文件夹 |
 | onSuccess | `() => Promise<void \| undefined \| (() => void \| Promise<void>)>` | `undefined` | 构建成功后运行的回调函数 |
+
+### WebviewOption
+
+| 参数名 | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| name | `string` | `__getWebviewHtml__` | 注入的方法名 |
+| csp | `string` | `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src {{cspSource}} 'unsafe-inline'; script-src 'nonce-{{nonce}}' 'unsafe-eval';">` | webview 的 `CSP` |
+
+- `{{cspSource}}`: [webview.cspSource](https://code.visualstudio.com/api/references/vscode-api#Webview)
+- `{{nonce}}`: uuid
 
 ### 补充说明
 

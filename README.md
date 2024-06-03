@@ -213,7 +213,7 @@ function __getWebviewHtml__(
 | --- | --- | --- | --- |
 | recommended | `boolean` | `true` | This option is intended to provide recommended default parameters and behavior. |
 | extension | [ExtensionOptions](#ExtensionOptions) |  | Configuration options for the vscode extension. |
-| webview | `boolean` | `false` | Inject [@tomjs/vscode-extension-webview](https://github.com/tomjs/vscode-extension-webview) into vscode extension code and web client code, so that webview can support HMR during the development stage. |
+| webview | `boolean` \| `string` \| [WebviewOption](#WebviewOption) | `__getWebviewHtml__` | Inject html code |
 
 **Notice**
 
@@ -221,6 +221,16 @@ The `recommended` option is used to set the default configuration and behavior, 
 
 - The output directory is based on the `build.outDir` parameter of `vite`, and outputs `extension` and `src` to `dist/extension` and `dist/webview` respectively.
 - Other behaviors to be implemented
+
+**Webview**
+
+Inject [@tomjs/vscode-extension-webview](https://github.com/tomjs/vscode-extension-webview) into vscode extension code and web client code, so that `webview` can support `HMR` during the development stage.
+
+- vite serve
+  - extension: Inject `import __getWebviewHtml__ from '@tomjs/vscode-extension-webview';` above the file that calls the `__getWebviewHtml__` method
+  - web: Add `<script>` tag to index.html and inject `@tomjs/vscode-extension-webview/client` code
+- vite build
+  - extension: Inject `import __getWebviewHtml__ from '@tomjs/vite-plugin-vscode-inject';` above the file that calls the `__getWebviewHtml__` method If is string, will set inject method name. Default is `__getWebviewHtml__`.
 
 ### ExtensionOptions
 
@@ -231,6 +241,16 @@ Based on [Options](https://paka.dev/npm/tsup) of [tsup](https://tsup.egoist.dev/
 | entry | `string` | `extension/index.ts` | The vscode extension entry file. |
 | outDir | `string` | `dist-extension/main` | The output directory for the vscode extension file |
 | onSuccess | `() => Promise<void \| undefined \| (() => void \| Promise<void>)>` | `undefined` | A function that will be executed after the build succeeds. |
+
+### WebviewOption
+
+| Property | Type | Default | Description |
+| --- | --- | --- | --- |
+| name | `string` | `__getWebviewHtml__` | The inject method name |
+| csp | `string` | `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src {{cspSource}} 'unsafe-inline'; script-src 'nonce-{{nonce}}' 'unsafe-eval';">` | The `CSP` meta for the webview |
+
+- `{{cspSource}}`: [webview.cspSource](https://code.visualstudio.com/api/references/vscode-api#Webview)
+- `{{nonce}}`: uuid
 
 ### Additional Information
 

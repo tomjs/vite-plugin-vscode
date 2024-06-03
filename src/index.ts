@@ -1,5 +1,5 @@
 import type { Plugin, ResolvedConfig, UserConfig } from 'vite';
-import type { ExtensionOptions, PluginOptions } from './types';
+import type { ExtensionOptions, PluginOptions, WebviewOption } from './types';
 import fs from 'node:fs';
 import path from 'node:path';
 import { cwd } from 'node:process';
@@ -80,48 +80,55 @@ function preMergeOptions(options?: PluginOptions): PluginOptions {
 
   opts.extension = opt;
 
-  if (opts.webview === true) {
-    opts.webview = WEBVIEW_METHOD_NAME;
+  if (opts.webview !== false) {
+    let name = WEBVIEW_METHOD_NAME;
+    if (typeof opts.webview === 'string') {
+      name = opts.webview ?? WEBVIEW_METHOD_NAME;
+    }
+    opts.webview = Object.assign({ name }, opts.webview);
   }
-  opts.webview = opts.webview ?? WEBVIEW_METHOD_NAME;
 
   return opts;
 }
 
 const prodCachePkgName = `${PACKAGE_NAME}-inject`;
-function genProdWebviewCode(cache: Record<string, string>) {
+function genProdWebviewCode(cache: Record<string, string>, webview?: WebviewOption) {
+  webview = Object.assign({}, webview);
+
   const prodCacheFolder = path.join(cwd(), 'node_modules', prodCachePkgName);
   emptyPath(prodCacheFolder);
   const destFile = path.join(prodCacheFolder, 'index.ts');
 
-  function handleHtmlCode(html) {
+  function handleHtmlCode(html: string) {
     const root = htmlParser(html);
     const head = root.querySelector('head')!;
     if (!head) {
       root?.insertAdjacentHTML('beforeend', '<head></head>');
     }
 
-    head.insertAdjacentHTML(
-      'afterbegin',
-      `\n<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src {{cspSource}} 'unsafe-inline'; script-src 'nonce-{{nonce}}' 'unsafe-eval';">`,
-    );
+    const csp =
+      webview?.csp ||
+      `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src {{cspSource}} 'unsafe-inline'; script-src 'nonce-{{nonce}}' 'unsafe-eval';">`;
+    head.insertAdjacentHTML('afterbegin', csp);
 
-    const tags = {
-      script: 'src',
-      link: 'href',
-    };
+    if (csp && csp.includes('{{nonce}}')) {
+      const tags = {
+        script: 'src',
+        link: 'href',
+      };
 
-    Object.keys(tags).forEach(tag => {
-      const elements = root.querySelectorAll(tag);
-      elements.forEach(element => {
-        const attr = element.getAttribute(tags[tag]);
-        if (attr) {
-          element.setAttribute(tags[tag], `{{baseUri}}${attr}`);
-        }
+      Object.keys(tags).forEach(tag => {
+        const elements = root.querySelectorAll(tag);
+        elements.forEach(element => {
+          const attr = element.getAttribute(tags[tag]);
+          if (attr) {
+            element.setAttribute(tags[tag], `{{baseUri}}${attr}`);
+          }
 
-        element.setAttribute('nonce', '{{nonce}}');
+          element.setAttribute('nonce', '{{nonce}}');
+        });
       });
-    });
+    }
 
     return root.toString();
   }
@@ -149,7 +156,7 @@ export default function getWebviewHtml(webview: Webview, context: ExtensionConte
   const nonce = uuid();
   const baseUri = webview.asWebviewUri(Uri.joinPath(context.extensionUri, (process.env.VITE_WEBVIEW_DIST || 'dist')));
   const html = htmlCode[inputName || 'index'] || '';
-  return html.replaceAll('{{cspSource}}',webview.cspSource).replaceAll('{{nonce}}', nonce).replaceAll('{{baseUri}}', baseUri);
+  return html.replaceAll('{{cspSource}}', webview.cspSource).replaceAll('{{nonce}}', nonce).replaceAll('{{baseUri}}', baseUri);
 }
   `;
   fs.writeFileSync(destFile, code, { encoding: 'utf8' });
@@ -236,32 +243,36 @@ export function useVSCodePlugin(options?: PluginOptions): Plugin[] {
 
           let buildCount = 0;
 
+          const webview = opts?.webview as WebviewOption;
+
           const { onSuccess: _onSuccess, ...tsupOptions } = opts.extension || {};
           await tsupBuild(
             merge(tsupOptions, {
               watch: true,
               env,
               silent: true,
-              esbuildPlugins: [
-                {
-                  name: '@tomjs:vscode:inject',
-                  setup(build) {
-                    build.onLoad({ filter: /\.ts$/ }, async args => {
-                      const file = fs.readFileSync(args.path, 'utf-8');
-                      if (file.includes(`${opts.webview}(`)) {
-                        return {
-                          contents:
-                            `import ${opts.webview} from '@tomjs/vscode-extension-webview';\n` +
-                            file,
-                          loader: 'ts',
-                        };
-                      }
+              esbuildPlugins: !webview
+                ? []
+                : [
+                    {
+                      name: '@tomjs:vscode:inject',
+                      setup(build) {
+                        build.onLoad({ filter: /\.ts$/ }, async args => {
+                          const file = fs.readFileSync(args.path, 'utf-8');
+                          if (file.includes(`${webview.name}(`)) {
+                            return {
+                              contents:
+                                `import ${webview.name} from '@tomjs/vscode-extension-webview';\n` +
+                                file,
+                              loader: 'ts',
+                            };
+                          }
 
-                      return {};
-                    });
-                  },
-                },
-              ],
+                          return {};
+                        });
+                      },
+                    },
+                  ],
               async onSuccess() {
                 if (typeof _onSuccess === 'function') {
                   await _onSuccess();
@@ -305,8 +316,10 @@ export function useVSCodePlugin(options?: PluginOptions): Plugin[] {
       },
       closeBundle() {
         let webviewPath: string;
-        if (opts.webview) {
-          webviewPath = genProdWebviewCode(prodHtmlCache);
+
+        const webview = opts?.webview as WebviewOption;
+        if (webview) {
+          webviewPath = genProdWebviewCode(prodHtmlCache, webview);
         }
 
         let outDir = buildConfig.build.outDir.replace(cwd(), '').replaceAll('\\', '/');
@@ -325,7 +338,7 @@ export function useVSCodePlugin(options?: PluginOptions): Plugin[] {
           merge(tsupOptions, {
             env,
             silent: true,
-            esbuildPlugins: !opts.webview
+            esbuildPlugins: !webview
               ? []
               : [
                   {
@@ -333,9 +346,9 @@ export function useVSCodePlugin(options?: PluginOptions): Plugin[] {
                     setup(build) {
                       build.onLoad({ filter: /\.ts$/ }, async args => {
                         const file = fs.readFileSync(args.path, 'utf-8');
-                        if (file.includes(`${opts.webview}(`)) {
+                        if (file.includes(`${webview.name}(`)) {
                           return {
-                            contents: `import ${opts.webview} from \`${webviewPath}\`;\n` + file,
+                            contents: `import ${webview.name} from \`${webviewPath}\`;\n` + file,
                             loader: 'ts',
                           };
                         }
