@@ -1,5 +1,6 @@
 {
   "name": "template-react",
+  "private": true,
   "version": "0.0.0",
   "description": "vite + react",
   "engines": {

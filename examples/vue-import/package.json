@@ -1,5 +1,6 @@
 {
   "name": "template-vue-import",
+  "private": true,
   "version": "0.0.0",
   "description": "vite + vue",
   "engines": {
