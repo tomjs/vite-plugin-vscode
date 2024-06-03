@@ -130,7 +130,7 @@ function genProdWebviewCode(cache: Record<string, string>, webview?: WebviewOpti
       });
     }
 
-    return root.toString();
+    return root.removeWhitespace().toString();
   }
 
   const cacheCode = /* js */ `const htmlCode = {
