@@ -1,6 +1,7 @@
 import type { Plugin, ResolvedConfig, UserConfig } from 'vite';
 import type { ExtensionOptions, PluginOptions, WebviewOption } from './types';
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { cwd } from 'node:process';
 import cloneDeep from 'lodash.clonedeep';
@@ -161,7 +162,14 @@ export default function getWebviewHtml(webview: Webview, context: ExtensionConte
   `;
   fs.writeFileSync(destFile, code, { encoding: 'utf8' });
 
-  return destFile.replaceAll('\\', '/');
+  return fixWindowsPath(destFile);
+}
+
+function fixWindowsPath(webviewPath: string) {
+  if (os.platform() === 'win32') {
+    webviewPath = webviewPath.replaceAll('\\', '/');
+  }
+  return webviewPath;
 }
 
 export function useVSCodePlugin(options?: PluginOptions): Plugin[] {
@@ -201,19 +209,23 @@ export function useVSCodePlugin(options?: PluginOptions): Plugin[] {
     };
   };
 
-  let webviewClient: string;
-  let webviewNpmPath: string | undefined;
+  let devWebviewClient: string;
+  let devWebviewPath: string | undefined;
   if (opts.webview) {
-    webviewNpmPath = getWebviewNpmPath();
-    if (!webviewNpmPath || !fs.existsSync(webviewNpmPath)) {
+    devWebviewPath = getWebviewNpmPath();
+    if (devWebviewPath && os.platform() === 'win32') {
+      devWebviewPath = devWebviewPath.replaceAll('\\', '/');
+    }
+
+    if (!devWebviewPath || !fs.existsSync(devWebviewPath)) {
       logger.warn(`[${WEBVIEW_PACKAGE_NAME}] is not installed, please install it first!`);
     } else {
       const fileName = 'client.global.js';
-      const clientFile = path.join(webviewNpmPath, fileName);
+      const clientFile = path.join(devWebviewPath, 'dist', fileName);
       if (!fs.existsSync(clientFile)) {
         logger.warn(`[${fileName}] is does not exist, please update the package!`);
       } else {
-        webviewClient = fs.readFileSync(clientFile, 'utf-8');
+        devWebviewClient = fs.readFileSync(clientFile, 'utf-8');
       }
     }
   }
@@ -261,9 +273,7 @@ export function useVSCodePlugin(options?: PluginOptions): Plugin[] {
                           const file = fs.readFileSync(args.path, 'utf-8');
                           if (file.includes(`${webview.name}(`)) {
                             return {
-                              contents:
-                                `import ${webview.name} from '@tomjs/vscode-extension-webview';\n` +
-                                file,
+                              contents: `import ${webview.name} from '${devWebviewPath}';\n` + file,
                               loader: 'ts',
                             };
                           }
@@ -289,11 +299,11 @@ export function useVSCodePlugin(options?: PluginOptions): Plugin[] {
         });
       },
       transformIndexHtml(html) {
-        if (!opts.webview || !webviewClient) {
+        if (!opts.webview || !devWebviewClient) {
           return html;
         }
 
-        return html.replace(/<\/title>/i, `</title><script>${webviewClient}</script>`);
+        return html.replace(/<\/title>/i, `</title><script>${devWebviewClient}</script>`);
       },
     },
     {

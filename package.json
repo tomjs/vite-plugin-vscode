@@ -56,6 +56,7 @@
   "dependencies": {
     "@tomjs/vscode-extension-webview": "^1.2.0",
     "dayjs": "^1.11.10",
+    "execa": "^5.1.1",
     "kolorist": "^1.8.0",
     "lodash.clonedeep": "^4.5.0",
     "lodash.merge": "^4.6.2",
