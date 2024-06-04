@@ -1,3 +1,7 @@
+## [2.3.1](https://github.com/tomjs/vite-plugin-vscode/compare/v2.3.0...v2.3.1) (2024-06-04)
+
+- fix: @tomjs/vscode-extension-webview dependency issue #4 [450827d](https://github.com/tomjs/vite-plugin-vscode/commit/450827d)
+
 ## [2.3.0](https://github.com/tomjs/vite-plugin-vscode/compare/v2.2.0...v2.3.0) (2024-06-03)
 
 - chore: remove np [14ddc2f](https://github.com/tomjs/vite-plugin-vscode/commit/14ddc2f)
