@@ -1,3 +1,8 @@
+## [2.4.0](https://github.com/tomjs/vite-plugin-vscode/compare/v2.3.1...v2.4.0) (2024-06-18)
+
+- fix: env.d.ts file export error [e23ad80](https://github.com/tomjs/vite-plugin-vscode/commit/e23ad80)
+- feat: copy the code of @tomjs/vscode-extension-webview to the current project to solve dependency issues #7 [aad58f2](https://github.com/tomjs/vite-plugin-vscode/commit/aad58f2)
+
 ## [2.3.1](https://github.com/tomjs/vite-plugin-vscode/compare/v2.3.0...v2.3.1) (2024-06-04)
 
 - fix: @tomjs/vscode-extension-webview dependency issue #4 [450827d](https://github.com/tomjs/vite-plugin-vscode/commit/450827d)
