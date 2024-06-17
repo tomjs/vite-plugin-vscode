@@ -42,7 +42,8 @@
         "types": "./dist/webview.d.mts"
       }
     },
-    "./client": "./dist/client.global.js"
+    "./client": "./dist/client.global.js",
+    "./env": "./env.d.ts"
   },
   "files": [
     "dist",
