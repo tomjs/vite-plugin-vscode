@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@tomjs/node':
+        specifier: ^2.2.0
+        version: 2.2.0
       '@tomjs/vscode-extension-webview':
         specifier: ^1.2.0
         version: 1.2.0
@@ -863,6 +866,10 @@ packages:
         optional: true
       typescript:
         optional: true
+
+  '@tomjs/node@2.2.0':
+    resolution: {integrity: sha512-H8K+kFZD5WVZO96NkyqY7jmrOoMLM7xMmnn70psPUwT6bnXc7xZCvh1owv5B3eOszZOifdmZK9h2IcRRC9GD8w==}
+    engines: {node: '>=16'}
 
   '@tomjs/prettier@1.1.1':
     resolution: {integrity: sha512-pGARDr18xFu87kGH8lcnUKkriOBe9BU13d0N2tfcn0BhPvFDfvJeOwONKKDKxXsLW8rHHLsZO5rK6DY3i0OUYQ==}
@@ -3816,6 +3823,8 @@ snapshots:
       - eslint-import-resolver-node
       - eslint-import-resolver-webpack
       - supports-color
+
+  '@tomjs/node@2.2.0': {}
 
   '@tomjs/prettier@1.1.1(prettier@3.2.2)':
     dependencies:

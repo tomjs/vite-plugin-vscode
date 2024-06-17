@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+
+      #webview-patch-iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
+
+      .outer {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+    </style>
+
+    <script type="module" id="webview-patch">
+      const TAG = '[@tomjs:vscode:extension] ';
+
+      function onDomReady(callback) {
+        if (document.readyState === 'interactive' || document.readyState === 'complete') {
+          callback();
+        } else {
+          document.addEventListener('DOMContentLoaded', callback);
+        }
+      }
+
+      let vsCodeApi;
+
+      function getApi() {
+        if (vsCodeApi) return vsCodeApi;
+        return (vsCodeApi = acquireVsCodeApi());
+      }
+
+      function sendInitData(iframe) {
+        console.log(TAG + 'init data');
+        const dataset = {};
+        Object.keys(document.body.dataset).forEach(key => {
+          dataset[key] = document.body.dataset[key];
+        });
+
+        iframe.contentWindow.postMessage(
+          {
+            type: '[vscode:extension]:init',
+            data: {
+              state: getApi().getState(),
+              style: document.getElementById('_defaultStyles').innerHTML,
+              root: {
+                cssText: document.documentElement.style.cssText,
+              },
+              body: {
+                dataset: dataset,
+                className: document.body.className,
+                role: document.body.getAttribute('role'),
+              },
+            },
+          },
+          '*',
+        );
+      }
+
+      function addListeners(iframe) {
+        window.addEventListener('message', function (e) {
+          if (e.origin.startsWith('vscode-webview://')) {
+            iframe.contentWindow.postMessage(e.data, '*');
+          } else if ('{{serverUrl}}'.startsWith(e.origin)) {
+            const { type, data } = e.data;
+            if (type === '[vscode:client]:postMessage') {
+              getApi().postMessage(data);
+            } else if (type === '[vscode:client]:getState') {
+              iframe.contentWindow.postMessage(
+                {
+                  type: '[vscode:extension]:getState',
+                  data: getApi().getState(),
+                },
+                '*',
+              );
+            } else if (type === '[vscode:client]:setState') {
+              getApi().setState(data);
+            }
+          }
+        });
+      }
+
+      function observeAttributeChanges(element, attributeName, callback) {
+        const observer = new MutationObserver(function (mutationsList) {
+          for (let mutation of mutationsList) {
+            if (mutation.type === 'attributes' && mutation.attributeName === attributeName) {
+              callback(mutation.target.getAttribute(attributeName));
+            }
+          }
+        });
+        observer.observe(element, { attributes: true });
+        return observer;
+      }
+
+      onDomReady(function () {
+        const iframe = document.getElementById('webview-patch-iframe');
+        observeAttributeChanges(document.body, 'class', function (className) {
+          sendInitData(iframe);
+        });
+        iframe.addEventListener('load', function (e) {
+          let interval = setInterval(() => {
+            try {
+              if (document.getElementById('_defaultStyles')) {
+                sendInitData(iframe);
+                addListeners(iframe);
+                clearInterval(interval);
+                return;
+              }
+            } catch (e) {
+              clearInterval(interval);
+              console.error(e);
+            }
+          }, 10);
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <div class="outer">
+      <iframe
+        id="webview-patch-iframe"
+        frameborder="0"
+        sandbox="allow-scripts allow-same-origin allow-forms allow-pointer-lock allow-downloads"
+        allow="cross-origin-isolated; autoplay; clipboard-read; clipboard-write"
+        src="{{serverUrl}}"
+      ></iframe>
+    </div>
+  </body>
+</html>

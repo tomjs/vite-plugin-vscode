@@ -8,9 +8,10 @@ import cloneDeep from 'lodash.clonedeep';
 import merge from 'lodash.merge';
 import { parse as htmlParser } from 'node-html-parser';
 import { build as tsupBuild, type Options as TsupOptions } from 'tsup';
-import { PACKAGE_NAME, WEBVIEW_METHOD_NAME, WEBVIEW_PACKAGE_NAME } from './constants';
+import { emptyDirSync, readFileSync, readJsonSync } from '@tomjs/node';
+import { PACKAGE_NAME, WEBVIEW_METHOD_NAME } from './constants';
 import { createLogger } from './logger';
-import { emptyPath, getWebviewNpmPath, readJson, resolveServerUrl } from './utils';
+import { resolveServerUrl } from './utils';
 
 const isDev = process.env.NODE_ENV === 'development';
 const logger = createLogger();
@@ -21,7 +22,7 @@ function getPkg() {
     throw new Error('Main file is not specified, and no package.json found');
   }
 
-  const pkg = readJson(pkgFile);
+  const pkg = readJsonSync(pkgFile);
   if (!pkg.main) {
     throw new Error('Main file is not specified, please check package.json');
   }
@@ -69,9 +70,7 @@ function preMergeOptions(options?: PluginOptions): PluginOptions {
     opt.minify ??= true;
   }
 
-  opt.external = (['vscode', WEBVIEW_PACKAGE_NAME] as (string | RegExp)[]).concat(
-    opt.external ?? [],
-  );
+  opt.external = (['vscode'] as (string | RegExp)[]).concat(opt.external ?? []);
 
   if (!opt.skipNodeModulesBundle) {
     opt.noExternal = Object.keys(pkg.dependencies || {}).concat(
@@ -97,7 +96,7 @@ function genProdWebviewCode(cache: Record<string, string>, webview?: WebviewOpti
   webview = Object.assign({}, webview);
 
   const prodCacheFolder = path.join(cwd(), 'node_modules', prodCachePkgName);
-  emptyPath(prodCacheFolder);
+  emptyDirSync(prodCacheFolder);
   const destFile = path.join(prodCacheFolder, 'index.ts');
 
   function handleHtmlCode(html: string) {
@@ -210,24 +209,8 @@ export function useVSCodePlugin(options?: PluginOptions): Plugin[] {
   };
 
   let devWebviewClient: string;
-  let devWebviewPath: string | undefined;
   if (opts.webview) {
-    devWebviewPath = getWebviewNpmPath();
-    if (devWebviewPath && os.platform() === 'win32') {
-      devWebviewPath = devWebviewPath.replaceAll('\\', '/');
-    }
-
-    if (!devWebviewPath || !fs.existsSync(devWebviewPath)) {
-      logger.warn(`[${WEBVIEW_PACKAGE_NAME}] is not installed, please install it first!`);
-    } else {
-      const fileName = 'client.global.js';
-      const clientFile = path.join(devWebviewPath, 'dist', fileName);
-      if (!fs.existsSync(clientFile)) {
-        logger.warn(`[${fileName}] is does not exist, please update the package!`);
-      } else {
-        devWebviewClient = fs.readFileSync(clientFile, 'utf-8');
-      }
-    }
+    devWebviewClient = readFileSync(path.join(__dirname, 'client.global.js'));
   }
 
   let buildConfig: ResolvedConfig;
@@ -273,7 +256,8 @@ export function useVSCodePlugin(options?: PluginOptions): Plugin[] {
                           const file = fs.readFileSync(args.path, 'utf-8');
                           if (file.includes(`${webview.name}(`)) {
                             return {
-                              contents: `import ${webview.name} from '${devWebviewPath}';\n` + file,
+                              contents:
+                                `import ${webview.name} from '${PACKAGE_NAME}/webview';\n` + file,
                               loader: 'ts',
                             };
                           }
@@ -299,7 +283,7 @@ export function useVSCodePlugin(options?: PluginOptions): Plugin[] {
         });
       },
       transformIndexHtml(html) {
-        if (!opts.webview || !devWebviewClient) {
+        if (!opts.webview) {
           return html;
         }
 

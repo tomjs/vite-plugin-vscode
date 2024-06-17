@@ -23,10 +23,26 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
-    }
+      "require": {
+        "default": "./dist/index.js",
+        "types": "./dist/index.d.ts"
+      },
+      "import": {
+        "default": "./dist/index.mjs",
+        "types": "./dist/index.d.mts"
+      }
+    },
+    "./webview": {
+      "require": {
+        "default": "./dist/webview.js",
+        "types": "./dist/webview.d.ts"
+      },
+      "import": {
+        "default": "./dist/webview.mjs",
+        "types": "./dist/webview.d.mts"
+      }
+    },
+    "./client": "./dist/client.global.js"
   },
   "files": [
     "dist",
@@ -45,8 +61,9 @@
     "url": "git+https://github.com/tomjs/vite-plugin-vscode.git"
   },
   "scripts": {
-    "dev": "tsup --watch",
-    "build": "tsup",
+    "dev": "pnpm clean && tsup --watch",
+    "build": "pnpm clean && tsup",
+    "clean": "rimraf ./dist",
     "lint": "run-s lint:eslint lint:stylelint lint:prettier",
     "lint:eslint": "eslint \"{src,scripts,examples}/**/*.ts\" *.{js,cjs,ts} --fix --cache",
     "lint:stylelint": "stylelint \"examples/**/*.{css,scss,less,vue,html}\" --fix --cache",
@@ -54,6 +71,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@tomjs/node": "^2.2.0",
     "@tomjs/vscode-extension-webview": "^1.2.0",
     "dayjs": "^1.11.10",
     "execa": "^5.1.1",

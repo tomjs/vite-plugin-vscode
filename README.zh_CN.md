@@ -6,7 +6,7 @@
 
 > 用 `vue`/`react` 来开发 [vscode extension webview](https://code.visualstudio.com/api/references/vscode-api#WebviewPanel) ，支持 `esm` 和 `cjs`。
 
-在开发模式时，给 `vscode 扩展代码` 和 `web 页面代码`中注入 [@tomjs/vscode-extension-webview](https://github.com/tomjs/vscode-extension-webview) 的代码，用来支持 `HMR`；生产构建时，将最终生成的`index.html` 代码注入到 `vscode 扩展代码` 中，减少工作量。
+在开发模式时，给 `vscode 扩展代码` 和 `web 页面代码`中注入 [@tomjs/vscode-extension-webview](https://github.com/tomjs/vscode-extension-webview) 相同的代码，用来支持 `HMR`；生产构建时，将最终生成的`index.html` 代码注入到 `vscode 扩展代码` 中，减少工作量。
 
 ## 特性
 
@@ -27,7 +27,7 @@ pnpm add @tomjs/vite-plugin-vscode -D
 yarn add @tomjs/vite-plugin-vscode -D
 
 # npm
-npm i @tomjs/vite-plugin-vscode --save-dev
+npm i @tomjs/vite-plugin-vscode -D
 ```
 
 ## 使用说明

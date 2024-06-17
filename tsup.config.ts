@@ -1,14 +1,37 @@
 import { defineConfig } from 'tsup';
 import pkg from './package.json';
 
-export default defineConfig(options => {
-  return {
-    entry: ['src/index.ts'],
-    format: ['esm', 'cjs'],
-    target: ['es2021', 'node16'],
-    external: ['vite'].concat(Object.keys(pkg.dependencies || {})),
-    clean: !!options.watch,
-    dts: true,
-    splitting: true,
-  };
+export default defineConfig(() => {
+  return [
+    {
+      entry: ['src/index.ts'],
+      format: ['esm', 'cjs'],
+      target: ['es2021', 'node16'],
+      external: ['vite'].concat(Object.keys(pkg.dependencies || {})),
+      shims: true,
+      clean: false,
+      dts: true,
+      splitting: true,
+    },
+    {
+      entry: ['src/webview/webview.ts'],
+      format: ['esm', 'cjs'],
+      target: ['es2020', 'node14'],
+      shims: true,
+      clean: false,
+      dts: true,
+      splitting: true,
+      loader: {
+        '.html': 'text',
+      },
+    },
+    {
+      entry: ['src/webview/client.ts'],
+      format: ['iife'],
+      target: ['chrome89'],
+      platform: 'browser',
+      clean: false,
+      dts: false,
+    },
+  ];
 });

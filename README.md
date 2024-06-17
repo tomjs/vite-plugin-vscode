@@ -6,7 +6,7 @@
 
 > Use `vue`/`react` to develop [vscode extension webview](https://code.visualstudio.com/api/references/vscode-api#WebviewPanel), supporting `esm` and `cjs`.
 
-In development mode, inject the code of [@tomjs/vscode-extension-webview](https://github.com/tomjs/vscode-extension-webview) into `vscode extension code` and `web page code`, use To support `HMR`; during production build, the final generated `index.html` code is injected into `vscode extension code` to reduce the workload.
+In development mode, inject the same code of [@tomjs/vscode-extension-webview](https://github.com/tomjs/vscode-extension-webview) into `vscode extension code` and `web page code`, use To support `HMR`; during production build, the final generated `index.html` code is injected into `vscode extension code` to reduce the workload.
 
 ## Features
 
@@ -27,7 +27,7 @@ pnpm add @tomjs/vite-plugin-vscode -D
 yarn add @tomjs/vite-plugin-vscode -D
 
 # npm
-npm i @tomjs/vite-plugin-vscode --save-dev
+npm i @tomjs/vite-plugin-vscode -D
 ```
 
 ## Usage
