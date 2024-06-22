@@ -1,6 +1,6 @@
 # @tomjs/vite-plugin-vscode
 
-[![npm](https://img.shields.io/npm/v/@tomjs/vite-plugin-vscode)](https://www.npmjs.com/package/@tomjs/vite-plugin-vscode) ![node-current (scoped)](https://img.shields.io/node/v/@tomjs/vite-plugin-vscode) ![NPM](https://img.shields.io/npm/l/@tomjs/vite-plugin-vscode) [![Docs](https://www.paka.dev/badges/v0/cute.svg)](https://www.paka.dev/npm/@tomjs/vite-plugin-vscode)
+[![npm](https://img.shields.io/npm/v/@tomjs/vite-plugin-vscode)](https://www.npmjs.com/package/@tomjs/vite-plugin-vscode) ![node-current (scoped)](https://img.shields.io/node/v/@tomjs/vite-plugin-vscode) ![NPM](https://img.shields.io/npm/l/@tomjs/vite-plugin-vscode)
 
 [English](./README.md) | **中文**
 
@@ -206,7 +206,6 @@ function __getWebviewHtml__(
 
 ## 文档
 
-- [paka.dev](https://paka.dev) 提供的 [API文档](https://paka.dev/npm/@tomjs/vite-plugin-vscode).
 - [unpkg.com](https://www.unpkg.com/) 提供的 [index.d.ts](https://www.unpkg.com/browse/@tomjs/vite-plugin-vscode/dist/index.d.ts).
 
 ## 参数
@@ -374,3 +373,8 @@ pnpm build
 - [react](./examples/react)：简单的 react 示例。
 - [vue](./examples/vue)：简单的 vue 示例。
 - [vue-import](./examples/vue-import)：动态 import() 和多页面示例。
+
+## 关联
+
+- [@tomjs/vscode](https://npmjs.com/package/@tomjs/vscode): 一些实用工具，用于简化 [vscode 扩展](https://marketplace.visualstudio.com/VSCode) 的开发。
+- [@tomjs/vscode-dev](https://npmjs.com/package/@tomjs/vscode-dev): 一些开发工具，用于简化 [vscode 扩展](https://marketplace.visualstudio.com/VSCode) 的开发。

@@ -1,6 +1,6 @@
 # @tomjs/vite-plugin-vscode
 
-[![npm](https://img.shields.io/npm/v/@tomjs/vite-plugin-vscode)](https://www.npmjs.com/package/@tomjs/vite-plugin-vscode) ![node-current (scoped)](https://img.shields.io/node/v/@tomjs/vite-plugin-vscode) ![NPM](https://img.shields.io/npm/l/@tomjs/vite-plugin-vscode) [![Docs](https://www.paka.dev/badges/v0/cute.svg)](https://www.paka.dev/npm/@tomjs/vite-plugin-vscode)
+[![npm](https://img.shields.io/npm/v/@tomjs/vite-plugin-vscode)](https://www.npmjs.com/package/@tomjs/vite-plugin-vscode) ![node-current (scoped)](https://img.shields.io/node/v/@tomjs/vite-plugin-vscode) ![NPM](https://img.shields.io/npm/l/@tomjs/vite-plugin-vscode)
 
 **English** | [中文](./README.zh_CN.md)
 
@@ -202,7 +202,6 @@ function __getWebviewHtml__(
 
 ## Documentation
 
-- [API Documentation](https://paka.dev/npm/@tomjs/vite-plugin-vscode) provided by [paka.dev](https://paka.dev).
 - [index.d.ts](https://www.unpkg.com/browse/@tomjs/vite-plugin-vscode/dist/index.d.ts) provided by [unpkg.com](https://www.unpkg.com).
 
 ## Parameters
@@ -371,3 +370,8 @@ Open the [examples](./examples) directory, there are `vue` and `react` examples.
 - [react](./examples/react): Simple react example.
 - [vue](./examples/vue): Simple vue example.
 - [vue-import](./examples/vue-import): Dynamic import() and multi-page examples.
+
+## Related
+
+- [@tomjs/vscode](https://npmjs.com/package/@tomjs/vscode): Some utilities to simplify the development of [VSCode Extensions](https://marketplace.visualstudio.com/VSCode).
+- [@tomjs/vscode-dev](https://npmjs.com/package/@tomjs/vscode-dev): Some development tools to simplify the development of [vscode extensions](https://marketplace.visualstudio.com/VSCode).
