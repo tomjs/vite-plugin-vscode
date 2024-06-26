@@ -1,3 +1,7 @@
+## [2.5.0](https://github.com/tomjs/vite-plugin-vscode/compare/v2.4.1...v2.5.0) (2024-06-26)
+
+- fix: postMessage delay issue #5 [f62ef5b](https://github.com/tomjs/vite-plugin-vscode/commit/f62ef5b)
+
 ## [2.4.1](https://github.com/tomjs/vite-plugin-vscode/compare/v2.4.0...v2.4.1) (2024-06-22)
 
 - docs: update readme [0f067f6](https://github.com/tomjs/vite-plugin-vscode/commit/0f067f6)
