@@ -383,4 +383,4 @@ Open the [examples](./examples) directory, there are `vue` and `react` examples.
 
 - [@tomjs/vscode](https://npmjs.com/package/@tomjs/vscode): Some utilities to simplify the development of [VSCode Extensions](https://marketplace.visualstudio.com/VSCode).
 - [@tomjs/vscode-dev](https://npmjs.com/package/@tomjs/vscode-dev): Some development tools to simplify the development of [vscode extensions](https://marketplace.visualstudio.com/VSCode).
-- [@tomjs/vscode-webview](https://npmjs.com/package/@tomjs/webview): Optimize the `postMessage` issue between `webview` page and [vscode extensions](https://marketplace.visualstudio.com/VSCode)
+- [@tomjs/vscode-webview](https://npmjs.com/package/@tomjs/vscode-webview): Optimize the `postMessage` issue between `webview` page and [vscode extensions](https://marketplace.visualstudio.com/VSCode)
