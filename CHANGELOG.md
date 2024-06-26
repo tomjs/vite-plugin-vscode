@@ -1,3 +1,7 @@
+## [2.5.2](https://github.com/tomjs/vite-plugin-vscode/compare/v2.5.1...v2.5.2) (2024-06-27)
+
+- fix: client mock setState [1472665](https://github.com/tomjs/vite-plugin-vscode/commit/1472665)
+
 ## [2.5.1](https://github.com/tomjs/vite-plugin-vscode/compare/v2.5.0...v2.5.1) (2024-06-27)
 
 - chore: remove @tomjs/vscode-extension-webview package [f882fca](https://github.com/tomjs/vite-plugin-vscode/commit/f882fca)
