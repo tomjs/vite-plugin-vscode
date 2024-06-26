@@ -30,11 +30,12 @@
     <script type="module" id="webview-patch">
       const TAG = '[@tomjs:vscode:extension] ';
 
-      function onDomReady(callback) {
-        if (document.readyState === 'interactive' || document.readyState === 'complete') {
+      function onDomReady(callback, doc) {
+        const _doc = doc || document;
+        if (_doc.readyState === 'interactive' || _doc.readyState === 'complete') {
           callback();
         } else {
-          document.addEventListener('DOMContentLoaded', callback);
+          _doc.addEventListener('DOMContentLoaded', callback);
         }
       }
 
@@ -72,29 +73,6 @@
         );
       }
 
-      function addListeners(iframe) {
-        window.addEventListener('message', function (e) {
-          if (e.origin.startsWith('vscode-webview://')) {
-            iframe.contentWindow.postMessage(e.data, '*');
-          } else if ('{{serverUrl}}'.startsWith(e.origin)) {
-            const { type, data } = e.data;
-            if (type === '[vscode:client]:postMessage') {
-              getApi().postMessage(data);
-            } else if (type === '[vscode:client]:getState') {
-              iframe.contentWindow.postMessage(
-                {
-                  type: '[vscode:extension]:getState',
-                  data: getApi().getState(),
-                },
-                '*',
-              );
-            } else if (type === '[vscode:client]:setState') {
-              getApi().setState(data);
-            }
-          }
-        });
-      }
-
       function observeAttributeChanges(element, attributeName, callback) {
         const observer = new MutationObserver(function (mutationsList) {
           for (let mutation of mutationsList) {
@@ -107,17 +85,81 @@
         return observer;
       }
 
+      // message handler
+      let iframeLoaded = false;
+      const cacheMessages = [];
+
+      function handleMessage(e) {
+        const iframe = document.getElementById('webview-patch-iframe');
+        if (!iframeLoaded || !iframe) {
+          return;
+        }
+        if (e.origin.startsWith('vscode-webview://')) {
+          iframe.contentWindow.postMessage(e.data, '*');
+        } else if ('{{serverUrl}}'.startsWith(e.origin)) {
+          const { type, data } = e.data;
+          console.log(TAG + ' received:', e.data);
+          if (type === '[vscode:client]:postMessage') {
+            getApi().postMessage(data);
+          } else if (type === '[vscode:client]:getState') {
+            iframe.contentWindow.postMessage(
+              {
+                type: '[vscode:client]:getState',
+                data: getApi().getState(),
+              },
+              '*',
+            );
+          } else if (type === '[vscode:client]:setState') {
+            getApi().setState(data);
+          }
+        }
+      }
+
+      window.addEventListener('message', function (event) {
+        if (event.origin.startsWith('vscode-webview://')) {
+          cacheMessages.push(event);
+          return;
+        }
+        handleMessage(event);
+      });
+
+      let isCacheWorking = false;
+      setInterval(() => {
+        if (isCacheWorking) {
+          return;
+        }
+
+        isCacheWorking = true;
+        if (iframeLoaded) {
+          let event = cacheMessages.shift();
+          while (event) {
+            handleMessage(event);
+            event = cacheMessages.shift();
+          }
+        }
+        isCacheWorking = false;
+      }, 50);
+
       onDomReady(function () {
+        /**  @type {HTMLIFrameElement} */
         const iframe = document.getElementById('webview-patch-iframe');
         observeAttributeChanges(document.body, 'class', function (className) {
           sendInitData(iframe);
         });
+
+        onDomReady(function () {
+          iframeLoaded = true;
+          sendInitData(iframe);
+        }, iframe.contentDocument);
+
         iframe.addEventListener('load', function (e) {
+          iframeLoaded = true;
+
           let interval = setInterval(() => {
             try {
               if (document.getElementById('_defaultStyles')) {
                 sendInitData(iframe);
-                addListeners(iframe);
+                // addListeners(iframe);
                 clearInterval(interval);
                 return;
               }

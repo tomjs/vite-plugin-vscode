@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { vscodeWebview } from '@tomjs/vscode-webview';
 import { VSCodeButton, VSCodeTextField } from '@vscode/webview-ui-toolkit/react';
 import { vscode } from './utils/vscode';
 
@@ -6,11 +7,12 @@ import './App.css';
 
 function App() {
   function onPostMessage() {
-    vscode.postMessage({
-      command: 'hello',
-      text: 'Hey there partner! 🤠',
-    });
+    vscodeWebview.postMessage('hello', 'Hey there partner! 🤠');
   }
+
+  vscodeWebview.on('hello', data => {
+    console.log('on message:', data);
+  });
 
   const [message, setMessage] = useState('');
   const [state, setState] = useState('');
@@ -18,8 +20,8 @@ function App() {
   const onSetState = () => {
     vscode.setState(state);
   };
-  const onGetState = () => {
-    setState(vscode.getState() as string);
+  const onGetState = async () => {
+    setState((await vscode.getState()) as string);
   };
 
   return (

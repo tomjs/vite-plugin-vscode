@@ -20,8 +20,8 @@ const onSetState = () => {
   vscode.setState(state.value);
 };
 
-const onGetState = () => {
-  state.value = vscode.getState() as string;
+const onGetState = async () => {
+  state.value = (await vscode.getState()) as string;
 };
 
 onMounted(async () => {

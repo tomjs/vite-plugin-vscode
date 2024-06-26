@@ -7,6 +7,7 @@
     "node": ">=18",
     "vscode": "^1.75.0"
   },
+  "publisher": "tomjs-test",
   "main": "dist/extension/index.js",
   "activationEvents": [],
   "contributes": {
@@ -23,6 +24,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tomjs/vscode-webview": "^1.0.0",
     "@vscode/webview-ui-toolkit": "^1.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

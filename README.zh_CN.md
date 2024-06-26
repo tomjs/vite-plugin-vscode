@@ -204,6 +204,14 @@ function __getWebviewHtml__(
 ): string;
 ```
 
+### 警告
+
+使用 [@types/vscode-webview](https://www.npmjs.com/package/@types/vscode-webview) 的 `acquireVsCodeApi().getState()` 方法时，要使用 `await` 调用。由于 `acquireVsCodeApi` 是插件对该方法的模拟实现，故与原方法出现不一致性，非常抱歉。如果有其他方案，请分享，非常感谢。
+
+```ts
+const value = await acquireVsCodeApi().getState();
+```
+
 ## 文档
 
 - [unpkg.com](https://www.unpkg.com/) 提供的 [index.d.ts](https://www.unpkg.com/browse/@tomjs/vite-plugin-vscode/dist/index.d.ts).
@@ -378,3 +386,4 @@ pnpm build
 
 - [@tomjs/vscode](https://npmjs.com/package/@tomjs/vscode): 一些实用工具，用于简化 [vscode 扩展](https://marketplace.visualstudio.com/VSCode) 的开发。
 - [@tomjs/vscode-dev](https://npmjs.com/package/@tomjs/vscode-dev): 一些开发工具，用于简化 [vscode 扩展](https://marketplace.visualstudio.com/VSCode) 的开发。
+- [@tomjs/vscode-webview](https://npmjs.com/package/@tomjs/vscode-webview): 优化 `webview` 页面与 [vscode 扩展](https://marketplace.visualstudio.com/VSCode) 的 `postMessage` 问题

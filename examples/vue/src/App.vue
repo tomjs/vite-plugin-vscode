@@ -1,16 +1,18 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { vscodeWebview } from '@tomjs/vscode-webview';
 import { allComponents, provideVSCodeDesignSystem } from '@vscode/webview-ui-toolkit';
 import { vscode } from './utils';
 
 provideVSCodeDesignSystem().register(allComponents);
 
 function onPostMessage() {
-  vscode.postMessage({
-    command: 'hello',
-    text: 'Hey there partner! 🤠',
-  });
+  vscodeWebview.postMessage('hello', 'Hey there partner! 🤠');
 }
+
+vscodeWebview.on('hello', data => {
+  console.log('on message:', data);
+});
 
 const message = ref('');
 const state = ref('');
@@ -19,8 +21,8 @@ const onSetState = () => {
   vscode.setState(state.value);
 };
 
-const onGetState = () => {
-  state.value = vscode.getState() as string;
+const onGetState = async () => {
+  state.value = (await vscode.getState()) as string;
 };
 </script>
 

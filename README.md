@@ -200,6 +200,14 @@ function __getWebviewHtml__(
 ): string;
 ```
 
+### Warning
+
+When using the `acquireVsCodeApi().getState()` method of [@types/vscode-webview](https://www.npmjs.com/package/@types/vscode-webview), you must use `await` to call it. Since `acquireVsCodeApi` is a simulated implementation of this method by the plugin, it is inconsistent with the original method. I am very sorry. If you have other solutions, please share them. Thank you very much.
+
+```ts
+const value = await acquireVsCodeApi().getState();
+```
+
 ## Documentation
 
 - [index.d.ts](https://www.unpkg.com/browse/@tomjs/vite-plugin-vscode/dist/index.d.ts) provided by [unpkg.com](https://www.unpkg.com).
@@ -375,3 +383,4 @@ Open the [examples](./examples) directory, there are `vue` and `react` examples.
 
 - [@tomjs/vscode](https://npmjs.com/package/@tomjs/vscode): Some utilities to simplify the development of [VSCode Extensions](https://marketplace.visualstudio.com/VSCode).
 - [@tomjs/vscode-dev](https://npmjs.com/package/@tomjs/vscode-dev): Some development tools to simplify the development of [vscode extensions](https://marketplace.visualstudio.com/VSCode).
+- [@tomjs/vscode-webview](https://npmjs.com/package/@tomjs/webview): Optimize the `postMessage` issue between `webview` page and [vscode extensions](https://marketplace.visualstudio.com/VSCode)

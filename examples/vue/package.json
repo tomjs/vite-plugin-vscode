@@ -7,6 +7,7 @@
     "node": ">=18",
     "vscode": "^1.75.0"
   },
+  "publisher": "tomjs-test",
   "main": "dist/extension/index.js",
   "activationEvents": [],
   "contributes": {
@@ -23,18 +24,19 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tomjs/vscode-webview": "^1.0.0",
     "@vscode/webview-ui-toolkit": "^1.4.0",
-    "vue": "^3.4.3"
+    "vue": "^3.4.30"
   },
   "devDependencies": {
     "@tomjs/vite-plugin-vscode": "workspace:^",
-    "@types/node": "^18.19.4",
+    "@types/node": "^18.19.39",
     "@types/vscode": "^1.75.0",
-    "@types/vscode-webview": "^1.57.4",
-    "@vitejs/plugin-vue": "^4.6.2",
+    "@types/vscode-webview": "^1.57.5",
+    "@vitejs/plugin-vue": "^5.0.5",
     "cross-env": "^7.0.3",
-    "typescript": "~5.3.3",
-    "vite": "^5.0.10",
+    "typescript": "~5.5.2",
+    "vite": "^5.3.1",
     "vue-tsc": "^1.8.27"
   }
 }

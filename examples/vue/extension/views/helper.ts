@@ -10,12 +10,12 @@ export class WebviewHelper {
   public static setupWebviewHooks(webview: Webview, disposables: Disposable[]) {
     webview.onDidReceiveMessage(
       (message: any) => {
-        const command = message.command;
-        const text = message.text;
-        console.log(`command: ${command}`);
-        switch (command) {
+        const type = message.type;
+        const data = message.data;
+        console.log(`type: ${type}`);
+        switch (type) {
           case 'hello':
-            window.showInformationMessage(text);
+            window.showInformationMessage(data);
             return;
         }
       },

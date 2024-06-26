@@ -25,6 +25,7 @@ export class MainPanel {
 
       MainPanel.currentPanel = new MainPanel(panel, context);
     }
+    MainPanel.currentPanel._panel.webview.postMessage({ type: 'hello', data: 'Hello World!' });
   }
 
   /**
