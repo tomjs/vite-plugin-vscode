@@ -73,7 +73,6 @@
   },
   "dependencies": {
     "@tomjs/node": "^2.2.0",
-    "@tomjs/vscode-extension-webview": "^1.2.0",
     "dayjs": "^1.11.10",
     "execa": "^5.1.1",
     "kolorist": "^1.8.0",

@@ -34,7 +34,6 @@
   },
   "devDependencies": {
     "@tomjs/vite-plugin-vscode": "workspace:^",
-    "@tomjs/vscode-extension-webview": "^1.2.0",
     "@types/node": "^18.19.4",
     "@types/vscode": "^1.75.0",
     "@types/vscode-webview": "^1.57.4",

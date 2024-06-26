@@ -11,9 +11,6 @@ importers:
       '@tomjs/node':
         specifier: ^2.2.0
         version: 2.2.0
-      '@tomjs/vscode-extension-webview':
-        specifier: ^1.2.0
-        version: 1.2.0
       dayjs:
         specifier: ^1.11.10
         version: 1.11.10
@@ -115,9 +112,6 @@ importers:
       '@tomjs/vite-plugin-vscode':
         specifier: workspace:^
         version: link:../..
-      '@tomjs/vscode-extension-webview':
-        specifier: ^1.2.0
-        version: 1.2.0
       '@types/node':
         specifier: ^18.19.4
         version: 18.19.4
@@ -201,9 +195,6 @@ importers:
       '@tomjs/vite-plugin-vscode':
         specifier: workspace:^
         version: link:../..
-      '@tomjs/vscode-extension-webview':
-        specifier: ^1.2.0
-        version: 1.2.0
       '@types/node':
         specifier: ^18.19.4
         version: 18.19.4
@@ -1125,10 +1116,6 @@ packages:
   '@tomjs/tsconfig@1.3.0':
     resolution: {integrity: sha512-e3BwGyqtCW0Y83ciUCUE7AEtOGCT+5AOARuyWNXH9XsdZELCA++Wb0noRH/C2XeTVCsPw65YtWQx5mSGG2v3Mg==}
     engines: {node: '>=16'}
-
-  '@tomjs/vscode-extension-webview@1.2.0':
-    resolution: {integrity: sha512-nQHXS3+zM/J2zhR+v2BgBpeRDp8fILjyxbXMlXZE6QDy+9CVyEwRc1+w9UqPIDqq1VA+f/RmC9jf1URfgsuBHQ==}
-    engines: {node: '>=14'}
 
   '@tomjs/vscode-webview@1.0.0':
     resolution: {integrity: sha512-/WCEO+3GTKhY4zH6yLHIN6cHGkCiW+sdmMExwupTYn6Ef4VlEu/akTmPPVaS527gKGggAsw2iHazJCGTKlaD2w==}
@@ -4317,8 +4304,6 @@ snapshots:
       stylelint-prettier: 5.0.0(prettier@3.2.2)(stylelint@16.1.0(typescript@5.3.3))
 
   '@tomjs/tsconfig@1.3.0': {}
-
-  '@tomjs/vscode-extension-webview@1.2.0': {}
 
   '@tomjs/vscode-webview@1.0.0': {}
 
