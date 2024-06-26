@@ -75,6 +75,7 @@ function patchAcquireVsCodeApi() {
     setState(newState: any) {
       console.log(TAG, 'mock acquireVsCodeApi.setState:', newState);
       window.parent.postMessage({ type: SET_STATE_TYPE, data: newState }, '*');
+      return newState;
     }
   }
 
