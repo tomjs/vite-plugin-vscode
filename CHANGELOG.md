@@ -1,3 +1,7 @@
+## [2.5.1](https://github.com/tomjs/vite-plugin-vscode/compare/v2.5.0...v2.5.1) (2024-06-27)
+
+- chore: remove @tomjs/vscode-extension-webview package [f882fca](https://github.com/tomjs/vite-plugin-vscode/commit/f882fca)
+
 ## [2.5.0](https://github.com/tomjs/vite-plugin-vscode/compare/v2.4.1...v2.5.0) (2024-06-26)
 
 - fix: postMessage delay issue #5 [f62ef5b](https://github.com/tomjs/vite-plugin-vscode/commit/f62ef5b)
