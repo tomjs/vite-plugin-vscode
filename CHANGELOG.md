@@ -1,3 +1,7 @@
+## [2.5.4](https://github.com/tomjs/vite-plugin-vscode/compare/v2.5.3...v2.5.4) (2024-07-01)
+
+- docs: add api badge [986caf1](https://github.com/tomjs/vite-plugin-vscode/commit/986caf1)
+
 ## [2.5.3](https://github.com/tomjs/vite-plugin-vscode/compare/v2.5.2...v2.5.3) (2024-06-27)
 
 - docs: fix url [eefcbc5](https://github.com/tomjs/vite-plugin-vscode/commit/eefcbc5)
