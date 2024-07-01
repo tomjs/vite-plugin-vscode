@@ -1,3 +1,8 @@
+## [2.5.5](https://github.com/tomjs/vite-plugin-vscode/compare/v2.5.4...v2.5.5) (2024-07-01)
+
+- docs: add api document [fd559b4](https://github.com/tomjs/vite-plugin-vscode/commit/fd559b4)
+- fix: add prepublishOnly script for release [2fbd83d](https://github.com/tomjs/vite-plugin-vscode/commit/2fbd83d)
+
 ## [2.5.4](https://github.com/tomjs/vite-plugin-vscode/compare/v2.5.3...v2.5.4) (2024-07-01)
 
 - docs: add api badge [986caf1](https://github.com/tomjs/vite-plugin-vscode/commit/986caf1)
