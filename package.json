@@ -69,7 +69,8 @@
     "lint:eslint": "eslint \"{src,scripts,examples}/**/*.ts\" *.{js,cjs,ts} --fix --cache",
     "lint:stylelint": "stylelint \"examples/**/*.{css,scss,less,vue,html}\" --fix --cache",
     "lint:prettier": "prettier --write .",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "prepublishOnly": "pnpm build"
   },
   "dependencies": {
     "@tomjs/node": "^2.2.0",
