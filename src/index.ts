@@ -135,7 +135,7 @@ function genProdWebviewCode(cache: Record<string, string>, webview?: WebviewOpti
 
   const cacheCode = /* js */ `const htmlCode = {
     ${Object.keys(cache)
-      .map(s => `${s}: \`${handleHtmlCode(cache[s])}\`,`)
+      .map(s => `'${s}': \`${handleHtmlCode(cache[s])}\`,`)
       .join('\n')}
   };`;
 
