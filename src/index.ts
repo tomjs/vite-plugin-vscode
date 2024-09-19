@@ -13,6 +13,8 @@ import { PACKAGE_NAME, WEBVIEW_METHOD_NAME } from './constants';
 import { createLogger } from './logger';
 import { resolveServerUrl } from './utils';
 
+export * from './types';
+
 const isDev = process.env.NODE_ENV === 'development';
 const logger = createLogger();
 
