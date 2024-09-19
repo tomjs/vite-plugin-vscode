@@ -1,3 +1,9 @@
+## [2.6.0](https://github.com/tomjs/vite-plugin-vscode/compare/v2.5.5...v2.6.0) (2024-09-20)
+
+- docs: use jsdocs.io [0878e51](https://github.com/tomjs/vite-plugin-vscode/commit/0878e51)
+- fix: export types [a6cea35](https://github.com/tomjs/vite-plugin-vscode/commit/a6cea35)
+- fix: htmlCode key [6facf86](https://github.com/tomjs/vite-plugin-vscode/commit/6facf86)
+
 ## [2.5.5](https://github.com/tomjs/vite-plugin-vscode/compare/v2.5.4...v2.5.5) (2024-07-01)
 
 - docs: add api document [fd559b4](https://github.com/tomjs/vite-plugin-vscode/commit/fd559b4)
