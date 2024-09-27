@@ -4,7 +4,6 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { cwd } from 'node:process';
-import cloneDeep from 'lodash.clonedeep';
 import merge from 'lodash.merge';
 import { parse as htmlParser } from 'node-html-parser';
 import { build as tsupBuild, type Options as TsupOptions } from 'tsup';
@@ -55,7 +54,7 @@ function preMergeOptions(options?: PluginOptions): PluginOptions {
         skipNodeModulesBundle: isDev,
       } as ExtensionOptions,
     },
-    cloneDeep(options),
+    options,
   );
 
   const opt = opts.extension || {};
