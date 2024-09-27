@@ -1,7 +1,4 @@
 {
   "extends": "@tomjs/tsconfig/vue.json",
-  "compilerOptions": {
-    "composite": true
-  },
   "include": ["src/webview/client.ts"]
 }
