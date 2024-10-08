@@ -15,7 +15,10 @@ export class WebviewHelper {
         console.log(`type: ${type}`);
         switch (type) {
           case 'hello':
+          case 'hello2':
+          case 'hello3':
             window.showInformationMessage(data);
+            webview.postMessage({ type, data: Date.now() });
             return;
         }
       },

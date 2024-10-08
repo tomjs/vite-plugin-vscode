@@ -34,8 +34,6 @@ function patchInitData(data) {
   });
 }
 
-const GET_STATE_TYPE = '[vscode:client]:getState';
-const SET_STATE_TYPE = '[vscode:client]:setState';
 const POST_MESSAGE_TYPE = '[vscode:client]:postMessage';
 
 function patchAcquireVsCodeApi() {
@@ -46,35 +44,12 @@ function patchAcquireVsCodeApi() {
     }
     getState() {
       console.log(TAG, 'mock acquireVsCodeApi.getState');
-      return new Promise((resolve, reject) => {
-        function post() {
-          window.parent.postMessage({ type: GET_STATE_TYPE }, '*');
-        }
-
-        const timeoutId = setTimeout(() => {
-          window.removeEventListener('message', receive);
-          reject(new Error('Timeout'));
-        }, 2000);
-
-        function receive(e: MessageEvent<any>) {
-          console.log(e);
-          if (!e.origin.startsWith('vscode-webview://') || e.data?.type !== GET_STATE_TYPE) {
-            return;
-          }
-
-          window.removeEventListener('message', receive);
-          clearTimeout(timeoutId);
-
-          resolve(e.data?.data);
-        }
-
-        window.addEventListener('message', receive);
-        post();
-      });
+      const state = sessionStorage.getItem('vscodeState');
+      return state ? JSON.parse(state) : undefined;
     }
     setState(newState: any) {
       console.log(TAG, 'mock acquireVsCodeApi.setState:', newState);
-      window.parent.postMessage({ type: SET_STATE_TYPE, data: newState }, '*');
+      sessionStorage.setItem('vscodeState', JSON.stringify(newState));
       return newState;
     }
   }

@@ -1,35 +1,53 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { vscodeWebview } from '@tomjs/vscode-webview';
 import { allComponents, provideVSCodeDesignSystem } from '@vscode/webview-ui-toolkit';
-import { vscode } from './utils';
+import { vscodeApi } from './utils';
 
 provideVSCodeDesignSystem().register(allComponents);
-
-function onPostMessage() {
-  vscodeWebview.postMessage('hello', 'Hey there partner! 🤠');
-}
-
-vscodeWebview.on('hello', data => {
-  console.log('on message:', data);
-});
 
 const message = ref('');
 const state = ref('');
 
 const onSetState = () => {
-  vscode.setState(state.value);
+  vscodeApi.setState(state.value);
 };
 
-const onGetState = async () => {
-  state.value = (await vscode.getState()) as string;
+const onGetState = () => {
+  state.value = vscodeApi.getState() || '';
 };
+
+function onPostMessage() {
+  vscodeApi.postMessage({
+    type: 'hello',
+    data: `💬: ${message.value || 'Empty'}`,
+  });
+
+  setTimeout(() => {
+    vscodeApi.post('hello3', `⛅: ${message.value || 'Empty'}`);
+  }, 100);
+}
+
+const receive = ref('');
+function onPostAndReceive() {
+  vscodeApi.postAndReceive('hello2', `😀: ${message.value || 'Empty'}`).then((data: any) => {
+    console.log('data', data);
+    receive.value = data;
+  });
+}
+
+vscodeApi.on('hello3', (data: any) => {
+  console.log('watch [hello3]: ', data);
+});
 </script>
 
 <template>
   <main>
     <h1>Hello Vue!</h1>
-    <vscode-button @click="onPostMessage">Test VSCode Message</vscode-button>
+    <vscode-button @click="onPostMessage">Post Message</vscode-button>
+    <div style="margin-top: 8px">
+      <vscode-button @click="onPostAndReceive"> Post Message And Receive </vscode-button>
+      <span v-if="receive" style="margin-left: 8px">{{ receive }}</span>
+    </div>
     <div>
       <vscode-text-field :value="message" @input="e => (message = e.target.value)">
         Please enter a message

@@ -101,16 +101,6 @@
           console.log(TAG + ' received:', e.data);
           if (type === '[vscode:client]:postMessage') {
             getApi().postMessage(data);
-          } else if (type === '[vscode:client]:getState') {
-            iframe.contentWindow.postMessage(
-              {
-                type: '[vscode:client]:getState',
-                data: getApi().getState(),
-              },
-              '*',
-            );
-          } else if (type === '[vscode:client]:setState') {
-            getApi().setState(data);
           }
         }
       }

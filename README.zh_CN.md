@@ -14,6 +14,7 @@
 - 配置简单，专注业务
 - 支持 `esm`和 `cjs`
 - 支持 webview `HMR`
+- 支持 [@types/vscode-webview](https://www.npmjs.com/package/@types/vscode-webview) 的 `acquireVsCodeApi`
 - 支持[多页面应用](https://cn.vitejs.dev/guide/build.html#multi-page-app)
 - 支持 `vue` 、`react` 等其他 `vite` 支持的[框架](https://cn.vitejs.dev/guide/#trying-vite-online)
 
@@ -387,3 +388,11 @@ pnpm build
 - [@tomjs/vscode](https://npmjs.com/package/@tomjs/vscode): 一些实用工具，用于简化 [vscode 扩展](https://marketplace.visualstudio.com/VSCode) 的开发。
 - [@tomjs/vscode-dev](https://npmjs.com/package/@tomjs/vscode-dev): 一些开发工具，用于简化 [vscode 扩展](https://marketplace.visualstudio.com/VSCode) 的开发。
 - [@tomjs/vscode-webview](https://npmjs.com/package/@tomjs/vscode-webview): 优化 `webview` 页面与 [vscode 扩展](https://marketplace.visualstudio.com/VSCode) 的 `postMessage` 问题
+
+## 重要说明
+
+### v3.0.0
+
+**破坏性更新：**
+
+- 模拟的 `acquireVsCodeApi` 与 [@types/vscode-webview](https://www.npmjs.com/package/@types/vscode-webview) 的 `acquireVsCodeApi` 保持一致，改用 `sessionStorage.getItem` 和 `sessionStorage.setItem` 来实现 `getState` 和 `setState`。

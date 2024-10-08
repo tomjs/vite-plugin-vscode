@@ -14,6 +14,7 @@ In development mode, inject the same code of [@tomjs/vscode-extension-webview](h
 - Simple configuration, focus on business
 - Support `esm` and `cjs`
 - Support webview `HMR`
+- Support `acquireVsCodeApi` of [@types/vscode-webview](https://www.npmjs.com/package/@types/vscode-webview)
 - Support [Multi-Page App](https://vitejs.dev/guide/build.html#multi-page-app)
 - Supports `vue` and `react` and other [frameworks](https://cn.vitejs.dev/guide/#trying-vite-online) supported by `vite`
 
@@ -384,3 +385,11 @@ Open the [examples](./examples) directory, there are `vue` and `react` examples.
 - [@tomjs/vscode](https://npmjs.com/package/@tomjs/vscode): Some utilities to simplify the development of [VSCode Extensions](https://marketplace.visualstudio.com/VSCode).
 - [@tomjs/vscode-dev](https://npmjs.com/package/@tomjs/vscode-dev): Some development tools to simplify the development of [vscode extensions](https://marketplace.visualstudio.com/VSCode).
 - [@tomjs/vscode-webview](https://npmjs.com/package/@tomjs/vscode-webview): Optimize the `postMessage` issue between `webview` page and [vscode extensions](https://marketplace.visualstudio.com/VSCode)
+
+## Important Notes
+
+### v3.0.0
+
+**Breaking Updates:**
+
+- The simulated `acquireVsCodeApi` is consistent with the `acquireVsCodeApi` of [@types/vscode-webview](https://www.npmjs.com/package/@types/vscode-webview), and `sessionStorage.getItem` and `sessionStorage.setItem` are used to implement `getState` and `setState`.

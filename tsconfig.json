@@ -2,9 +2,6 @@
   "extends": "@tomjs/tsconfig/node.json",
   "include": ["src/**/*.ts", "src/**/*.d.ts"],
   "exclude": ["src/webview/client.ts"],
-  "compilerOptions": {
-    "noEmit": true
-  },
   "references": [
     {
       "path": "./tsconfig.web.json"
