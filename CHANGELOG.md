@@ -1,3 +1,13 @@
+## [3.0.0](https://github.com/tomjs/vite-plugin-vscode/compare/v2.6.0...v3.0.0) (2024-10-08)
+
+- feat: chang getState and setState methods [b1f38c4](https://github.com/tomjs/vite-plugin-vscode/commit/b1f38c4)
+- fix: vite types error [cbf2d68](https://github.com/tomjs/vite-plugin-vscode/commit/cbf2d68)
+- fix: tsconfig.json error [e707a9a](https://github.com/tomjs/vite-plugin-vscode/commit/e707a9a)
+- fix: fix postmessage processing in app [648af76](https://github.com/tomjs/vite-plugin-vscode/commit/648af76)
+- fix: dependency version up and adjustments [7919573](https://github.com/tomjs/vite-plugin-vscode/commit/7919573)
+- fix: remove cloneDeep and fix tsup options #11 [c23448f](https://github.com/tomjs/vite-plugin-vscode/commit/c23448f)
+- fix: tsconfig error [2997f44](https://github.com/tomjs/vite-plugin-vscode/commit/2997f44)
+
 ## [2.6.0](https://github.com/tomjs/vite-plugin-vscode/compare/v2.5.5...v2.6.0) (2024-09-20)
 
 - docs: use jsdocs.io [0878e51](https://github.com/tomjs/vite-plugin-vscode/commit/0878e51)
