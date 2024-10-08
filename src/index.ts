@@ -1,4 +1,4 @@
-import type { Plugin, ResolvedConfig, UserConfig } from 'vite';
+import type { PluginOption, ResolvedConfig, UserConfig } from 'vite';
 import type { ExtensionOptions, PluginOptions, WebviewOption } from './types';
 import fs from 'node:fs';
 import os from 'node:os';
@@ -172,7 +172,7 @@ function fixWindowsPath(webviewPath: string) {
   return webviewPath;
 }
 
-export function useVSCodePlugin(options?: PluginOptions): Plugin[] {
+export function useVSCodePlugin(options?: PluginOptions): PluginOption {
   const opts = preMergeOptions(options);
 
   const handleConfig = (config: UserConfig): UserConfig => {

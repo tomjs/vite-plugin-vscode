@@ -30,17 +30,17 @@
   "dependencies": {
     "@vscode/webview-ui-toolkit": "^1.4.0",
     "pixi.js": "8.0.0-rc.7",
-    "vue": "^3.4.3"
+    "vue": "^3.5.11"
   },
   "devDependencies": {
     "@tomjs/vite-plugin-vscode": "workspace:^",
-    "@types/node": "^18.19.4",
+    "@types/node": "18.19.55",
     "@types/vscode": "^1.75.0",
-    "@types/vscode-webview": "^1.57.4",
-    "@vitejs/plugin-vue": "^4.6.2",
+    "@types/vscode-webview": "^1.57.5",
+    "@vitejs/plugin-vue": "^5.1.4",
     "cross-env": "^7.0.3",
     "typescript": "~5.3.3",
-    "vite": "^5.0.10",
-    "vue-tsc": "^1.8.27"
+    "vite": "5.4.8",
+    "vue-tsc": "^2.1.6"
   }
 }
