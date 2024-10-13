@@ -175,7 +175,7 @@ process.env.VITE_DEV_SERVER_URL
 
 ```ts
 process.env.VITE_DEV_SERVER_URL
-  ? __getWebviewHtml__(`${process.env.VITE_DEV_SERVER_URL}/index2.html`)
+  ? __getWebviewHtml__(`${process.env.VITE_DEV_SERVER_URL}index2.html`)
   : __getWebviewHtml__(webview, context, 'index2');
 ```
 
