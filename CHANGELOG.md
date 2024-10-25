@@ -1,3 +1,8 @@
+## [3.1.0](https://github.com/tomjs/vite-plugin-vscode/compare/v3.0.0...v3.1.0) (2024-10-25)
+
+- docs: optimize titles [f77be8f](https://github.com/tomjs/vite-plugin-vscode/commit/f77be8f)
+- feat: support devtools #18 [a65bb3e](https://github.com/tomjs/vite-plugin-vscode/commit/a65bb3e)
+
 ## [3.0.0](https://github.com/tomjs/vite-plugin-vscode/compare/v2.6.0...v3.0.0) (2024-10-08)
 
 - feat: chang getState and setState methods [b1f38c4](https://github.com/tomjs/vite-plugin-vscode/commit/b1f38c4)
