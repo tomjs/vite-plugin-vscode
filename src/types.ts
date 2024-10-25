@@ -61,11 +61,11 @@ export interface PluginOptions {
   /**
    * Inject [@tomjs/vscode-extension-webview](https://github.com/tomjs/vscode-extension-webview) into vscode extension code and web client code, so that webview can support HMR during the development stage.
    *
-   * * vite serve
-   *    * extension: Inject `import __getWebviewHtml__ from '@tomjs/vscode-extension-webview';` above the file that calls the `__getWebviewHtml__` method
-   *    * web: Add `<script>` tag to index.html and inject `@tomjs/vscode-extension-webview/client` code
-   * * vite build
-   *    * extension: Inject `import __getWebviewHtml__ from '@tomjs/vite-plugin-vscode-inject';` above the file that calls the `__getWebviewHtml__` method
+   * - vite serve
+   *    - extension: Inject `import __getWebviewHtml__ from '@tomjs/vscode-extension-webview';` above the file that calls the `__getWebviewHtml__` method
+   *    - web: Add `<script>` tag to index.html and inject `@tomjs/vscode-extension-webview/client` code
+   * - vite build
+   *    - extension: Inject `import __getWebviewHtml__ from '@tomjs/vite-plugin-vscode-inject';` above the file that calls the `__getWebviewHtml__` method
    *
    * If is string, will set inject method name. Default is '__getWebviewHtml__'.
    *
@@ -93,4 +93,12 @@ export interface PluginOptions {
    * extension vite config.
    */
   extension?: ExtensionOptions;
+  /**
+   * Whether to enable devtools. Inject `<script src="http://localhost:<devtools-port>"></script>` into webview client . Default is true.
+   *  - true:
+   *    - react: inject `<script src="http://localhost:8097"></script>`
+   *    - vue: inject `<script src="http://localhost:8098"></script>`
+   * @default true
+   */
+  devtools?: boolean;
 }

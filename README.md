@@ -222,6 +222,7 @@ const value = await acquireVsCodeApi().getState();
 | recommended | `boolean` | `true` | This option is intended to provide recommended default parameters and behavior. |
 | extension | [ExtensionOptions](#ExtensionOptions) |  | Configuration options for the vscode extension. |
 | webview | `boolean` \| `string` \| [WebviewOption](#WebviewOption) | `__getWebviewHtml__` | Inject html code |
+| devtools | `boolean` | `true` | Inject script code for [react-devtools](https://github.com/facebook/react/tree/main/packages/react-devtools) or [vue-devtools](https://devtools.vuejs.org/guide/standalone) debugging |
 
 **Notice**
 
@@ -239,6 +240,13 @@ Inject [@tomjs/vscode-extension-webview](https://github.com/tomjs/vscode-extensi
   - web: Add `<script>` tag to index.html and inject `@tomjs/vscode-extension-webview/client` code
 - vite build
   - extension: Inject `import __getWebviewHtml__ from '@tomjs/vite-plugin-vscode-inject';` above the file that calls the `__getWebviewHtml__` method If is string, will set inject method name. Default is `__getWebviewHtml__`.
+
+**devtools**
+
+During development, support standalone development tool applications for `react` and `vue`, enabled by default.
+
+- `react`: inject `<script src="http://localhost:8097"></script>`, support [react-devtools](https://github.com/facebook/react/tree/main/packages/react-devtools)
+- `vue`: inject `<script src="http://localhost:8098"></script>`, support [vue-devtools](https://devtools.vuejs.org/guide/standalone)
 
 ### ExtensionOptions
 

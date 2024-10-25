@@ -214,7 +214,7 @@ export function useVSCodePlugin(options?: PluginOptions): PluginOption {
     devWebviewClient = readFileSync(path.join(__dirname, 'client.global.js'));
   }
 
-  let buildConfig: ResolvedConfig;
+  let resolvedConfig: ResolvedConfig;
   // multiple entry index.html
   const prodHtmlCache: Record<string, string> = {};
 
@@ -224,6 +224,9 @@ export function useVSCodePlugin(options?: PluginOptions): PluginOption {
       apply: 'serve',
       config(config) {
         return handleConfig(config);
+      },
+      configResolved(config) {
+        resolvedConfig = config;
       },
       configureServer(server) {
         if (!server || !server.httpServer) {
@@ -288,6 +291,28 @@ export function useVSCodePlugin(options?: PluginOptions): PluginOption {
           return html;
         }
 
+        if (opts.devtools ?? true) {
+          let port: number | undefined;
+          if (
+            resolvedConfig.plugins.find(s =>
+              ['vite:react-refresh', 'vite:react-swc'].includes(s.name),
+            )
+          ) {
+            port = 8097;
+          } else if (resolvedConfig.plugins.find(s => ['vite:vue', 'vite:vue2'].includes(s.name))) {
+            port = 8098;
+          }
+
+          if (port) {
+            html = html.replace(
+              /<head>/i,
+              `<head><script src="http://localhost:${port}"></script>`,
+            );
+          } else {
+            logger.warn('Only support react or vue!');
+          }
+        }
+
         return html.replace(/<\/title>/i, `</title><script>${devWebviewClient}</script>`);
       },
     },
@@ -299,7 +324,7 @@ export function useVSCodePlugin(options?: PluginOptions): PluginOption {
         return handleConfig(config);
       },
       configResolved(config) {
-        buildConfig = config;
+        resolvedConfig = config;
       },
       transformIndexHtml(html, ctx) {
         if (!opts.webview) {
@@ -317,12 +342,12 @@ export function useVSCodePlugin(options?: PluginOptions): PluginOption {
           webviewPath = genProdWebviewCode(prodHtmlCache, webview);
         }
 
-        let outDir = buildConfig.build.outDir.replace(cwd(), '').replaceAll('\\', '/');
+        let outDir = resolvedConfig.build.outDir.replace(cwd(), '').replaceAll('\\', '/');
         if (outDir.startsWith('/')) {
           outDir = outDir.substring(1);
         }
         const env = {
-          NODE_ENV: buildConfig.mode || 'production',
+          NODE_ENV: resolvedConfig.mode || 'production',
           VITE_WEBVIEW_DIST: outDir,
         };
 

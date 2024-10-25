@@ -226,6 +226,7 @@ const value = await acquireVsCodeApi().getState();
 | recommended | `boolean` | `true` | 这个选项是为了提供推荐的默认参数和行为 |
 | extension | [ExtensionOptions](#ExtensionOptions) |  | vscode extension 可选配置 |
 | webview | `boolean` \| `string` \| [WebviewOption](#WebviewOption) | `__getWebviewHtml__` | 注入 html 代码 |
+| devtools | `boolean` | `true` | 注入 script 代码用于 [react-devtools](https://github.com/facebook/react/tree/main/packages/react-devtools) 或 [vue-devtools](https://devtools.vuejs.org/guide/standalone) 调试 |
 
 **Notice**
 
@@ -244,6 +245,13 @@ const value = await acquireVsCodeApi().getState();
   - web: 在 index.html 中添加 `<script>` 标签，注入 `@tomjs/vscode-extension-webview/client` 代码
 - vite build
   - extension: 在调用 `__getWebviewHtml__` 方法的文件上方注入 `import __getWebviewHtml__ from '@tomjs/vite-plugin-vscode-inject';` 如果为字符串，则设置注入方法名，默认为 `__getWebviewHtml__`。
+
+**devtools**
+
+开发阶段，支持 `react` 和 `vue` 的独立开发工具应用，默认开启。
+
+- `react`: 注入 `<script src="http://localhost:8097"></script>`，支持 [react-devtools](https://github.com/facebook/react/tree/main/packages/react-devtools)
+- `vue`: 注入 `<script src="http://localhost:8098"></script>`，支持 [vue-devtools](https://devtools.vuejs.org/guide/standalone)
 
 ### ExtensionOptions
 
@@ -291,6 +299,8 @@ const value = await acquireVsCodeApi().getState();
 | `VITE_WEBVIEW_DIST` | vite webview 页面输出路径 |
 
 ## Debug
+
+### 扩展调试
 
 通过 `vscode` 运行 `Debug Extension` 调试，调试工具参考 [官方文档](https://code.visualstudio.com/docs/editor/debugging)
 
@@ -367,6 +377,10 @@ const value = await acquireVsCodeApi().getState();
   ]
 }
 ```
+
+### 网页调试
+
+可以使用 [react-devtools](https://github.com/facebook/react/tree/main/packages/react-devtools) 和 [vue-devtools](https://devtools.vuejs.org/guide/standalone) 的独立应用调试 `webview`
 
 ## 示例
 
