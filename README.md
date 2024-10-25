@@ -224,14 +224,14 @@ const value = await acquireVsCodeApi().getState();
 | webview | `boolean` \| `string` \| [WebviewOption](#WebviewOption) | `__getWebviewHtml__` | Inject html code |
 | devtools | `boolean` | `true` | Inject script code for [react-devtools](https://github.com/facebook/react/tree/main/packages/react-devtools) or [vue-devtools](https://devtools.vuejs.org/guide/standalone) debugging |
 
-**Notice**
+#### Notice
 
 The `recommended` option is used to set the default configuration and behavior, which can be used with almost zero configuration. The default is `true`. If you want to customize the configuration, set it to `false`. The following default prerequisites are to use the recommended [project structure](#directory-structure).
 
 - The output directory is based on the `build.outDir` parameter of `vite`, and outputs `extension` and `src` to `dist/extension` and `dist/webview` respectively.
 - Other behaviors to be implemented
 
-**Webview**
+#### Webview
 
 Inject [@tomjs/vscode-extension-webview](https://github.com/tomjs/vscode-extension-webview) into vscode extension code and web client code, so that `webview` can support `HMR` during the development stage.
 
@@ -241,7 +241,7 @@ Inject [@tomjs/vscode-extension-webview](https://github.com/tomjs/vscode-extensi
 - vite build
   - extension: Inject `import __getWebviewHtml__ from '@tomjs/vite-plugin-vscode-inject';` above the file that calls the `__getWebviewHtml__` method If is string, will set inject method name. Default is `__getWebviewHtml__`.
 
-**devtools**
+#### devtools
 
 During development, support standalone development tool applications for `react` and `vue`, enabled by default.
 

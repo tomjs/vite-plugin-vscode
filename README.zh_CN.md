@@ -228,7 +228,7 @@ const value = await acquireVsCodeApi().getState();
 | webview | `boolean` \| `string` \| [WebviewOption](#WebviewOption) | `__getWebviewHtml__` | 注入 html 代码 |
 | devtools | `boolean` | `true` | 注入 script 代码用于 [react-devtools](https://github.com/facebook/react/tree/main/packages/react-devtools) 或 [vue-devtools](https://devtools.vuejs.org/guide/standalone) 调试 |
 
-**Notice**
+#### Notice
 
 `recommended` 选项用于设置默认配置和行为，几乎可以达到零配置使用，默认为 `true` 。如果你要自定义配置，请设置它为`false`。以下默认的前提条件是使用推荐的 [项目结构](#目录结构)。
 
@@ -236,7 +236,7 @@ const value = await acquireVsCodeApi().getState();
 
 - 其他待实现的行为
 
-**Webview**
+#### Webview
 
 在 vscode 扩展代码和 web 客户端代码中注入 [@tomjs/vscode-extension-webview](https://github.com/tomjs/vscode-extension-webview)，使 `webview` 在开发阶段能够支持 `HMR`。
 
@@ -246,7 +246,7 @@ const value = await acquireVsCodeApi().getState();
 - vite build
   - extension: 在调用 `__getWebviewHtml__` 方法的文件上方注入 `import __getWebviewHtml__ from '@tomjs/vite-plugin-vscode-inject';` 如果为字符串，则设置注入方法名，默认为 `__getWebviewHtml__`。
 
-**devtools**
+#### devtools
 
 开发阶段，支持 `react` 和 `vue` 的独立开发工具应用，默认开启。
 
