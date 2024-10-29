@@ -218,6 +218,8 @@ export function useVSCodePlugin(options?: PluginOptions): PluginOption {
   // multiple entry index.html
   const prodHtmlCache: Record<string, string> = {};
 
+  let devtoolsFlag = false;
+
   return [
     {
       name: '@tomjs:vscode',
@@ -308,8 +310,9 @@ export function useVSCodePlugin(options?: PluginOptions): PluginOption {
               /<head>/i,
               `<head><script src="http://localhost:${port}"></script>`,
             );
-          } else {
-            logger.warn('Only support react or vue!');
+          } else if (!devtoolsFlag) {
+            devtoolsFlag = true;
+            logger.warn('Only support react-devtools and vue-devtools!');
           }
         }
 
