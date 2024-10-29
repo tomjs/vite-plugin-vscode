@@ -1,3 +1,7 @@
+## [3.1.1](https://github.com/tomjs/vite-plugin-vscode/compare/v3.1.0...v3.1.1) (2024-10-29)
+
+- fix: devtools warn content [dd562a6](https://github.com/tomjs/vite-plugin-vscode/commit/dd562a6)
+
 ## [3.1.0](https://github.com/tomjs/vite-plugin-vscode/compare/v3.0.0...v3.1.0) (2024-10-25)
 
 - docs: optimize titles [f77be8f](https://github.com/tomjs/vite-plugin-vscode/commit/f77be8f)
