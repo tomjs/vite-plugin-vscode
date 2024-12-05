@@ -59,15 +59,16 @@ export interface PluginOptions {
    */
   recommended?: boolean;
   /**
-   * Inject [@tomjs/vscode-extension-webview](https://github.com/tomjs/vscode-extension-webview) into vscode extension code and web client code, so that webview can support HMR during the development stage.
+   * Inject code into vscode extension code and web client code, so that webview can support HMR during the development stage.
    *
    * - vite serve
-   *    - extension: Inject `import __getWebviewHtml__ from '@tomjs/vscode-extension-webview';` above the file that calls the `__getWebviewHtml__` method
-   *    - web: Add `<script>` tag to index.html and inject `@tomjs/vscode-extension-webview/client` code
+   *   - extension: Inject `import __getWebviewHtml__ from '@tomjs/vite-plugin-vscode/webview';` at the top of the file that calls the `__getWebviewHtml__` method
+   *   - web: Add `<script>` tag to index.html and inject `@tomjs/vite-plugin-vscode/client` code
    * - vite build
-   *    - extension: Inject `import __getWebviewHtml__ from '@tomjs/vite-plugin-vscode-inject';` above the file that calls the `__getWebviewHtml__` method
+   *   - extension: Inject `import __getWebviewHtml__ from '@tomjs/vite-plugin-vscode-inject';` at the top of the file that calls the `__getWebviewHtml__` method
    *
    * If is string, will set inject method name. Default is '__getWebviewHtml__'.
+   *
    *
    * @example
    * extension file

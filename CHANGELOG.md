@@ -1,7 +1,7 @@
 ## [3.2.0](https://github.com/tomjs/vite-plugin-vscode/compare/v3.1.1...v3.2.0) (2024-12-05)
 
-- feat: support copy/paste commands for macos #21  [d0eec00](https://github.com/tomjs/vite-plugin-vscode/commit/d0eec00)
-- feat: add --disable-extensions to examples  [6bf213f](https://github.com/tomjs/vite-plugin-vscode/commit/6bf213f)
+- feat: support copy/paste commands for macos #21 [d0eec00](https://github.com/tomjs/vite-plugin-vscode/commit/d0eec00)
+- feat: add --disable-extensions to examples [6bf213f](https://github.com/tomjs/vite-plugin-vscode/commit/6bf213f)
 
 ## [3.1.1](https://github.com/tomjs/vite-plugin-vscode/compare/v3.1.0...v3.1.1) (2024-10-29)
 

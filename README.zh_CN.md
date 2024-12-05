@@ -241,10 +241,12 @@ const value = await acquireVsCodeApi().getState();
 在 vscode 扩展代码和 web 客户端代码中注入 [@tomjs/vscode-extension-webview](https://github.com/tomjs/vscode-extension-webview)，使 `webview` 在开发阶段能够支持 `HMR`。
 
 - vite serve
-  - extension: 在调用 `__getWebviewHtml__` 方法的文件上方注入 `import __getWebviewHtml__ from '@tomjs/vscode-extension-webview';`
+  - extension: 在调用 `__getWebviewHtml__` 方法的文件顶部注入 `import __getWebviewHtml__ from '@tomjs/vscode-extension-webview';`
   - web: 在 index.html 中添加 `<script>` 标签，注入 `@tomjs/vscode-extension-webview/client` 代码
 - vite build
-  - extension: 在调用 `__getWebviewHtml__` 方法的文件上方注入 `import __getWebviewHtml__ from '@tomjs/vite-plugin-vscode-inject';` 如果为字符串，则设置注入方法名，默认为 `__getWebviewHtml__`。
+  - extension: 在调用 `__getWebviewHtml__` 方法的文件顶部注入 `import __getWebviewHtml__ from '@tomjs/vite-plugin-vscode-inject';`
+
+如果为字符串，则设置注入方法名，默认为 `__getWebviewHtml__`。
 
 #### devtools
 
