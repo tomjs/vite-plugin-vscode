@@ -1,6 +1,6 @@
 {
   "name": "@tomjs/vite-plugin-vscode",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "description": "Use vue/react to develop 'vscode extension webview', supporting esm/cjs",
   "keywords": [
     "vite",

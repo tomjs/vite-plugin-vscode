@@ -1,3 +1,8 @@
+## [3.2.1](https://github.com/tomjs/vite-plugin-vscode/compare/v3.2.0...v3.2.1) (2024-12-05)
+
+- fix: husky [66cec8c](https://github.com/tomjs/vite-plugin-vscode/commit/66cec8c)
+- docs: modify description [10082f9](https://github.com/tomjs/vite-plugin-vscode/commit/10082f9)
+
 ## [3.2.0](https://github.com/tomjs/vite-plugin-vscode/compare/v3.1.1...v3.2.0) (2024-12-05)
 
 - feat: support copy/paste commands for macos #21 [d0eec00](https://github.com/tomjs/vite-plugin-vscode/commit/d0eec00)
