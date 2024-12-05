@@ -12,7 +12,7 @@ export interface WebviewHtmlDevOptions {
  * @param options serverUrl string or object options
  */
 
-export function getHtml(options: string | WebviewHtmlDevOptions) {
+export function getWebviewHtml(options: string | WebviewHtmlDevOptions) {
   const opts: WebviewHtmlDevOptions = {
     serverUrl: '',
   };
@@ -26,4 +26,4 @@ export function getHtml(options: string | WebviewHtmlDevOptions) {
   return (template as string).replace(new RegExp('{{serverUrl}}', 'g'), opts.serverUrl);
 }
 
-export default getHtml;
+export default getWebviewHtml;

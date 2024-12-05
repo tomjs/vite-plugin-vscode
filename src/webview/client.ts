@@ -35,7 +35,6 @@ function patchInitData(data) {
 }
 
 const POST_MESSAGE_TYPE = '[vscode:client]:postMessage';
-
 function patchAcquireVsCodeApi() {
   class AcquireVsCodeApi {
     postMessage(message: any) {
@@ -68,7 +67,6 @@ function patchAcquireVsCodeApi() {
 }
 
 const INIT_TYPE = '[vscode:extension]:init';
-
 window.addEventListener('message', e => {
   const { type, data } = e.data || {};
   if (!e.origin.startsWith('vscode-webview://') || type !== INIT_TYPE) {
@@ -76,4 +74,30 @@ window.addEventListener('message', e => {
   }
 
   patchInitData(data);
+});
+
+const KEYBOARD_EVENT_TYPE = '[vscode:client]:commands';
+const isMac = navigator.userAgent.indexOf('Macintosh') >= 0;
+document.addEventListener('keydown', e => {
+  console.log(e);
+  const { metaKey, shiftKey, ctrlKey, altKey, key } = e;
+  if (key === 'F1') {
+    window.parent.postMessage({ type: KEYBOARD_EVENT_TYPE, data: 'F1' }, '*');
+  } else if (isMac && metaKey && !altKey && !ctrlKey) {
+    if (shiftKey) {
+      if (key === 'z') {
+        document.execCommand('redo');
+      }
+    } else if (key === 'a') {
+      document.execCommand('selectAll');
+    } else if (key === 'c') {
+      document.execCommand('copy');
+    } else if (key === 'v') {
+      document.execCommand('paste');
+    } else if (key === 'x') {
+      document.execCommand('cut');
+    } else if (key === 'z') {
+      document.execCommand('undo');
+    }
+  }
 });

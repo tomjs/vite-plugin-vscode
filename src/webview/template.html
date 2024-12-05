@@ -101,6 +101,16 @@
           console.log(TAG + ' received:', e.data);
           if (type === '[vscode:client]:postMessage') {
             getApi().postMessage(data);
+          } else if (type === '[vscode:client]:commands') {
+            if (data === 'F1') {
+              window.dispatchEvent(
+                new KeyboardEvent('keydown', {
+                  key: 'F1',
+                  keyCode: 112,
+                  code: 'F1',
+                }),
+              );
+            }
           }
         }
       }
