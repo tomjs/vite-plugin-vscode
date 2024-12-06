@@ -1,4 +1,4 @@
-import { ExtensionContext, Webview } from 'vscode';
+import type { ExtensionContext, Webview } from 'vscode';
 // Make this a module
 export {};
 declare global {

@@ -30,13 +30,7 @@
   },
   "devDependencies": {
     "@tomjs/vite-plugin-vscode": "workspace:^",
-    "@types/node": "18.19.55",
     "@types/vscode": "^1.75.0",
-    "@types/vscode-webview": "^1.57.5",
-    "@vitejs/plugin-vue": "^5.1.4",
-    "cross-env": "^7.0.3",
-    "typescript": "~5.5.2",
-    "vite": "5.4.8",
-    "vue-tsc": "^2.1.6"
+    "@types/vscode-webview": "^1.57.5"
   }
 }

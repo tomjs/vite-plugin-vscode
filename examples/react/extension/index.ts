@@ -1,4 +1,5 @@
-import { commands, ExtensionContext } from 'vscode';
+import type { ExtensionContext } from 'vscode';
+import { commands } from 'vscode';
 import { MainPanel } from './views/panel';
 
 export function activate(context: ExtensionContext) {

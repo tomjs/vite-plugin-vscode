@@ -1,4 +1,5 @@
-import { Disposable, ExtensionContext, Webview, window } from 'vscode';
+import type { Disposable, ExtensionContext, Webview } from 'vscode';
+import { window } from 'vscode';
 
 export class WebviewHelper {
   public static setupHtml(webview: Webview, context: ExtensionContext) {

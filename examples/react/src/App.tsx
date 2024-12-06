@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { VSCodeButton, VSCodeTextField } from '@vscode/webview-ui-toolkit/react';
+import { useState } from 'react';
 import { vscode } from './utils/vscode';
 
 import './App.css';

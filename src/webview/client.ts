@@ -1,6 +1,5 @@
 if (window.top === window.self) {
-  // @ts-ignore
-  return;
+  throw new Error('[vscode:client]: must run in vscode webview');
 }
 
 const TAG = '[@tomjs:vscode:client] ';

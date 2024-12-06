@@ -1,15 +1,15 @@
-import type { PluginOption, ResolvedConfig, UserConfig } from 'vite';
-import type { ExtensionOptions, PluginOptions, WebviewOption } from './types';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { cwd } from 'node:process';
+import { emptyDirSync, readFileSync, readJsonSync } from '@tomjs/node';
 import merge from 'lodash.merge';
 import { parse as htmlParser } from 'node-html-parser';
 import { build as tsupBuild, type Options as TsupOptions } from 'tsup';
-import { emptyDirSync, readFileSync, readJsonSync } from '@tomjs/node';
+import type { PluginOption, ResolvedConfig, UserConfig } from 'vite';
 import { PACKAGE_NAME, WEBVIEW_METHOD_NAME } from './constants';
 import { createLogger } from './logger';
+import type { ExtensionOptions, PluginOptions, WebviewOption } from './types';
 import { resolveServerUrl } from './utils';
 
 export * from './types';

@@ -1,4 +1,5 @@
-import { Disposable, ExtensionContext, ViewColumn, WebviewPanel, window } from 'vscode';
+import type { Disposable, ExtensionContext, WebviewPanel } from 'vscode';
+import { ViewColumn, window } from 'vscode';
 import { WebviewHelper } from './helper';
 
 export class MainPanel {
