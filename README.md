@@ -144,12 +144,13 @@ See [vue-import](./examples/vue-import) example
 - `vite.config.ts`
 
 ```ts
+import { defineConfig } from 'vite';
 import path from 'node:path';
 import vscode from '@tomjs/vite-plugin-vscode';
 
 export default defineConfig({
+  plugins: [vscode()],
   build: {
-    plugins: [vscode()]
     rollupOptions: {
       // https://cn.vitejs.dev/guide/build.html#multi-page-app
       input: [path.resolve(__dirname, 'index.html'), path.resolve(__dirname, 'index2.html')],
