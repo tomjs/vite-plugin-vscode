@@ -74,19 +74,8 @@ export interface PluginOptions {
    * extension file
    * ```ts
    *function setupHtml(webview: Webview, context: ExtensionContext) {
-   *  if (process.env.VITE_DEV_SERVER_URL) {
-   *    return __getWebviewHtml__(process.env.VITE_DEV_SERVER_URL);
-   *  }
-   *  return __getWebviewHtml__(webview, context);
+   *  return __getWebviewHtml__({serverUrl:WebviewHtmlOptions, webview, context});
    *}
-   * ```
-   * webview client
-   * ```html
-   * <html>
-   *  <head>
-   *    <script>inject code</script>
-   *  </head>
-   * </html>
    * ```
    */
   webview?: boolean | string | WebviewOption;

@@ -5,6 +5,9 @@ import { vscodeApi } from './utils';
 
 provideVSCodeDesignSystem().register(allComponents);
 
+// @ts-ignore
+console.log('--inject--', window.__FLAG1__, window.__FLAG2__);
+
 const message = ref('');
 const state = ref('');
 

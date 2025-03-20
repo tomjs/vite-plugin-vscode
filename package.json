@@ -23,24 +23,12 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "require": {
-        "default": "./dist/index.js",
-        "types": "./dist/index.d.ts"
-      },
-      "import": {
-        "default": "./dist/index.mjs",
-        "types": "./dist/index.d.mts"
-      }
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
     },
     "./webview": {
-      "require": {
-        "default": "./dist/webview.js",
-        "types": "./dist/webview.d.ts"
-      },
-      "import": {
-        "default": "./dist/webview.mjs",
-        "types": "./dist/webview.d.mts"
-      }
+      "require": "./dist/webview.js",
+      "import": "./dist/webview.mjs"
     },
     "./client": "./dist/client.global.js",
     "./env": "./env.d.ts"

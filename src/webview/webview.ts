@@ -1,6 +1,6 @@
 import template from './template.html';
 
-export interface WebviewHtmlDevOptions {
+export interface WebviewHtmlOptions {
   /**
    * local server url
    */
@@ -12,16 +12,12 @@ export interface WebviewHtmlDevOptions {
  * @param options serverUrl string or object options
  */
 
-export function getWebviewHtml(options: string | WebviewHtmlDevOptions) {
-  const opts: WebviewHtmlDevOptions = {
+export function getWebviewHtml(options: WebviewHtmlOptions) {
+  const opts: WebviewHtmlOptions = {
     serverUrl: '',
   };
 
-  if (typeof options === 'string') {
-    opts.serverUrl = options;
-  } else {
-    Object.assign(opts, options);
-  }
+  Object.assign(opts, options);
 
   return (template as string).replace(new RegExp('{{serverUrl}}', 'g'), opts.serverUrl);
 }

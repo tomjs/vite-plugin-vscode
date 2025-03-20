@@ -83,9 +83,15 @@ const panel = window.createWebviewPanel('showHelloWorld', 'Hello World', ViewCol
 });
 
 // Vite development mode and production mode inject different webview codes to reduce development work
-panel.webview.html = process.env.VITE_DEV_SERVER_URL
-  ? __getWebviewHtml__(process.env.VITE_DEV_SERVER_URL)
-  : __getWebviewHtml__(webview, context);
+panel.webview.html = __getWebviewHtml__({
+  // vite dev mode
+  serverUrl: process.env.VITE_DEV_SERVER_URL,
+  // vite prod mode
+  webview,
+  context,
+  inputName: 'index',
+  injectCode: `<script>window.__FLAG1__=666;window.__FLAG2__=888;</script>`,
+});
 ```
 
 - `package.json`
@@ -137,7 +143,7 @@ export default defineConfig({
 });
 ```
 
-### Multi-page application
+### **getWebviewHtml**
 
 See [vue-import](./examples/vue-import) example
 
@@ -167,39 +173,71 @@ export default defineConfig({
 - page one
 
 ```ts
-process.env.VITE_DEV_SERVER_URL
-  ? __getWebviewHtml__(process.env.VITE_DEV_SERVER_URL)
-  : __getWebviewHtml__(webview, context);
+__getWebviewHtml__({
+  // vite dev mode
+  serverUrl: process.env.VITE_DEV_SERVER_URL,
+  // vite prod mode
+  webview,
+  context,
+});
 ```
 
 - page two
 
 ```ts
-process.env.VITE_DEV_SERVER_URL
-  ? __getWebviewHtml__(`${process.env.VITE_DEV_SERVER_URL}/index2.html`)
-  : __getWebviewHtml__(webview, context, 'index2');
+__getWebviewHtml__({
+  // vite dev mode
+  serverUrl: `${process.env.VITE_DEV_SERVER_URL}/index2.html`,
+  // vite prod mode
+  webview,
+  context,
+  inputName: 'index2',
+});
+```
+
+- A single page uses different parameters to achieve different functions
+
+```ts
+__getWebviewHtml__({
+  // vite dev mode
+  serverUrl: `${process.env.VITE_DEV_SERVER_URL}?id=666`,
+  // vite prod mode
+  webview,
+  context,
+  injectCode: `<script>window.__id__=666;</script>`,
+});
 ```
 
 **getWebviewHtml** Description
 
 ```ts
-/**
- *  `[vite serve]` Gets the html of webview in development mode.
- * @param options serverUrl: The url of the vite dev server.
- */
-function __getWebviewHtml__(options?: string | { serverUrl: string }): string;
+interface WebviewHtmlOptions {
+  /**
+   * `[vite serve]` The url of the vite dev server. Please use `process.env.VITE_DEV_SERVER_URL`
+   */
+  serverUrl?: string;
+  /**
+   * `[vite build]` The Webview instance of the extension.
+   */
+  webview: Webview;
+  /**
+   * `[vite build]` The ExtensionContext instance of the extension.
+   */
+  context: ExtensionContext;
+  /**
+   * `[vite build]` vite build.rollupOptions.input name. Default is `index`.
+   */
+  inputName?: string;
+  /**
+   * `[vite build]` Inject code into the afterbegin of the head element.
+   */
+  injectCode?: string;
+}
 
 /**
- *  `[vite build]` Gets the html of webview in production mode.
- * @param webview The WebviewPanel instance of the extension.
- * @param context The ExtensionContext instance of the extension.
- * @param inputName vite build.rollupOptions.input name. Default is `index`.
+ * Gets the html of webview
  */
-function __getWebviewHtml__(
-  webview: Webview,
-  context: ExtensionContext,
-  inputName?: string,
-): string;
+function __getWebviewHtml__(options?: WebviewHtmlOptions): string;
 ```
 
 ### Warning
@@ -398,6 +436,12 @@ Open the [examples](./examples) directory, there are `vue` and `react` examples.
 - [@tomjs/vscode-webview](https://npmjs.com/package/@tomjs/vscode-webview): Optimize the `postMessage` issue between `webview` page and [vscode extensions](https://marketplace.visualstudio.com/VSCode)
 
 ## Important Notes
+
+### v4.0.0
+
+**Breaking Updates:**
+
+- Merge the `__getWebviewHtml__` method for development and production into one, see [getWebviewHtml](#getwebviewhtml)
 
 ### v3.0.0
 

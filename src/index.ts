@@ -98,7 +98,7 @@ function genProdWebviewCode(cache: Record<string, string>, webview?: WebviewOpti
 
   const prodCacheFolder = path.join(cwd(), 'node_modules', prodCachePkgName);
   emptyDirSync(prodCacheFolder);
-  const destFile = path.join(prodCacheFolder, 'index.ts');
+  const destFile = path.join(prodCacheFolder, 'index.js');
 
   function handleHtmlCode(html: string) {
     const root = htmlParser(html);
@@ -140,7 +140,7 @@ function genProdWebviewCode(cache: Record<string, string>, webview?: WebviewOpti
       .join('\n')}
   };`;
 
-  const code = /* js */ `import { ExtensionContext, Uri, Webview } from 'vscode';
+  const code = /* js */ `import { Uri } from 'vscode';
 
 ${cacheCode}
 
@@ -153,10 +153,15 @@ function uuid() {
   return text;
 }
 
-export default function getWebviewHtml(webview: Webview, context: ExtensionContext, inputName?:string){
+export default function getWebviewHtml(options){
+  const { webview, context, inputName, injectCode } = options || {};
   const nonce = uuid();
   const baseUri = webview.asWebviewUri(Uri.joinPath(context.extensionUri, (process.env.VITE_WEBVIEW_DIST || 'dist')));
-  const html = htmlCode[inputName || 'index'] || '';
+  let html = htmlCode[inputName || 'index'] || '';
+  if (injectCode) {
+    html = html.replace('<head>', '<head>'+ injectCode);
+  }
+
   return html.replaceAll('{{cspSource}}', webview.cspSource).replaceAll('{{nonce}}', nonce).replaceAll('{{baseUri}}', baseUri);
 }
   `;

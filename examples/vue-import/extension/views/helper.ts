@@ -3,15 +3,20 @@ import { window } from 'vscode';
 
 export class WebviewHelper {
   public static setupHtml(webview: Webview, context: ExtensionContext) {
-    return process.env.VITE_DEV_SERVER_URL
-      ? __getWebviewHtml__(process.env.VITE_DEV_SERVER_URL)
-      : __getWebviewHtml__(webview, context);
+    return __getWebviewHtml__({
+      serverUrl: process.env.VITE_DEV_SERVER_URL,
+      webview,
+      context,
+    });
   }
 
   public static setupHtml2(webview: Webview, context: ExtensionContext) {
-    return process.env.VITE_DEV_SERVER_URL
-      ? __getWebviewHtml__(`${process.env.VITE_DEV_SERVER_URL}/index2.html`)
-      : __getWebviewHtml__(webview, context, 'index2');
+    return __getWebviewHtml__({
+      serverUrl: `${process.env.VITE_DEV_SERVER_URL}/index2.html`,
+      webview,
+      context,
+      inputName: 'index2',
+    });
   }
 
   public static setupWebviewHooks(webview: Webview, disposables: Disposable[]) {

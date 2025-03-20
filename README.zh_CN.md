@@ -83,13 +83,15 @@ const panel = window.createWebviewPanel('showHelloWorld', 'Hello World', ViewCol
 });
 
 // vite 开发模式和生产模式注入不同的webview代码，减少开发工作
-function getHtml(webview: Webview, context: ExtensionContext) {
-  process.env.VITE_DEV_SERVER_URL
-    ? __getWebviewHtml__(process.env.VITE_DEV_SERVER_URL)
-    : __getWebviewHtml__(webview, context);
-}
-
-panel.webview.html = getHtml(webview, context);
+panel.webview.html = __getWebviewHtml__({
+  // vite 开发模式
+  serverUrl: process.env.VITE_DEV_SERVER_URL,
+  // vite 生产模式
+  webview,
+  context,
+  inputName: 'index',
+  injectCode: `<script>window.__FLAG1__=666;window.__FLAG2__=888;</script>`,
+});
 ```
 
 - `package.json`
@@ -170,39 +172,71 @@ export default defineConfig({
 - 页面一
 
 ```ts
-process.env.VITE_DEV_SERVER_URL
-  ? __getWebviewHtml__(process.env.VITE_DEV_SERVER_URL)
-  : __getWebviewHtml__(webview, context);
+__getWebviewHtml__({
+  // vite 开发模式
+  serverUrl: process.env.VITE_DEV_SERVER_URL,
+  // vite 生产模式
+  webview,
+  context,
+});
 ```
 
 - 页面二
 
 ```ts
-process.env.VITE_DEV_SERVER_URL
-  ? __getWebviewHtml__(`${process.env.VITE_DEV_SERVER_URL}/index2.html`)
-  : __getWebviewHtml__(webview, context, 'index2');
+__getWebviewHtml__({
+  // vite 开发模式
+  serverUrl: `${process.env.VITE_DEV_SERVER_URL}/index2.html`,
+  // vite 生产模式
+  webview,
+  context,
+  inputName: 'index2',
+});
+```
+
+- 单个页面通过不同参数来实现不同功能
+
+```ts
+__getWebviewHtml__({
+  // vite 开发模式
+  serverUrl: `${process.env.VITE_DEV_SERVER_URL}?id=666`,
+  // vite 生产模式
+  webview,
+  context,
+  injectCode: `<script>window.__id__=666;</script>`,
+});
 ```
 
 **getWebviewHtml** 说明
 
 ```ts
-/**
- *  `[vite serve]` 在开发模式获取webview的html
- * @param options serverUrl: vite开发服务器的url
- */
-function __getWebviewHtml__(options?: string | { serverUrl: string }): string;
+interface WebviewHtmlOptions {
+  /**
+   * `[vite serve]` vite开发服务器的url, 请用 `process.env.VITE_DEV_SERVER_URL`
+   */
+  serverUrl?: string;
+  /**
+   * `[vite build]` 扩展的 Webview 实例
+   */
+  webview: Webview;
+  /**
+   * `[vite build]` 扩展的 ExtensionContext 实例
+   */
+  context: ExtensionContext;
+  /**
+   * `[vite build]` vite build.rollupOptions.input 设置的名称. 默认 `index`.
+   */
+  inputName?: string;
+  /**
+   * `[vite build]` 向 head 元素的结束前注入代码 <head>--inject--
+   */
+  injectCode?: string;
+}
 
 /**
- *   `[vite build]` 在生产模式获取webview的html
- * @param webview 扩展的 Webview 实例
- * @param context 扩展的 ExtensionContext 实例
- * @param inputName vite build.rollupOptions.input 设置的名称. 默认 `index`.
+ * 获取webview的html
  */
-function __getWebviewHtml__(
-  webview: Webview,
-  context: ExtensionContext,
-  inputName?: string,
-): string;
+function __getWebviewHtml__(options?: WebviewHtmlOptions): string;
 ```
 
 ### 警告
@@ -406,6 +440,12 @@ pnpm build
 - [@tomjs/vscode-webview](https://npmjs.com/package/@tomjs/vscode-webview): 优化 `webview` 页面与 [vscode 扩展](https://marketplace.visualstudio.com/VSCode) 的 `postMessage` 问题
 
 ## 重要说明
+
+### v4.0.0
+
+**破坏性更新：**
+
+- 开发和生产的 `__getWebviewHtml__` 方法合并为同一个，参考 [getWebviewHtml](#getwebviewhtml)
 
 ### v3.0.0
 
