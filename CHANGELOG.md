@@ -1,3 +1,10 @@
+## [4.0.0](https://github.com/tomjs/vite-plugin-vscode/compare/v3.2.1...v4.0.0) (2025-03-20)
+
+- feat: merge the **getWebviewHtml** method for dev and prod into one [ebbb3ef](https://github.com/tomjs/vite-plugin-vscode/commit/ebbb3ef)
+- docs: fix readme-cn [26ad4f6](https://github.com/tomjs/vite-plugin-vscode/commit/26ad4f6)
+- docs: adjust the example of the Multi-files paragraph [dcd3f18](https://github.com/tomjs/vite-plugin-vscode/commit/dcd3f18)
+- chore: update deps and use eslint@9 [9d69c49](https://github.com/tomjs/vite-plugin-vscode/commit/9d69c49)
+
 ## [3.2.1](https://github.com/tomjs/vite-plugin-vscode/compare/v3.2.0...v3.2.1) (2024-12-05)
 
 - fix: husky [66cec8c](https://github.com/tomjs/vite-plugin-vscode/commit/66cec8c)
