@@ -13,10 +13,15 @@
 - 使用 [tsup](https://github.com/egoist/tsup) 快速构建 `扩展代码`
 - 配置简单，专注业务
 - 支持 `esm`和 `cjs`
+- 支持 ESM 扩展（vscode `v1.100.0+`）
 - 支持 webview `HMR`
 - 支持 [@types/vscode-webview](https://www.npmjs.com/package/@types/vscode-webview) 的 `acquireVsCodeApi`
 - 支持[多页面应用](https://cn.vitejs.dev/guide/build.html#multi-page-app)
 - 支持 `vue` 、`react` 等其他 `vite` 支持的[框架](https://cn.vitejs.dev/guide/#trying-vite-online)
+
+### ESM 扩展
+
+NodeJS 扩展现在(`v1.100.0+`)支持使用 JavaScript 模块 (ESM) 的扩展。它只需要在扩展的 `package.json` 文件中添加 `"type": "module"` 条目即可。这样，JavaScript 代码就可以使用 `import` 和 `export` 语句，包括特殊的模块 `import('vscode')`
 
 ## 安装
 
@@ -431,6 +436,7 @@ pnpm build
 
 - [react](./examples/react)：简单的 react 示例。
 - [vue](./examples/vue)：简单的 vue 示例。
+- [vue-esm](./examples/vue-esm)：简单的 vue（ESM 扩展）示例。
 - [vue-import](./examples/vue-import)：动态 import() 和多页面示例。
 
 ## 关联

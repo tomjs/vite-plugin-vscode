@@ -80,7 +80,7 @@
     "@types/lodash.clonedeep": "^4.5.9",
     "@types/lodash.merge": "^4.6.9",
     "@types/node": "18.19.67",
-    "@vitejs/plugin-vue": "^5.1.4",
+    "@vitejs/plugin-vue": "^5.2.4",
     "cross-env": "^7.0.3",
     "eslint": "^9.16.0",
     "globals": "^15.13.0",
@@ -92,7 +92,7 @@
     "stylelint": "^16.11.0",
     "tsx": "^4.19.2",
     "typescript": "~5.3.3",
-    "vite": "^5.4.11",
+    "vite": "^6.3.5",
     "vue-tsc": "^2.1.10"
   },
   "peerDependencies": {

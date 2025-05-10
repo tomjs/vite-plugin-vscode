@@ -1,8 +1,9 @@
 {
-  "name": "template-react",
+  "name": "vue-esm",
   "private": true,
   "version": "0.0.0",
-  "description": "vite + react",
+  "type": "module",
+  "description": "vite + vue",
   "engines": {
     "node": ">=18",
     "vscode": "^1.75.0"
@@ -20,22 +21,17 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tomjs/vscode-webview": "^2.0.0",
     "@vscode/webview-ui-toolkit": "^1.4.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "vue": "^3.5.11"
   },
   "devDependencies": {
-    "@tomjs/tsconfig": "^1.7.1",
     "@tomjs/vite-plugin-vscode": "workspace:^",
-    "@types/react": "^18.3.3",
-    "@types/react-dom": "^18.3.0",
-    "@types/vscode": "^1.93.0",
-    "@types/vscode-webview": "^1.57.5",
-    "@vitejs/plugin-react": "^4.4.1",
-    "@vitejs/plugin-react-swc": "^3.9.0"
+    "@types/vscode": "^1.75.0",
+    "@types/vscode-webview": "^1.57.5"
   }
 }

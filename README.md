@@ -13,10 +13,15 @@ In development mode, inject the same code of [@tomjs/vscode-extension-webview](h
 - Use [tsup](https://github.com/egoist/tsup) to quickly build `extension code`
 - Simple configuration, focus on business
 - Support `esm` and `cjs`
+- Support ESM extension (vscode `v1.100.0+`)
 - Support webview `HMR`
 - Support `acquireVsCodeApi` of [@types/vscode-webview](https://www.npmjs.com/package/@types/vscode-webview)
 - Support [Multi-Page App](https://vitejs.dev/guide/build.html#multi-page-app)
 - Supports `vue` and `react` and other [frameworks](https://cn.vitejs.dev/guide/#trying-vite-online) supported by `vite`
+
+### ESM extension
+
+The NodeJS extension host now (`v1.100.0+`) supports extensions that use JavaScript-modules (ESM). All it needs is the `"type": "module"` entry in your extension's `package.json` file. With that, the JavaScript code can use `import` and `export` statements, including the special module `import('vscode')`.
 
 ## Install
 
@@ -427,6 +432,7 @@ Open the [examples](./examples) directory, there are `vue` and `react` examples.
 
 - [react](./examples/react): Simple react example.
 - [vue](./examples/vue): Simple vue example.
+- [vue-esm](./examples/vue-esm): Simple vue (ESM Extension) example.
 - [vue-import](./examples/vue-import): Dynamic import() and multi-page examples.
 
 ## Related

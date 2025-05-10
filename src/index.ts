@@ -33,6 +33,8 @@ function getPkg() {
 
 function preMergeOptions(options?: PluginOptions): PluginOptions {
   const pkg = getPkg();
+  const format = pkg.type === 'module' ? 'esm' : 'cjs';
+
   const opts: PluginOptions = merge(
     {
       webview: true,
@@ -41,8 +43,8 @@ function preMergeOptions(options?: PluginOptions): PluginOptions {
       extension: {
         entry: 'extension/index.ts',
         outDir: 'dist-extension',
-        target: ['es2019', 'node14'],
-        format: 'cjs',
+        target: format === 'esm' ? ['node18'] : ['es2019', 'node14'],
+        format,
         shims: true,
         clean: true,
         dts: false,
