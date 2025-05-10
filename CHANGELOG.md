@@ -1,3 +1,7 @@
+## [4.1.0](https://github.com/tomjs/vite-plugin-vscode/compare/v4.0.0...v4.1.0) (2025-05-10)
+
+- feat: support esm extension #27 [1a88b92](https://github.com/tomjs/vite-plugin-vscode/commit/1a88b92)
+
 ## [4.0.0](https://github.com/tomjs/vite-plugin-vscode/compare/v3.2.1...v4.0.0) (2025-03-20)
 
 - feat: merge the **getWebviewHtml** method for dev and prod into one [ebbb3ef](https://github.com/tomjs/vite-plugin-vscode/commit/ebbb3ef)
