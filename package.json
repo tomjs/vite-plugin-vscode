@@ -38,7 +38,7 @@
     "env.d.ts"
   ],
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   },
   "packageManager": "pnpm@9.1.4",
   "publishConfig": {
@@ -68,7 +68,7 @@
     "lodash.clonedeep": "^4.5.0",
     "lodash.merge": "^4.6.2",
     "node-html-parser": "^6.1.13",
-    "tsup": "7.2.0"
+    "tsup": "^8.4.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.6.0",

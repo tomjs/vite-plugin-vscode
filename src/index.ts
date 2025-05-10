@@ -43,7 +43,7 @@ function preMergeOptions(options?: PluginOptions): PluginOptions {
       extension: {
         entry: 'extension/index.ts',
         outDir: 'dist-extension',
-        target: format === 'esm' ? ['node18'] : ['es2019', 'node14'],
+        target: format === 'esm' ? ['node20'] : ['es2019', 'node14'],
         format,
         shims: true,
         clean: true,
