@@ -1,3 +1,7 @@
+## [4.2.0](https://github.com/tomjs/vite-plugin-vscode/compare/v4.1.0...v4.2.0) (2025-05-10)
+
+- feat: use tsup@8.4 and change target to node18 for esm [e0b7c7c](https://github.com/tomjs/vite-plugin-vscode/commit/e0b7c7c)
+
 ## [4.1.0](https://github.com/tomjs/vite-plugin-vscode/compare/v4.0.0...v4.1.0) (2025-05-10)
 
 - feat: support esm extension #27 [1a88b92](https://github.com/tomjs/vite-plugin-vscode/commit/1a88b92)
