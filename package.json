@@ -63,6 +63,7 @@
     "vite": ">=2"
   },
   "dependencies": {
+    "@tomjs/logger": "^1.4.0",
     "@tomjs/node": "^2.2.3",
     "dayjs": "^1.11.13",
     "execa": "^5.1.1",
