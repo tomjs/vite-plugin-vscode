@@ -1,3 +1,11 @@
+## [4.2.1](https://github.com/tomjs/vite-plugin-vscode/compare/v4.2.0...v4.2.1) (2025-05-11)
+
+- feat: use @tomjs/logger  [9ec87cb](https://github.com/tomjs/vite-plugin-vscode/commit/9ec87cb)
+- fix: examples eslint config  [236f533](https://github.com/tomjs/vite-plugin-vscode/commit/236f533)
+- chore: update packageManager to v10  [242f2b5](https://github.com/tomjs/vite-plugin-vscode/commit/242f2b5)
+- fix: remove husky  [06b5a0b](https://github.com/tomjs/vite-plugin-vscode/commit/06b5a0b)
+- chore: update lint and format code  [1479751](https://github.com/tomjs/vite-plugin-vscode/commit/1479751)
+
 ## [4.2.0](https://github.com/tomjs/vite-plugin-vscode/compare/v4.1.0...v4.2.0) (2025-05-10)
 
 - feat: use tsup@8.4 and change target to node18 for esm [e0b7c7c](https://github.com/tomjs/vite-plugin-vscode/commit/e0b7c7c)
