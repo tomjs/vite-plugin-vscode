@@ -1,23 +1,22 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import { allComponents, provideVSCodeDesignSystem } from '@vscode/webview-ui-toolkit';
+import { ref } from 'vue';
 import { vscodeApi } from './utils';
 
 provideVSCodeDesignSystem().register(allComponents);
 
-// @ts-ignore
 console.log('--inject--', window.__FLAG1__, window.__FLAG2__);
 
 const message = ref('');
 const state = ref('');
 
-const onSetState = () => {
+function onSetState() {
   vscodeApi.setState(state.value);
-};
+}
 
-const onGetState = () => {
+function onGetState() {
   state.value = vscodeApi.getState() || '';
-};
+}
 
 function onPostMessage() {
   vscodeApi.postMessage({
@@ -46,9 +45,13 @@ vscodeApi.on('hello3', (data: any) => {
 <template>
   <main>
     <h1>Hello Vue!</h1>
-    <vscode-button @click="onPostMessage">Post Message</vscode-button>
+    <vscode-button @click="onPostMessage">
+      Post Message
+    </vscode-button>
     <div style="margin-top: 8px">
-      <vscode-button @click="onPostAndReceive"> Post Message And Receive </vscode-button>
+      <vscode-button @click="onPostAndReceive">
+        Post Message And Receive
+      </vscode-button>
       <span v-if="receive" style="margin-left: 8px">{{ receive }}</span>
     </div>
     <div>
@@ -63,8 +66,12 @@ vscodeApi.on('hello3', (data: any) => {
       </vscode-text-field>
       <div>State is: {{ state }}</div>
       <div>
-        <vscode-button @click="onSetState">setState</vscode-button>
-        <vscode-button style="margin-left: 8px" @click="onGetState">getState</vscode-button>
+        <vscode-button @click="onSetState">
+          setState
+        </vscode-button>
+        <vscode-button style="margin-left: 8px" @click="onGetState">
+          getState
+        </vscode-button>
       </div>
     </div>
   </main>
