@@ -23,7 +23,6 @@ export class WebviewHelper {
           case 'hello3':
             window.showInformationMessage(data);
             webview.postMessage({ type, data: Date.now() });
-            return;
         }
       },
       undefined,

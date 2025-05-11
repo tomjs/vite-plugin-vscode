@@ -53,7 +53,7 @@ export interface PluginOptions {
   /**
    * Recommended switch. Default is true.
    * if true, will have the following default behavior:
-   * * will change the extension/webview outDir to be parallel outDir;
+   * will change the extension/webview outDir to be parallel outDir;
    * eg. if vite build.outDir is 'dist', will change extension/webview to 'dist/extension' and 'dist/webview'
    * @default true
    */

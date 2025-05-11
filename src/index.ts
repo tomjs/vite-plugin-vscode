@@ -1,3 +1,6 @@
+import type { Options as TsupOptions } from 'tsup';
+import type { PluginOption, ResolvedConfig, UserConfig } from 'vite';
+import type { ExtensionOptions, PluginOptions, WebviewOption } from './types';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -5,11 +8,9 @@ import { cwd } from 'node:process';
 import { emptyDirSync, readFileSync, readJsonSync } from '@tomjs/node';
 import merge from 'lodash.merge';
 import { parse as htmlParser } from 'node-html-parser';
-import { build as tsupBuild, type Options as TsupOptions } from 'tsup';
-import type { PluginOption, ResolvedConfig, UserConfig } from 'vite';
+import { build as tsupBuild } from 'tsup';
 import { PACKAGE_NAME, WEBVIEW_METHOD_NAME } from './constants';
 import { createLogger } from './logger';
-import type { ExtensionOptions, PluginOptions, WebviewOption } from './types';
 import { resolveServerUrl } from './utils';
 
 export * from './types';
@@ -61,7 +62,7 @@ function preMergeOptions(options?: PluginOptions): PluginOptions {
 
   const opt = opts.extension || {};
 
-  ['entry', 'format'].forEach(prop => {
+  ['entry', 'format'].forEach((prop) => {
     const value = opt[prop];
     if (!Array.isArray(value) && value) {
       opt[prop] = [value];
@@ -69,7 +70,8 @@ function preMergeOptions(options?: PluginOptions): PluginOptions {
   });
   if (isDev) {
     opt.sourcemap = opt.sourcemap ?? true;
-  } else {
+  }
+  else {
     opt.minify ??= true;
   }
 
@@ -109,9 +111,9 @@ function genProdWebviewCode(cache: Record<string, string>, webview?: WebviewOpti
       root?.insertAdjacentHTML('beforeend', '<head></head>');
     }
 
-    const csp =
-      webview?.csp ||
-      `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src {{cspSource}} 'unsafe-inline'; script-src 'nonce-{{nonce}}' 'unsafe-eval';">`;
+    const csp
+      = webview?.csp
+        || `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src {{cspSource}} 'unsafe-inline'; script-src 'nonce-{{nonce}}' 'unsafe-eval';">`;
     head.insertAdjacentHTML('afterbegin', csp);
 
     if (csp && csp.includes('{{nonce}}')) {
@@ -120,9 +122,9 @@ function genProdWebviewCode(cache: Record<string, string>, webview?: WebviewOpti
         link: 'href',
       };
 
-      Object.keys(tags).forEach(tag => {
+      Object.keys(tags).forEach((tag) => {
         const elements = root.querySelectorAll(tag);
-        elements.forEach(element => {
+        elements.forEach((element) => {
           const attr = element.getAttribute(tags[tag]);
           if (attr) {
             element.setAttribute(tags[tag], `{{baseUri}}${attr}`);
@@ -201,7 +203,8 @@ export function useVSCodePlugin(options?: PluginOptions): PluginOption {
     let rollupOutput = config?.build?.rollupOptions?.output ?? {};
     if (Array.isArray(rollupOutput)) {
       rollupOutput.map(s => Object.assign(s, output));
-    } else {
+    }
+    else {
       rollupOutput = Object.assign({}, rollupOutput, output);
     }
 
@@ -265,12 +268,12 @@ export function useVSCodePlugin(options?: PluginOptions): PluginOption {
                     {
                       name: '@tomjs:vscode:inject',
                       setup(build) {
-                        build.onLoad({ filter: /\.ts$/ }, async args => {
+                        build.onLoad({ filter: /\.ts$/ }, async (args) => {
                           const file = fs.readFileSync(args.path, 'utf-8');
                           if (file.includes(`${webview.name}(`)) {
                             return {
                               contents:
-                                `import ${webview.name} from '${PACKAGE_NAME}/webview';\n` + file,
+                                `import ${webview.name} from '${PACKAGE_NAME}/webview';\n${file}`,
                               loader: 'ts',
                             };
                           }
@@ -287,7 +290,8 @@ export function useVSCodePlugin(options?: PluginOptions): PluginOption {
 
                 if (buildCount++ > 1) {
                   logger.info('extension rebuild success');
-                } else {
+                }
+                else {
                   logger.info('extension build success');
                 }
               },
@@ -308,7 +312,8 @@ export function useVSCodePlugin(options?: PluginOptions): PluginOption {
             )
           ) {
             port = 8097;
-          } else if (resolvedConfig.plugins.find(s => ['vite:vue', 'vite:vue2'].includes(s.name))) {
+          }
+          else if (resolvedConfig.plugins.find(s => ['vite:vue', 'vite:vue2'].includes(s.name))) {
             port = 8098;
           }
 
@@ -317,7 +322,8 @@ export function useVSCodePlugin(options?: PluginOptions): PluginOption {
               /<head>/i,
               `<head><script src="http://localhost:${port}"></script>`,
             );
-          } else if (!devtoolsFlag) {
+          }
+          else if (!devtoolsFlag) {
             devtoolsFlag = true;
             logger.warn('Only support react-devtools and vue-devtools!');
           }
@@ -374,11 +380,11 @@ export function useVSCodePlugin(options?: PluginOptions): PluginOption {
                   {
                     name: '@tomjs:vscode:inject',
                     setup(build) {
-                      build.onLoad({ filter: /\.ts$/ }, async args => {
+                      build.onLoad({ filter: /\.ts$/ }, async (args) => {
                         const file = fs.readFileSync(args.path, 'utf-8');
                         if (file.includes(`${webview.name}(`)) {
                           return {
-                            contents: `import ${webview.name} from \`${webviewPath}\`;\n` + file,
+                            contents: `import ${webview.name} from \`${webviewPath}\`;\n${file}`,
                             loader: 'ts',
                           };
                         }

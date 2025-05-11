@@ -9,7 +9,8 @@ patchAcquireVsCodeApi();
 function onDomReady(callback) {
   if (document.readyState === 'interactive' || document.readyState === 'complete') {
     callback();
-  } else {
+  }
+  else {
     document.addEventListener('DOMContentLoaded', callback);
   }
 }
@@ -22,7 +23,7 @@ function patchInitData(data) {
 
     document.documentElement.style.cssText = root.cssText;
     document.body.className = body.className;
-    Object.keys(body.dataset).forEach(key => {
+    Object.keys(body.dataset).forEach((key) => {
       document.body.dataset[key] = body.dataset[key];
     });
 
@@ -40,11 +41,13 @@ function patchAcquireVsCodeApi() {
       console.log(TAG, 'mock acquireVsCodeApi.postMessage:', message);
       window.parent.postMessage({ type: POST_MESSAGE_TYPE, data: message }, '*');
     }
+
     getState() {
       console.log(TAG, 'mock acquireVsCodeApi.getState');
       const state = sessionStorage.getItem('vscodeState');
       return state ? JSON.parse(state) : undefined;
     }
+
     setState(newState: any) {
       console.log(TAG, 'mock acquireVsCodeApi.setState:', newState);
       sessionStorage.setItem('vscodeState', JSON.stringify(newState));
@@ -54,19 +57,19 @@ function patchAcquireVsCodeApi() {
 
   console.log(TAG, 'patch acquireVsCodeApi');
   let api;
-  // @ts-ignore
   window.acquireVsCodeApi = () => {
     if (!api) {
       api = new AcquireVsCodeApi();
       return api;
-    } else {
+    }
+    else {
       return api;
     }
   };
 }
 
 const INIT_TYPE = '[vscode:extension]:init';
-window.addEventListener('message', e => {
+window.addEventListener('message', (e) => {
   const { type, data } = e.data || {};
   if (!e.origin.startsWith('vscode-webview://') || type !== INIT_TYPE) {
     return;
@@ -76,26 +79,32 @@ window.addEventListener('message', e => {
 });
 
 const KEYBOARD_EVENT_TYPE = '[vscode:client]:commands';
-const isMac = navigator.userAgent.indexOf('Macintosh') >= 0;
-document.addEventListener('keydown', e => {
+const isMac = navigator.userAgent.includes('Macintosh');
+document.addEventListener('keydown', (e) => {
   console.log(e);
   const { metaKey, shiftKey, ctrlKey, altKey, key } = e;
   if (key === 'F1') {
     window.parent.postMessage({ type: KEYBOARD_EVENT_TYPE, data: 'F1' }, '*');
-  } else if (isMac && metaKey && !altKey && !ctrlKey) {
+  }
+  else if (isMac && metaKey && !altKey && !ctrlKey) {
     if (shiftKey) {
       if (key === 'z') {
         document.execCommand('redo');
       }
-    } else if (key === 'a') {
+    }
+    else if (key === 'a') {
       document.execCommand('selectAll');
-    } else if (key === 'c') {
+    }
+    else if (key === 'c') {
       document.execCommand('copy');
-    } else if (key === 'v') {
+    }
+    else if (key === 'v') {
       document.execCommand('paste');
-    } else if (key === 'x') {
+    }
+    else if (key === 'x') {
       document.execCommand('cut');
-    } else if (key === 'z') {
+    }
+    else if (key === 'z') {
       document.execCommand('undo');
     }
   }

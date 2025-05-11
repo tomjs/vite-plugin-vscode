@@ -1,8 +1,8 @@
 {
   "extends": "@tomjs/tsconfig/vue.json",
-  "include": ["src/webview/client.ts"],
   "compilerOptions": {
-    "noEmit": false,
-    "composite": true
-  }
+    "composite": true,
+    "noEmit": false
+  },
+  "include": ["src/webview/client.ts", "src/webview/window.d.ts"]
 }

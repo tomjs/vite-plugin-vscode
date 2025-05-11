@@ -19,7 +19,8 @@ export class MainPanel {
   public static render(context: ExtensionContext) {
     if (MainPanel.currentPanel) {
       MainPanel.currentPanel._panel.reveal(ViewColumn.One);
-    } else {
+    }
+    else {
       const panel = window.createWebviewPanel('showHelloWorld', 'Hello World', ViewColumn.One, {
         enableScripts: true,
       });

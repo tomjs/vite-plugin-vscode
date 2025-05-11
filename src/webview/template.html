@@ -49,7 +49,7 @@
       function sendInitData(iframe) {
         console.log(TAG + 'init data');
         const dataset = {};
-        Object.keys(document.body.dataset).forEach(key => {
+        Object.keys(document.body.dataset).forEach((key) => {
           dataset[key] = document.body.dataset[key];
         });
 

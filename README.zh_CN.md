@@ -112,9 +112,9 @@ panel.webview.html = __getWebviewHtml__({
 - `vite.config.ts`
 
 ```ts
-import { defineConfig } from 'vite';
 import vscode from '@tomjs/vite-plugin-vscode';
 import vue from '@vitejs/plugin-vue';
+import { defineConfig } from 'vite';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -138,9 +138,9 @@ export default defineConfig({
 - `vite.config.ts`
 
 ```ts
-import { defineConfig } from 'vite';
 import vscode from '@tomjs/vite-plugin-vscode';
 import react from '@vitejs/plugin-react-swc';
+import { defineConfig } from 'vite';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -260,12 +260,12 @@ const value = await acquireVsCodeApi().getState();
 
 ### PluginOptions
 
-| 参数名 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| recommended | `boolean` | `true` | 这个选项是为了提供推荐的默认参数和行为 |
-| extension | [ExtensionOptions](#ExtensionOptions) |  | vscode extension 可选配置 |
-| webview | `boolean` \| `string` \| [WebviewOption](#WebviewOption) | `__getWebviewHtml__` | 注入 html 代码 |
-| devtools | `boolean` | `true` | 注入 script 代码用于 [react-devtools](https://github.com/facebook/react/tree/main/packages/react-devtools) 或 [vue-devtools](https://devtools.vuejs.org/guide/standalone) 调试 |
+| 参数名      | 类型                                                     | 默认值               | 说明                                                                                                                                                                           |
+| ----------- | -------------------------------------------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| recommended | `boolean`                                                | `true`               | 这个选项是为了提供推荐的默认参数和行为                                                                                                                                         |
+| extension   | [ExtensionOptions](#ExtensionOptions)                    |                      | vscode extension 可选配置                                                                                                                                                      |
+| webview     | `boolean` \| `string` \| [WebviewOption](#WebviewOption) | `__getWebviewHtml__` | 注入 html 代码                                                                                                                                                                 |
+| devtools    | `boolean`                                                | `true`               | 注入 script 代码用于 [react-devtools](https://github.com/facebook/react/tree/main/packages/react-devtools) 或 [vue-devtools](https://devtools.vuejs.org/guide/standalone) 调试 |
 
 #### Notice
 
@@ -298,18 +298,18 @@ const value = await acquireVsCodeApi().getState();
 
 继承自 [tsup](https://tsup.egoist.dev/) 的 [Options](https://paka.dev/npm/tsup)，添加了一些默认值，方便使用。
 
-| 参数名 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| entry | `string` | `extension/index.ts` | 入口文件 |
-| outDir | `string` | `dist-extension/main` | 输出文件夹 |
-| onSuccess | `() => Promise<void \| undefined \| (() => void \| Promise<void>)>` | `undefined` | 构建成功后运行的回调函数 |
+| 参数名    | 类型                                                                | 默认值                | 说明                     |
+| --------- | ------------------------------------------------------------------- | --------------------- | ------------------------ |
+| entry     | `string`                                                            | `extension/index.ts`  | 入口文件                 |
+| outDir    | `string`                                                            | `dist-extension/main` | 输出文件夹               |
+| onSuccess | `() => Promise<void \| undefined \| (() => void \| Promise<void>)>` | `undefined`           | 构建成功后运行的回调函数 |
 
 ### WebviewOption
 
-| 参数名 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| name | `string` | `__getWebviewHtml__` | 注入的方法名 |
-| csp | `string` | `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src {{cspSource}} 'unsafe-inline'; script-src 'nonce-{{nonce}}' 'unsafe-eval';">` | webview 的 `CSP` |
+| 参数名 | 类型     | 默认值                                                                                                                                                           | 说明             |
+| ------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
+| name   | `string` | `__getWebviewHtml__`                                                                                                                                             | 注入的方法名     |
+| csp    | `string` | `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src {{cspSource}} 'unsafe-inline'; script-src 'nonce-{{nonce}}' 'unsafe-eval';">` | webview 的 `CSP` |
 
 - `{{cspSource}}`: [webview.cspSource](https://code.visualstudio.com/api/references/vscode-api#Webview)
 - `{{nonce}}`: uuid

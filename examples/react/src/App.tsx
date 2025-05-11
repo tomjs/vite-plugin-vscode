@@ -30,13 +30,19 @@ function App() {
         <VSCodeTextField value={message} onInput={e => setMessage(e.target.value)}>
           Please enter a message
         </VSCodeTextField>
-        <div>Message is: {message}</div>
+        <div>
+          Message is:
+          {message}
+        </div>
       </div>
       <div>
         <VSCodeTextField value={state} onInput={e => setState(e.target.value)}>
           Please enter a state
         </VSCodeTextField>
-        <div>State is: {state}</div>
+        <div>
+          State is:
+          {state}
+        </div>
         <div>
           <VSCodeButton onClick={onSetState}>setState</VSCodeButton>
           <VSCodeButton style={{ marginLeft: '8px' }} onClick={onGetState}>

@@ -1,14 +1,14 @@
 {
+  "publisher": "tomjs-test",
   "name": "template-react",
-  "private": true,
   "version": "0.0.0",
+  "private": true,
   "description": "vite + react",
+  "main": "dist/extension/index.js",
   "engines": {
     "node": ">=18",
     "vscode": "^1.75.0"
   },
-  "publisher": "tomjs-test",
-  "main": "dist/extension/index.js",
   "activationEvents": [],
   "contributes": {
     "commands": [

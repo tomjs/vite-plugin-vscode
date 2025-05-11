@@ -49,6 +49,6 @@ export class Logger {
   }
 }
 
-export const createLogger = (tag?: string) => {
+export function createLogger(tag?: string) {
   return new Logger(tag || PLUGIN_NAME, true);
-};
+}

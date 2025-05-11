@@ -112,9 +112,9 @@ panel.webview.html = __getWebviewHtml__({
 - `vite.config.ts`
 
 ```ts
-import { defineConfig } from 'vite';
 import vscode from '@tomjs/vite-plugin-vscode';
 import vue from '@vitejs/plugin-vue';
+import { defineConfig } from 'vite';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -138,9 +138,9 @@ export default defineConfig({
 - `vite.config.ts`
 
 ```ts
-import { defineConfig } from 'vite';
 import vscode from '@tomjs/vite-plugin-vscode';
 import react from '@vitejs/plugin-react-swc';
+import { defineConfig } from 'vite';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -155,9 +155,9 @@ See [vue-import](./examples/vue-import) example
 - `vite.config.ts`
 
 ```ts
-import { defineConfig } from 'vite';
 import path from 'node:path';
 import vscode from '@tomjs/vite-plugin-vscode';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
   plugins: [vscode()],
@@ -261,12 +261,12 @@ const value = await acquireVsCodeApi().getState();
 
 ### PluginOptions
 
-| Property | Type | Default | Description |
-| --- | --- | --- | --- |
-| recommended | `boolean` | `true` | This option is intended to provide recommended default parameters and behavior. |
-| extension | [ExtensionOptions](#ExtensionOptions) |  | Configuration options for the vscode extension. |
-| webview | `boolean` \| `string` \| [WebviewOption](#WebviewOption) | `__getWebviewHtml__` | Inject html code |
-| devtools | `boolean` | `true` | Inject script code for [react-devtools](https://github.com/facebook/react/tree/main/packages/react-devtools) or [vue-devtools](https://devtools.vuejs.org/guide/standalone) debugging |
+| Property    | Type                                                     | Default              | Description                                                                                                                                                                           |
+| ----------- | -------------------------------------------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| recommended | `boolean`                                                | `true`               | This option is intended to provide recommended default parameters and behavior.                                                                                                       |
+| extension   | [ExtensionOptions](#ExtensionOptions)                    |                      | Configuration options for the vscode extension.                                                                                                                                       |
+| webview     | `boolean` \| `string` \| [WebviewOption](#WebviewOption) | `__getWebviewHtml__` | Inject html code                                                                                                                                                                      |
+| devtools    | `boolean`                                                | `true`               | Inject script code for [react-devtools](https://github.com/facebook/react/tree/main/packages/react-devtools) or [vue-devtools](https://devtools.vuejs.org/guide/standalone) debugging |
 
 #### Notice
 
@@ -298,18 +298,18 @@ During development, support standalone development tool applications for `react`
 
 Based on [Options](https://paka.dev/npm/tsup) of [tsup](https://tsup.egoist.dev/), some default values are added for ease of use.
 
-| Property | Type | Default | Description |
-| --- | --- | --- | --- |
-| entry | `string` | `extension/index.ts` | The vscode extension entry file. |
-| outDir | `string` | `dist-extension/main` | The output directory for the vscode extension file |
-| onSuccess | `() => Promise<void \| undefined \| (() => void \| Promise<void>)>` | `undefined` | A function that will be executed after the build succeeds. |
+| Property  | Type                                                                | Default               | Description                                                |
+| --------- | ------------------------------------------------------------------- | --------------------- | ---------------------------------------------------------- |
+| entry     | `string`                                                            | `extension/index.ts`  | The vscode extension entry file.                           |
+| outDir    | `string`                                                            | `dist-extension/main` | The output directory for the vscode extension file         |
+| onSuccess | `() => Promise<void \| undefined \| (() => void \| Promise<void>)>` | `undefined`           | A function that will be executed after the build succeeds. |
 
 ### WebviewOption
 
-| Property | Type | Default | Description |
-| --- | --- | --- | --- |
-| name | `string` | `__getWebviewHtml__` | The inject method name |
-| csp | `string` | `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src {{cspSource}} 'unsafe-inline'; script-src 'nonce-{{nonce}}' 'unsafe-eval';">` | The `CSP` meta for the webview |
+| Property | Type     | Default                                                                                                                                                          | Description                    |
+| -------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ |
+| name     | `string` | `__getWebviewHtml__`                                                                                                                                             | The inject method name         |
+| csp      | `string` | `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src {{cspSource}} 'unsafe-inline'; script-src 'nonce-{{nonce}}' 'unsafe-eval';">` | The `CSP` meta for the webview |
 
 - `{{cspSource}}`: [webview.cspSource](https://code.visualstudio.com/api/references/vscode-api#Webview)
 - `{{nonce}}`: uuid

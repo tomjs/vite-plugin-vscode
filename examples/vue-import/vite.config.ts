@@ -25,7 +25,7 @@ export default defineConfig({
       input: [path.resolve(__dirname, 'index.html'), path.resolve(__dirname, 'index2.html')],
       output: {
         // https://rollupjs.org/configuration-options/#output-manualchunks
-        manualChunks: id => {
+        manualChunks: (id) => {
           if (id.includes('pixi.js')) {
             return 'pixi';
           }

@@ -19,7 +19,7 @@ export function getWebviewHtml(options: WebviewHtmlOptions) {
 
   Object.assign(opts, options);
 
-  return (template as string).replace(new RegExp('{{serverUrl}}', 'g'), opts.serverUrl);
+  return (template as string).replace(/\{\{serverUrl\}\}/g, opts.serverUrl);
 }
 
 export default getWebviewHtml;
