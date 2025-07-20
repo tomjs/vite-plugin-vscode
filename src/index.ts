@@ -51,7 +51,7 @@ function preMergeOptions(options?: PluginOptions): PluginOptions {
         shims: true,
         clean: true,
         dts: false,
-        treeshake: isDev ? false : 'smallest',
+        treeshake: !isDev,
         outExtension() {
           return { js: '.js' };
         },
@@ -284,20 +284,6 @@ export function useVSCodePlugin(options?: PluginOptions): PluginOption {
                         }
                         return code;
                       },
-                      // setup(build) {
-                      //   build.onLoad({ filter: /\.ts$/ }, async (args) => {
-                      //     const file = fs.readFileSync(args.path, 'utf-8');
-                      //     if (file.includes(`${webview.name}(`)) {
-                      //       return {
-                      //         contents:
-                      //           `import ${webview.name} from '${PACKAGE_NAME}/webview';\n${file}`,
-                      //         loader: 'ts',
-                      //       };
-                      //     }
-
-                      //     return {};
-                      //   });
-                      // },
                     },
                   ],
               async onSuccess() {
@@ -398,23 +384,10 @@ export function useVSCodePlugin(options?: PluginOptions): PluginOption {
                     name: '@tomjs:vscode:inject',
                     transform(code) {
                       if (code.includes(`${webview.name}(`)) {
-                        return `import ${webview.name} from \`${webviewPath}\`;\n${code}`;
+                        return `import ${webview.name} from "${webviewPath}";\n${code}`;
                       }
                       return code;
                     },
-                    // setup(build) {
-                    //   build.onLoad({ filter: /\.ts$/ }, async (args) => {
-                    //     const file = fs.readFileSync(args.path, 'utf-8');
-                    //     if (file.includes(`${webview.name}(`)) {
-                    //       return {
-                    //         contents: `import ${webview.name} from \`${webviewPath}\`;\n${file}`,
-                    //         loader: 'ts',
-                    //       };
-                    //     }
-
-                    //     return {};
-                    //   });
-                    // },
                   },
                 ],
             async onSuccess() {
