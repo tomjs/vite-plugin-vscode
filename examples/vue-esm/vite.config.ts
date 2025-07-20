@@ -14,7 +14,7 @@ export default defineConfig({
     }),
     vscode({
       webview: {
-        csp: '<meta http-equiv="Content-Security-Policy" />',
+        // csp: '<meta http-equiv="Content-Security-Policy" />',
       },
     }),
   ],
