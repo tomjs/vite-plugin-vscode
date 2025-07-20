@@ -1,0 +1,10 @@
+{
+  "extends": "@tomjs/tsconfig/node.json",
+  "references": [
+    {
+      "path": "./tsconfig.web.json"
+    }
+  ],
+  "include": ["src/**/*.ts", "src/**/*.d.ts"],
+  "exclude": ["src/webview/client.ts"]
+}

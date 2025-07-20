@@ -1,0 +1,7 @@
+{
+  "extends": "@tomjs/tsconfig/node.json",
+  "compilerOptions": {
+    "composite": true
+  },
+  "include": ["extension", "vite.config.ts"]
+}

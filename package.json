@@ -1,0 +1,99 @@
+{
+  "name": "@tomjs/vite-plugin-vscode",
+  "version": "4.2.1",
+  "packageManager": "pnpm@10.10.0",
+  "description": "Use vue/react to develop 'vscode extension webview', supporting esm/cjs",
+  "author": {
+    "name": "Tom Gao",
+    "email": "tom@tomgao.cc"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tomjs/vite-plugin-vscode.git"
+  },
+  "keywords": [
+    "vite",
+    "plugin",
+    "vscode",
+    "html",
+    "hmr",
+    "extension",
+    "webview",
+    "esm",
+    "cjs"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./webview": {
+      "import": "./dist/webview.mjs",
+      "require": "./dist/webview.js"
+    },
+    "./client": "./dist/client.global.js",
+    "./env": "./env.d.ts"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "env.d.ts"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "scripts": {
+    "dev": "pnpm clean && tsdown --watch",
+    "build": "pnpm clean && tsdown",
+    "clean": "rimraf ./dist",
+    "lint": "run-s lint:stylelint lint:eslint",
+    "lint:eslint": "eslint --fix",
+    "lint:stylelint": "stylelint \"examples/**/*.{css,scss,less,vue,html}\" --fix --cache",
+    "prepare": "simple-git-hooks",
+    "prepublishOnly": "pnpm build"
+  },
+  "peerDependencies": {
+    "vite": ">=2"
+  },
+  "dependencies": {
+    "@tomjs/logger": "^1.4.0",
+    "@tomjs/node": "^2.2.3",
+    "dayjs": "^1.11.13",
+    "execa": "^5.1.1",
+    "kolorist": "^1.8.0",
+    "lodash.clonedeep": "^4.5.0",
+    "lodash.merge": "^4.6.2",
+    "node-html-parser": "^6.1.13",
+    "tsdown": "^0.12.9"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@tomjs/commitlint": "^4.0.0",
+    "@tomjs/eslint": "^5.0.0",
+    "@tomjs/stylelint": "^6.0.0",
+    "@tomjs/tsconfig": "^1.7.2",
+    "@types/lodash.clonedeep": "^4.5.9",
+    "@types/lodash.merge": "^4.6.9",
+    "@types/node": "18.19.100",
+    "@vitejs/plugin-vue": "^5.2.4",
+    "cross-env": "^7.0.3",
+    "eslint": "^9.26.0",
+    "globals": "^15.15.0",
+    "lint-staged": "^15.5.2",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^6.0.1",
+    "simple-git-hooks": "^2.13.0",
+    "stylelint": "^16.19.1",
+    "tsx": "^4.19.4",
+    "typescript": "~5.7.3",
+    "vite": "^6.3.5",
+    "vue-tsc": "^2.2.10"
+  }
+}

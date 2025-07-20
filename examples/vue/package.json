@@ -1,0 +1,37 @@
+{
+  "publisher": "tomjs-test",
+  "name": "template-vue",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "description": "vite + vue",
+  "main": "dist/extension/index.js",
+  "engines": {
+    "node": ">=18",
+    "vscode": "^1.75.0"
+  },
+  "activationEvents": [],
+  "contributes": {
+    "commands": [
+      {
+        "command": "hello-world.showHelloWorld",
+        "title": "Hello World: Show"
+      }
+    ]
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@tomjs/vscode-webview": "^2.0.0",
+    "@vscode/webview-ui-toolkit": "^1.4.0",
+    "vue": "^3.5.11"
+  },
+  "devDependencies": {
+    "@tomjs/vite-plugin-vscode": "workspace:^",
+    "@types/vscode": "^1.75.0",
+    "@types/vscode-webview": "^1.57.5"
+  }
+}
