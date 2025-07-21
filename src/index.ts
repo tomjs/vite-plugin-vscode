@@ -52,11 +52,10 @@ function preMergeOptions(options?: PluginOptions): PluginOptions {
         clean: true,
         dts: false,
         treeshake: !isDev,
-        outExtension() {
+        outExtensions() {
           return { js: '.js' };
         },
         external: ['vscode'],
-        skipNodeModulesBundle: isDev,
       } as ExtensionOptions,
     },
     options,
