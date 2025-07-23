@@ -318,10 +318,7 @@ export function useVSCodePlugin(options?: PluginOptions): PluginOption {
           }
 
           if (port) {
-            html = html.replace(
-              /<head>/i,
-              `<head><script src="http://localhost:${port}"></script>`,
-            );
+            html = html.replace(/<head>/i, `<head><script src="http://localhost:${port}"></script>`);
           }
           else if (!devtoolsFlag) {
             devtoolsFlag = true;
@@ -329,7 +326,7 @@ export function useVSCodePlugin(options?: PluginOptions): PluginOption {
           }
         }
 
-        return html.replace(/<\/title>/i, `</title><script>${devWebviewClient}</script>`);
+        return html.replace(/<head>/i, `<head><script>${devWebviewClient}</script>`);
       },
     },
     {
