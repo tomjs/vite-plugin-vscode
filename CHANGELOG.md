@@ -1,3 +1,8 @@
+## [4.3.0](https://github.com/tomjs/vite-plugin-vscode/compare/v4.2.1...v4.3.0) (2025-07-23)
+
+- fix: no title tag issues #30  [1ceed30](https://github.com/tomjs/vite-plugin-vscode/commit/1ceed30)
+- chore: update deps  [6a66e09](https://github.com/tomjs/vite-plugin-vscode/commit/6a66e09)
+
 ## [4.2.1](https://github.com/tomjs/vite-plugin-vscode/compare/v4.2.0...v4.2.1) (2025-05-11)
 
 - feat: use @tomjs/logger  [9ec87cb](https://github.com/tomjs/vite-plugin-vscode/commit/9ec87cb)
