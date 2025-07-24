@@ -1,4 +1,4 @@
-import type { Options } from 'tsup';
+import type { Options } from 'tsdown';
 
 /**
  * vscode extension options. See [tsup](https://tsup.egoist.dev/) and [API Doc](https://paka.dev/npm/tsup) for more information.

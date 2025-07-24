@@ -1,4 +1,5 @@
-import type { Options as TsupOptions } from 'tsup';
+// import type { Options as TsupOptions } from 'tsup';
+import type { Options as TsdownOptions } from 'tsdown';
 import type { PluginOption, ResolvedConfig, UserConfig } from 'vite';
 import type { ExtensionOptions, PluginOptions, WebviewOption } from './types';
 import fs from 'node:fs';
@@ -8,7 +9,8 @@ import { cwd } from 'node:process';
 import { emptyDirSync, readFileSync, readJsonSync } from '@tomjs/node';
 import merge from 'lodash.merge';
 import { parse as htmlParser } from 'node-html-parser';
-import { build as tsupBuild } from 'tsup';
+// import { build as tsupBuild } from 'tsup';
+import { build as tsdownBuild } from 'tsdown';
 import { PACKAGE_NAME, WEBVIEW_METHOD_NAME } from './constants';
 import { createLogger } from './logger';
 import { resolveServerUrl } from './utils';
@@ -49,12 +51,11 @@ function preMergeOptions(options?: PluginOptions): PluginOptions {
         shims: true,
         clean: true,
         dts: false,
-        treeshake: isDev ? false : 'smallest',
-        outExtension() {
+        treeshake: !isDev,
+        outExtensions() {
           return { js: '.js' };
         },
         external: ['vscode'],
-        skipNodeModulesBundle: isDev,
       } as ExtensionOptions,
     },
     options,
@@ -74,9 +75,18 @@ function preMergeOptions(options?: PluginOptions): PluginOptions {
   else {
     opt.minify ??= true;
   }
-
-  opt.external = (['vscode'] as (string | RegExp)[]).concat(opt.external ?? []);
-
+  if (typeof opt.external !== 'function') {
+    opt.external = (['vscode'] as (string | RegExp)[]).concat(opt.external ?? []);
+  }
+  else {
+    const fn = opt.external;
+    opt.external = function (id, parentId, isResolved) {
+      if (id === 'vscode') {
+        return true;
+      }
+      return fn.call(this, id, parentId, isResolved);
+    };
+  }
   if (!opt.skipNodeModulesBundle) {
     opt.noExternal = Object.keys(pkg.dependencies || {}).concat(
       Object.keys(pkg.peerDependencies || {}),
@@ -221,7 +231,7 @@ export function useVSCodePlugin(options?: PluginOptions): PluginOption {
 
   let devWebviewClient: string;
   if (opts.webview) {
-    devWebviewClient = readFileSync(path.join(__dirname, 'client.global.js'));
+    devWebviewClient = readFileSync(path.join(__dirname, 'client.iife.js'));
   }
 
   let resolvedConfig: ResolvedConfig;
@@ -256,30 +266,22 @@ export function useVSCodePlugin(options?: PluginOptions): PluginOption {
 
           const webview = opts?.webview as WebviewOption;
 
-          const { onSuccess: _onSuccess, ...tsupOptions } = opts.extension || {};
-          await tsupBuild(
-            merge(tsupOptions, {
+          const { onSuccess: _onSuccess, ...tsdownOptions } = opts.extension || {};
+          await tsdownBuild(
+            merge(tsdownOptions, {
               watch: true,
               env,
               silent: true,
-              esbuildPlugins: !webview
+              plugins: !webview
                 ? []
                 : [
                     {
                       name: '@tomjs:vscode:inject',
-                      setup(build) {
-                        build.onLoad({ filter: /\.ts$/ }, async (args) => {
-                          const file = fs.readFileSync(args.path, 'utf-8');
-                          if (file.includes(`${webview.name}(`)) {
-                            return {
-                              contents:
-                                `import ${webview.name} from '${PACKAGE_NAME}/webview';\n${file}`,
-                              loader: 'ts',
-                            };
-                          }
-
-                          return {};
-                        });
+                      transform(code) {
+                        if (code.includes(`${webview.name}(`)) {
+                          return `import ${webview.name} from '${PACKAGE_NAME}/webview';\n${code}`;
+                        }
+                        return code;
                       },
                     },
                   ],
@@ -295,7 +297,7 @@ export function useVSCodePlugin(options?: PluginOptions): PluginOption {
                   logger.info('extension build success');
                 }
               },
-            } as TsupOptions),
+            } as TsdownOptions),
           );
         });
       },
@@ -367,27 +369,20 @@ export function useVSCodePlugin(options?: PluginOptions): PluginOption {
         logger.info('extension build start');
 
         const { onSuccess: _onSuccess, ...tsupOptions } = opts.extension || {};
-        tsupBuild(
+        tsdownBuild(
           merge(tsupOptions, {
             env,
             silent: true,
-            esbuildPlugins: !webview
+            plugins: !webview
               ? []
               : [
                   {
                     name: '@tomjs:vscode:inject',
-                    setup(build) {
-                      build.onLoad({ filter: /\.ts$/ }, async (args) => {
-                        const file = fs.readFileSync(args.path, 'utf-8');
-                        if (file.includes(`${webview.name}(`)) {
-                          return {
-                            contents: `import ${webview.name} from \`${webviewPath}\`;\n${file}`,
-                            loader: 'ts',
-                          };
-                        }
-
-                        return {};
-                      });
+                    transform(code) {
+                      if (code.includes(`${webview.name}(`)) {
+                        return `import ${webview.name} from "${webviewPath}";\n${code}`;
+                      }
+                      return code;
                     },
                   },
                 ],
@@ -395,10 +390,9 @@ export function useVSCodePlugin(options?: PluginOptions): PluginOption {
               if (typeof _onSuccess === 'function') {
                 await _onSuccess();
               }
-
               logger.info('extension build success');
             },
-          }) as TsupOptions,
+          } as TsdownOptions),
         );
       },
     },

@@ -50,8 +50,8 @@
     "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
-    "dev": "pnpm clean && tsup --watch",
-    "build": "pnpm clean && tsup",
+    "dev": "pnpm clean && tsdown --watch",
+    "build": "pnpm clean && tsdown",
     "clean": "rimraf ./dist",
     "lint": "run-s lint:stylelint lint:eslint",
     "lint:eslint": "eslint --fix",
@@ -71,7 +71,7 @@
     "lodash.clonedeep": "^4.5.0",
     "lodash.merge": "^4.6.2",
     "node-html-parser": "^7.0.1",
-    "tsup": "^8.5.0"
+    "tsdown": "^0.12.9"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",

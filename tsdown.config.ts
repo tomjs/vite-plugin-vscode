@@ -1,5 +1,4 @@
-import { defineConfig } from 'tsup';
-import pkg from './package.json';
+import { defineConfig } from 'tsdown';
 
 export default defineConfig(() => {
   return [
@@ -7,7 +6,7 @@ export default defineConfig(() => {
       entry: ['src/index.ts'],
       format: ['esm', 'cjs'],
       target: ['es2021', 'node16'],
-      external: ['vite'].concat(Object.keys(pkg.dependencies || {})),
+      external: ['vite'],
       shims: true,
       clean: false,
       dts: true,
