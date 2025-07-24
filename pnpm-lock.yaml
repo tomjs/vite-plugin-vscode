@@ -33,8 +33,8 @@ importers:
         specifier: ^7.0.1
         version: 7.0.1
       tsdown:
-        specifier: ^0.12.9
-        version: 0.12.9(typescript@5.7.3)(vue-tsc@2.2.12(typescript@5.7.3))
+        specifier: ~0.12.9
+        version: 0.12.9(publint@0.3.12)(typescript@5.7.3)(vue-tsc@2.2.12(typescript@5.7.3))
     devDependencies:
       '@commitlint/cli':
         specifier: ^19.8.1
@@ -78,6 +78,9 @@ importers:
       npm-run-all:
         specifier: ^4.1.5
         version: 4.1.5
+      publint:
+        specifier: ^0.3.12
+        version: 0.3.12
       rimraf:
         specifier: ^6.0.1
         version: 6.0.1
@@ -799,6 +802,10 @@ packages:
   '@pkgr/core@0.2.4':
     resolution: {integrity: sha512-ROFF39F6ZrnzSUEmQQZUar0Jt4xVoP9WnDRdWwF4NNcXs3xBTLgBUDoOwW141y1jP+S8nahIbdxbFC7IShw9Iw==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
+
+  '@publint/pack@0.1.2':
+    resolution: {integrity: sha512-S+9ANAvUmjutrshV4jZjaiG8XQyuJIZ8a4utWmN/vW1sgQ9IfBnPndwkmQYw53QmouOIytT874u65HEmu6H5jw==}
+    engines: {node: '>=18'}
 
   '@quansync/fs@0.1.3':
     resolution: {integrity: sha512-G0OnZbMWEs5LhDyqy2UL17vGhSVHkQIfVojMtEWVenvj0V5S84VBgy86kJIuNsGDp2p7sTKlpSIpBUWdC35OKg==}
@@ -2945,6 +2952,10 @@ packages:
   mlly@1.7.4:
     resolution: {integrity: sha512-qmdSIPC4bDJXgZTCR7XosJiNKySV7O215tsPtDN9iEO/7q/76b/ijtgRu/+epFXSJhijtTCCGp3DWS549P3xKw==}
 
+  mri@1.2.0:
+    resolution: {integrity: sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA==}
+    engines: {node: '>=4'}
+
   ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
 
@@ -3222,6 +3233,11 @@ packages:
     engines: {node: '>=14'}
     hasBin: true
 
+  publint@0.3.12:
+    resolution: {integrity: sha512-1w3MMtL9iotBjm1mmXtG3Nk06wnq9UhGNRpQ2j6n1Zq7YAD6gnxMMZMIxlRPAydVjVbjSm+n0lhwqsD1m4LD5w==}
+    engines: {node: '>=18'}
+    hasBin: true
+
   punycode@2.3.1:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
@@ -3344,6 +3360,10 @@ packages:
 
   run-parallel@1.2.0:
     resolution: {integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==}
+
+  sade@1.8.1:
+    resolution: {integrity: sha512-xal3CZX1Xlo/k4ApwCFrHVACi9fBqJ7V+mwhBsuf/1IOKbBy098Fex+Wa/5QMubw09pSZ/u8EY8PWgevJsXp1A==}
+    engines: {node: '>=6'}
 
   safe-array-concat@1.1.3:
     resolution: {integrity: sha512-AURm5f0jYEOydBj7VQlVvDrjeFgthDdEF5H1dP+6mNpoXOMo1quQqJ4wvJDyRZ9+pO3kGWoOdmV08cSv2aJV6Q==}
@@ -4537,6 +4557,8 @@ snapshots:
   '@pkgr/core@0.1.2': {}
 
   '@pkgr/core@0.2.4': {}
+
+  '@publint/pack@0.1.2': {}
 
   '@quansync/fs@0.1.3':
     dependencies:
@@ -6890,6 +6912,8 @@ snapshots:
       pkg-types: 1.3.1
       ufo: 1.6.1
 
+  mri@1.2.0: {}
+
   ms@2.1.3: {}
 
   muggle-string@0.4.1: {}
@@ -7152,6 +7176,13 @@ snapshots:
 
   prettier@3.5.3: {}
 
+  publint@0.3.12:
+    dependencies:
+      '@publint/pack': 0.1.2
+      package-manager-detector: 1.3.0
+      picocolors: 1.1.1
+      sade: 1.8.1
+
   punycode@2.3.1: {}
 
   quansync@0.2.10: {}
@@ -7312,6 +7343,10 @@ snapshots:
   run-parallel@1.2.0:
     dependencies:
       queue-microtask: 1.2.3
+
+  sade@1.8.1:
+    dependencies:
+      mri: 1.2.0
 
   safe-array-concat@1.1.3:
     dependencies:
@@ -7693,7 +7728,7 @@ snapshots:
     dependencies:
       typescript: 5.7.3
 
-  tsdown@0.12.9(typescript@5.7.3)(vue-tsc@2.2.12(typescript@5.7.3)):
+  tsdown@0.12.9(publint@0.3.12)(typescript@5.7.3)(vue-tsc@2.2.12(typescript@5.7.3)):
     dependencies:
       ansis: 4.1.0
       cac: 6.7.14
@@ -7709,6 +7744,7 @@ snapshots:
       tinyglobby: 0.2.14
       unconfig: 7.3.2
     optionalDependencies:
+      publint: 0.3.12
       typescript: 5.7.3
     transitivePeerDependencies:
       - '@typescript/native-preview'

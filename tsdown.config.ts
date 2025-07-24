@@ -4,22 +4,24 @@ export default defineConfig(() => {
   return [
     {
       entry: ['src/index.ts'],
-      format: ['esm', 'cjs'],
-      target: ['es2021', 'node16'],
+      format: ['esm'],
+      target: ['node20'],
       external: ['vite'],
       shims: true,
       clean: false,
       dts: true,
+      publint: true,
       splitting: true,
     },
     {
       entry: ['src/webview/webview.ts'],
-      format: ['esm', 'cjs'],
-      target: ['es2020', 'node14'],
+      format: ['esm'],
+      target: ['node20'],
       shims: true,
       clean: false,
       dts: true,
       splitting: true,
+      publint: true,
       loader: {
         '.html': 'text',
       },

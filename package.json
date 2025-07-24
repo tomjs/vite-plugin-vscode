@@ -1,5 +1,6 @@
 {
   "name": "@tomjs/vite-plugin-vscode",
+  "type": "module",
   "version": "4.3.0",
   "packageManager": "pnpm@10.13.1",
   "description": "Use vue/react to develop 'vscode extension webview', supporting esm/cjs",
@@ -24,19 +25,12 @@
     "cjs"
   ],
   "exports": {
-    ".": {
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js"
-    },
-    "./webview": {
-      "import": "./dist/webview.mjs",
-      "require": "./dist/webview.js"
-    },
-    "./client": "./dist/client.global.js",
+    ".": "./dist/index.js",
+    "./webview": "./dist/webview.js",
+    "./client": "./dist/client.iife.js",
     "./env": "./env.d.ts"
   },
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
     "dist",
@@ -71,7 +65,7 @@
     "lodash.clonedeep": "^4.5.0",
     "lodash.merge": "^4.6.2",
     "node-html-parser": "^7.0.1",
-    "tsdown": "^0.12.9"
+    "tsdown": "~0.12.9"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
@@ -88,6 +82,7 @@
     "globals": "^16.3.0",
     "lint-staged": "^16.1.2",
     "npm-run-all": "^4.1.5",
+    "publint": "^0.3.12",
     "rimraf": "^6.0.1",
     "simple-git-hooks": "^2.13.0",
     "stylelint": "^16.22.0",
