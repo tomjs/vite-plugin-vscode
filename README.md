@@ -6,11 +6,11 @@
 
 > Use `vue`/`react` to develop [vscode extension webview](https://code.visualstudio.com/api/references/vscode-api#WebviewPanel), supporting `esm` and `cjs`.
 
-In development mode, inject the same code of [@tomjs/vscode-extension-webview](https://github.com/tomjs/vscode-extension-webview) into `vscode extension code` and `web page code`, use To support `HMR`; during production build, the final generated `index.html` code is injected into `vscode extension code` to reduce the workload.
+During development, inject code into both `vscode extension code` and `web page` code to support `HMR`; during production builds, inject the final generated `index.html` code into the `vscode extension code` to minimize manual effort.
 
 ## Features
 
-- Use [tsup](https://github.com/egoist/tsup) to quickly build `extension code`
+- Use [tsdown](https://tsdown.dev/) to quickly build `extension code`
 - Simple configuration, focus on business
 - Support `esm` and `cjs`
 - Support ESM extension (vscode `v1.100.0+`)
@@ -296,13 +296,13 @@ During development, support standalone development tool applications for `react`
 
 ### ExtensionOptions
 
-Based on [Options](https://paka.dev/npm/tsup) of [tsup](https://tsup.egoist.dev/), some default values are added for ease of use.
+Based on [Options](https://tsdown.dev/reference/api/Interface.Options) of [tsdown](https://tsdown.dev/), some default values are added for ease of use.
 
-| Property  | Type                                                                | Default               | Description                                                |
-| --------- | ------------------------------------------------------------------- | --------------------- | ---------------------------------------------------------- |
-| entry     | `string`                                                            | `extension/index.ts`  | The vscode extension entry file.                           |
-| outDir    | `string`                                                            | `dist-extension/main` | The output directory for the vscode extension file         |
-| onSuccess | `() => Promise<void \| undefined \| (() => void \| Promise<void>)>` | `undefined`           | A function that will be executed after the build succeeds. |
+| Property   | Type                 | Default               | Description                                        |
+| ---------- | -------------------- | --------------------- | -------------------------------------------------- |
+| entry      | `string`             | `extension/index.ts`  | The vscode extension entry file.                   |
+| outDir     | `string`             | `dist-extension/main` | The output directory for the vscode extension file |
+| watchFiles | `string`\/`string[]` | ``                    | Watch extension code files during development      |
 
 ### WebviewOption
 
@@ -442,6 +442,12 @@ Open the [examples](./examples) directory, there are `vue` and `react` examples.
 - [@tomjs/vscode-webview](https://npmjs.com/package/@tomjs/vscode-webview): Optimize the `postMessage` issue between `webview` page and [vscode extensions](https://marketplace.visualstudio.com/VSCode)
 
 ## Important Notes
+
+### v5.0.0
+
+**Breaking Updates:**
+
+- Using [tsdown](https://tsdown.dev/zh-CN) instead of [tsup](https://tsup.egoist.dev/), the vscode extension [extension](#ExtensionOptions) configuration is changed to inherit [tsdown](https://tsdown.dev/zh-CN).
 
 ### v4.0.0
 

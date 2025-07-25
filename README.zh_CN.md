@@ -6,11 +6,11 @@
 
 > 用 `vue`/`react` 来开发 [vscode extension webview](https://code.visualstudio.com/api/references/vscode-api#WebviewPanel) ，支持 `esm` 和 `cjs`。
 
-在开发模式时，给 `vscode 扩展代码` 和 `web 页面代码`中注入 [@tomjs/vscode-extension-webview](https://github.com/tomjs/vscode-extension-webview) 相同的代码，用来支持 `HMR`；生产构建时，将最终生成的`index.html` 代码注入到 `vscode 扩展代码` 中，减少工作量。
+在开发模式时，给 `vscode 扩展代码` 和 `web 页面代码`中注入代码，用来支持 `HMR`；生产构建时，将最终生成的`index.html` 代码注入到 `vscode 扩展代码` 中，减少工作量。
 
 ## 特性
 
-- 使用 [tsup](https://github.com/egoist/tsup) 快速构建 `扩展代码`
+- 使用 [tsdown](https://tsdown.dev/zh-CN/) 快速构建 `扩展代码`
 - 配置简单，专注业务
 - 支持 `esm`和 `cjs`
 - 支持 ESM 扩展（vscode `v1.100.0+`）
@@ -296,13 +296,13 @@ const value = await acquireVsCodeApi().getState();
 
 ### ExtensionOptions
 
-继承自 [tsup](https://tsup.egoist.dev/) 的 [Options](https://paka.dev/npm/tsup)，添加了一些默认值，方便使用。
+继承自 [tsdown](https://tsdown.dev/zh-CN/) 的 [Options](https://tsdown.dev/zh-CN/reference/api/Interface.Options)，添加了一些默认值，方便使用。
 
-| 参数名    | 类型                                                                | 默认值                | 说明                     |
-| --------- | ------------------------------------------------------------------- | --------------------- | ------------------------ |
-| entry     | `string`                                                            | `extension/index.ts`  | 入口文件                 |
-| outDir    | `string`                                                            | `dist-extension/main` | 输出文件夹               |
-| onSuccess | `() => Promise<void \| undefined \| (() => void \| Promise<void>)>` | `undefined`           | 构建成功后运行的回调函数 |
+| 参数名     | 类型                 | 默认值                | 说明                     |
+| ---------- | -------------------- | --------------------- | ------------------------ |
+| entry      | `string`             | `extension/index.ts`  | 入口文件                 |
+| outDir     | `string`             | `dist-extension/main` | 输出文件夹               |
+| watchFiles | `string`\/`string[]` | ``                    | 开发时监听扩展代码的文件 |
 
 ### WebviewOption
 
@@ -446,6 +446,12 @@ pnpm build
 - [@tomjs/vscode-webview](https://npmjs.com/package/@tomjs/vscode-webview): 优化 `webview` 页面与 [vscode 扩展](https://marketplace.visualstudio.com/VSCode) 的 `postMessage` 问题
 
 ## 重要说明
+
+### v5.0.0
+
+**破坏性更新：**
+
+- 使用 [tsdown](https://tsdown.dev/zh-CN) 替代 [tsup](https://tsup.egoist.dev/)，vscode 扩展 [extension](#ExtensionOptions) 配置改为继承 [tsdown](https://tsdown.dev/zh-CN)
 
 ### v4.0.0
 

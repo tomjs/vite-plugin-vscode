@@ -1,12 +1,12 @@
 import type { Options } from 'tsdown';
 
 /**
- * vscode extension options. See [tsup](https://tsup.egoist.dev/) and [API Doc](https://paka.dev/npm/tsup) for more information.
+ * vscode extension options. See [tsdown](https://tsdown.dev/) and [Config Options](https://tsdown.dev/reference/config-options) for more information.
  */
 export interface ExtensionOptions
   extends Omit<
     Options,
-    'entry' | 'format' | 'outDir' | 'watch' | 'onSuccess' | 'skipNodeModulesBundle'
+    'entry' | 'format' | 'outDir' | 'watch'
   > {
   /**
    * The extension entry file.
@@ -19,17 +19,11 @@ export interface ExtensionOptions
    */
   outDir?: string;
   /**
-   * The bundle format. Currently only supports cjs.
+   * `tsdown` watches the current working directory by default. You can set files that need to be watched, which may improve performance.
+   *
+   * If no value is specified, the default value of the "recommended" parameter is ["extension"] when it is true, otherwise it defaults to "true"
    */
-  format?: 'cjs';
-  /**
-   * Skip dependencies and peerDependencies bundle. Default is false.
-   */
-  skipNodeModulesBundle?: boolean;
-  /**
-   * A function that will be executed after the build succeeds.
-   */
-  onSuccess?: () => Promise<void | undefined | (() => void | Promise<void>)>;
+  watchFiles?: string | string[];
 }
 
 /**
@@ -37,7 +31,7 @@ export interface ExtensionOptions
  */
 export interface WebviewOption {
   /**
-   * The method name to inject. Default is '__getWebviewHtml__'
+   * The method name to inject. Default is `__getWebviewHtml__`
    */
   name?: string;
   /**
@@ -53,8 +47,8 @@ export interface PluginOptions {
   /**
    * Recommended switch. Default is true.
    * if true, will have the following default behavior:
-   * will change the extension/webview outDir to be parallel outDir;
-   * eg. if vite build.outDir is 'dist', will change extension/webview to 'dist/extension' and 'dist/webview'
+   * - will change the extension/webview outDir to be parallel outDir;
+   * - if vite build.outDir is 'dist', will change extension/webview to 'dist/extension' and 'dist/webview'
    * @default true
    */
   recommended?: boolean;

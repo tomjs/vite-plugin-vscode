@@ -1,4 +1,3 @@
-// import type { Options as TsupOptions } from 'tsup';
 import type { Options as TsdownOptions } from 'tsdown';
 import type { PluginOption, ResolvedConfig, UserConfig } from 'vite';
 import type { ExtensionOptions, PluginOptions, WebviewOption } from './types';
@@ -7,11 +6,11 @@ import os from 'node:os';
 import path from 'node:path';
 import { cwd } from 'node:process';
 import { emptyDirSync, readFileSync, readJsonSync } from '@tomjs/node';
+import { execa } from 'execa';
 import merge from 'lodash.merge';
 import { parse as htmlParser } from 'node-html-parser';
-// import { build as tsupBuild } from 'tsup';
 import { build as tsdownBuild } from 'tsdown';
-import { PACKAGE_NAME, WEBVIEW_METHOD_NAME } from './constants';
+import { ORG_NAME, PACKAGE_NAME, WEBVIEW_METHOD_NAME } from './constants';
 import { createLogger } from './logger';
 import { resolveServerUrl } from './utils';
 
@@ -42,7 +41,6 @@ function preMergeOptions(options?: PluginOptions): PluginOptions {
     {
       webview: true,
       recommended: true,
-      debug: false,
       extension: {
         entry: 'extension/index.ts',
         outDir: 'dist-extension',
@@ -52,31 +50,30 @@ function preMergeOptions(options?: PluginOptions): PluginOptions {
         clean: true,
         dts: false,
         treeshake: !isDev,
+        publint: false,
+        // ignore tsdown.config.ts from project
+        config: false,
         outExtensions() {
           return { js: '.js' };
         },
         external: ['vscode'],
       } as ExtensionOptions,
-    },
+    } as PluginOptions,
     options,
   );
 
   const opt = opts.extension || {};
 
-  ['entry', 'format'].forEach((prop) => {
-    const value = opt[prop];
-    if (!Array.isArray(value) && value) {
-      opt[prop] = [value];
-    }
-  });
   if (isDev) {
     opt.sourcemap = opt.sourcemap ?? true;
   }
   else {
     opt.minify ??= true;
+    opt.clean ??= true;
   }
   if (typeof opt.external !== 'function') {
     opt.external = (['vscode'] as (string | RegExp)[]).concat(opt.external ?? []);
+    opt.external = [...new Set(opt.external)];
   }
   else {
     const fn = opt.external;
@@ -84,10 +81,11 @@ function preMergeOptions(options?: PluginOptions): PluginOptions {
       if (id === 'vscode') {
         return true;
       }
-      return fn.call(this, id, parentId, isResolved);
+      return fn(id, parentId, isResolved);
     };
   }
-  if (!opt.skipNodeModulesBundle) {
+
+  if (!isDev && !opt.skipNodeModulesBundle && !opt.noExternal) {
     opt.noExternal = Object.keys(pkg.dependencies || {}).concat(
       Object.keys(pkg.peerDependencies || {}),
     );
@@ -266,18 +264,23 @@ export function useVSCodePlugin(options?: PluginOptions): PluginOption {
 
           const webview = opts?.webview as WebviewOption;
 
-          const { onSuccess: _onSuccess, ...tsdownOptions } = opts.extension || {};
+          const { onSuccess: _onSuccess, ignoreWatch, silent, watchFiles, ...tsdownOptions } = opts.extension || {};
           await tsdownBuild(
             merge(tsdownOptions, {
-              watch: true,
+              watch: watchFiles ?? (opts.recommended ? ['extension'] : true),
+              ignoreWatch: ['.history', '.temp', '.tmp', '.cache', 'dist'].concat(Array.isArray(ignoreWatch) ? ignoreWatch : []),
               env,
-              silent: true,
+              silent: silent ?? true,
               plugins: !webview
                 ? []
                 : [
                     {
-                      name: '@tomjs:vscode:inject',
-                      transform(code) {
+                      name: `${ORG_NAME}:vscode:inject`,
+                      transform(code, id) {
+                        if (id.includes('node_modules')) {
+                          return;
+                        }
+
                         if (code.includes(`${webview.name}(`)) {
                           return `import ${webview.name} from '${PACKAGE_NAME}/webview';\n${code}`;
                         }
@@ -285,9 +288,14 @@ export function useVSCodePlugin(options?: PluginOptions): PluginOption {
                       },
                     },
                   ],
-              async onSuccess() {
-                if (typeof _onSuccess === 'function') {
-                  await _onSuccess();
+              async onSuccess(config, signal) {
+                if (_onSuccess) {
+                  if (typeof _onSuccess === 'string') {
+                    await execa(_onSuccess);
+                  }
+                  else if (typeof _onSuccess === 'function') {
+                    await _onSuccess(config, signal);
+                  }
                 }
 
                 if (buildCount++ > 1) {
@@ -368,17 +376,25 @@ export function useVSCodePlugin(options?: PluginOptions): PluginOption {
 
         logger.info('extension build start');
 
-        const { onSuccess: _onSuccess, ...tsupOptions } = opts.extension || {};
+        const { onSuccess: _onSuccess, silent, ...tsupOptions } = opts.extension || {};
+        console.log(tsupOptions);
+
         tsdownBuild(
           merge(tsupOptions, {
             env,
-            silent: true,
+            silent: silent ?? true,
             plugins: !webview
               ? []
               : [
                   {
-                    name: '@tomjs:vscode:inject',
-                    transform(code) {
+                    name: `${ORG_NAME}:vscode:inject`,
+                    transform(code, id) {
+                      if (id.includes('node_modules')) {
+                        return;
+                      }
+
+                      console.log(id);
+
                       if (code.includes(`${webview.name}(`)) {
                         return `import ${webview.name} from "${webviewPath}";\n${code}`;
                       }
@@ -386,9 +402,16 @@ export function useVSCodePlugin(options?: PluginOptions): PluginOption {
                     },
                   },
                 ],
-            async onSuccess() {
-              if (typeof _onSuccess === 'function') {
-                await _onSuccess();
+            async onSuccess(config, signal) {
+              // console.log('config', config);
+
+              if (_onSuccess) {
+                if (typeof _onSuccess === 'string') {
+                  await execa(_onSuccess);
+                }
+                else if (typeof _onSuccess === 'function') {
+                  await _onSuccess(config, signal);
+                }
               }
               logger.info('extension build success');
             },

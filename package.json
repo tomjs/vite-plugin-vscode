@@ -37,7 +37,7 @@
     "env.d.ts"
   ],
   "engines": {
-    "node": ">=18"
+    "node": ">=18.19"
   },
   "publishConfig": {
     "access": "public",
@@ -60,7 +60,7 @@
     "@tomjs/logger": "^1.4.0",
     "@tomjs/node": "^2.2.3",
     "dayjs": "^1.11.13",
-    "execa": "^5.1.1",
+    "execa": "^8.0.1",
     "kolorist": "^1.8.0",
     "lodash.clonedeep": "^4.5.0",
     "lodash.merge": "^4.6.2",
