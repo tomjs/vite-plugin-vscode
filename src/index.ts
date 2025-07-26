@@ -377,7 +377,6 @@ export function useVSCodePlugin(options?: PluginOptions): PluginOption {
         logger.info('extension build start');
 
         const { onSuccess: _onSuccess, silent, ...tsupOptions } = opts.extension || {};
-        console.log(tsupOptions);
 
         tsdownBuild(
           merge(tsupOptions, {
@@ -393,8 +392,6 @@ export function useVSCodePlugin(options?: PluginOptions): PluginOption {
                         return;
                       }
 
-                      console.log(id);
-
                       if (code.includes(`${webview.name}(`)) {
                         return `import ${webview.name} from "${webviewPath}";\n${code}`;
                       }
@@ -403,8 +400,6 @@ export function useVSCodePlugin(options?: PluginOptions): PluginOption {
                   },
                 ],
             async onSuccess(config, signal) {
-              // console.log('config', config);
-
               if (_onSuccess) {
                 if (typeof _onSuccess === 'string') {
                   await execa(_onSuccess);
