@@ -1,3 +1,10 @@
+## [5.0.0](https://github.com/tomjs/vite-plugin-vscode/compare/v4.3.0...v5.0.0) (2025-07-29)
+
+- feat: remove console.log  [04209e2](https://github.com/tomjs/vite-plugin-vscode/commit/04209e2)
+- feat: optimize the configuration of tsdown  [1c8cb13](https://github.com/tomjs/vite-plugin-vscode/commit/1c8cb13)
+- feat: chang pkg to module type  [9395cc7](https://github.com/tomjs/vite-plugin-vscode/commit/9395cc7)
+- feat: migrate to tsdown (#32)  [10c5b13](https://github.com/tomjs/vite-plugin-vscode/commit/10c5b13)
+
 ## [4.3.0](https://github.com/tomjs/vite-plugin-vscode/compare/v4.2.1...v4.3.0) (2025-07-23)
 
 - fix: no title tag issues #30  [1ceed30](https://github.com/tomjs/vite-plugin-vscode/commit/1ceed30)
