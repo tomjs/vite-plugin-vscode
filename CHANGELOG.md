@@ -1,3 +1,7 @@
+## [5.1.0](https://github.com/tomjs/vite-plugin-vscode/compare/v5.0.0...v5.1.0) (2025-11-30)
+
+- chore: update deps  [55bef4c](https://github.com/tomjs/vite-plugin-vscode/commit/55bef4c)
+
 ## [5.0.0](https://github.com/tomjs/vite-plugin-vscode/compare/v4.3.0...v5.0.0) (2025-07-29)
 
 - feat: remove console.log  [04209e2](https://github.com/tomjs/vite-plugin-vscode/commit/04209e2)
