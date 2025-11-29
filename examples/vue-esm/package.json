@@ -25,9 +25,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@tomjs/vscode-webview": "^2.0.0",
+    "@tomjs/vscode-webview": "^2.0.2",
     "@vscode/webview-ui-toolkit": "^1.4.0",
-    "vue": "^3.5.11"
+    "vue": "^3.5.25"
   },
   "devDependencies": {
     "@tomjs/vite-plugin-vscode": "workspace:^",
