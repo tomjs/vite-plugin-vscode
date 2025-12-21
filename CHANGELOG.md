@@ -1,3 +1,8 @@
+## [5.2.0](https://github.com/tomjs/vite-plugin-vscode/compare/v5.1.0...v5.2.0) (2025-12-21)
+
+- chore: update tsdown version  [f08de3f](https://github.com/tomjs/vite-plugin-vscode/commit/f08de3f)
+- fix: example env  [d3455e2](https://github.com/tomjs/vite-plugin-vscode/commit/d3455e2)
+
 ## [5.1.0](https://github.com/tomjs/vite-plugin-vscode/compare/v5.0.0...v5.1.0) (2025-11-30)
 
 - chore: update deps  [55bef4c](https://github.com/tomjs/vite-plugin-vscode/commit/55bef4c)
