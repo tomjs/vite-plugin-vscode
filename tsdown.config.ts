@@ -1,6 +1,6 @@
 import { defineConfig } from 'tsdown';
 
-export default defineConfig((options) => {
+export default defineConfig((_options) => {
   return [
     {
       entry: ['src/index.ts'],
@@ -21,7 +21,6 @@ export default defineConfig((options) => {
       clean: false,
       dts: true,
       publint: true,
-      minify: !options.watch,
       loader: {
         '.html': 'text',
       },

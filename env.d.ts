@@ -1,4 +1,6 @@
-import type { ExtensionContext, Webview } from 'vscode';
+/// <reference types="./env-webview.d.ts" />
+import type { WebviewHtmlOptions } from 'virtual:vscode';
+
 // Make this a module
 export {};
 declare global {
@@ -24,31 +26,25 @@ declare global {
     }
   }
 
-  interface WebviewHtmlOptions {
-    /**
-     * `[vite serve]` The url of the vite dev server. Please use `process.env.VITE_DEV_SERVER_URL`
-     */
-    serverUrl?: string;
-    /**
-     * `[vite build]` The Webview instance of the extension.
-     */
-    webview: Webview;
-    /**
-     * `[vite build]` The ExtensionContext instance of the extension.
-     */
-    context: ExtensionContext;
-    /**
-     * `[vite build]` vite build.rollupOptions.input name. Default is `index`.
-     */
-    inputName?: string;
-    /**
-     * `[vite build]` Inject code into the afterbegin of the head element.
-     */
-    injectCode?: string;
-  }
-
   /**
-   * Gets the html of webview
+   * Gets the html of webview. It's deprecated. Please use `import { getWebviewHtml } from 'virtual:vscode';`.
+   *
+   * @example
+   *  import type { ExtensionContext, Webview } from 'vscode';
+   *  import { getWebviewHtml } from 'virtual:vscode';
+   *  import { window } from 'vscode';
+   *
+   *  export class WebviewHelper {
+   *    public static setupHtml(webview: Webview, context: ExtensionContext) {
+   *      return getWebviewHtml({
+   *        serverUrl: process.env.VITE_DEV_SERVER_URL,
+   *        webview,
+   *        context,
+   *        injectCode: `<script>window.__FLAG1__=666;window.__FLAG2__=888;</script>`,
+   *    });
+   *  }
+   *
+   * @deprecated
    */
   function __getWebviewHtml__(options?: WebviewHtmlOptions): string;
 }

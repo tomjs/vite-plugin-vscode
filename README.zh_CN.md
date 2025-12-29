@@ -82,13 +82,15 @@ npm i @tomjs/vite-plugin-vscode -D
 代码片段，更多配置看示例
 
 ```ts
+import { getWebviewHtml } from 'virtual:vscode';
+
 const panel = window.createWebviewPanel('showHelloWorld', 'Hello World', ViewColumn.One, {
   enableScripts: true,
   localResourceRoots: [Uri.joinPath(extensionUri, 'dist/webview')],
 });
 
 // vite 开发模式和生产模式注入不同的webview代码，减少开发工作
-panel.webview.html = __getWebviewHtml__({
+panel.webview.html = getWebviewHtml({
   // vite 开发模式
   serverUrl: process.env.VITE_DEV_SERVER_URL,
   // vite 生产模式
@@ -177,7 +179,9 @@ export default defineConfig({
 - 页面一
 
 ```ts
-__getWebviewHtml__({
+import { getWebviewHtml } from 'virtual:vscode';
+
+getWebviewHtml({
   // vite 开发模式
   serverUrl: process.env.VITE_DEV_SERVER_URL,
   // vite 生产模式
@@ -189,7 +193,9 @@ __getWebviewHtml__({
 - 页面二
 
 ```ts
-__getWebviewHtml__({
+import { getWebviewHtml } from 'virtual:vscode';
+
+getWebviewHtml({
   // vite 开发模式
   serverUrl: `${process.env.VITE_DEV_SERVER_URL}/index2.html`,
   // vite 生产模式
@@ -202,7 +208,9 @@ __getWebviewHtml__({
 - 单个页面通过不同参数来实现不同功能
 
 ```ts
-__getWebviewHtml__({
+import { getWebviewHtml } from 'virtual:vscode';
+
+getWebviewHtml({
   // vite 开发模式
   serverUrl: `${process.env.VITE_DEV_SERVER_URL}?id=666`,
   // vite 生产模式
@@ -237,11 +245,6 @@ interface WebviewHtmlOptions {
    */
   injectCode?: string;
 }
-
-/**
- * 获取webview的html
- */
-function __getWebviewHtml__(options?: WebviewHtmlOptions): string;
 ```
 
 ### 警告
@@ -251,10 +254,6 @@ function __getWebviewHtml__(options?: WebviewHtmlOptions): string;
 ```ts
 const value = await acquireVsCodeApi().getState();
 ```
-
-## 文档
-
-- [unpkg.com](https://www.unpkg.com/) 提供的 [index.d.ts](https://www.unpkg.com/browse/@tomjs/vite-plugin-vscode/dist/index.d.ts).
 
 ## 参数
 
@@ -274,18 +273,6 @@ const value = await acquireVsCodeApi().getState();
 - 输出目录根据 `vite` 的 `build.outDir` 参数， 将 `extension`、`src` 分别输出到 `dist/extension`、`dist/webview`
 
 - 其他待实现的行为
-
-#### Webview
-
-在 vscode 扩展代码和 web 客户端代码中注入 [@tomjs/vscode-extension-webview](https://github.com/tomjs/vscode-extension-webview)，使 `webview` 在开发阶段能够支持 `HMR`。
-
-- vite serve
-  - extension: 在调用 `__getWebviewHtml__` 方法的文件顶部注入 `import __getWebviewHtml__ from '@tomjs/vscode-extension-webview';`
-  - web: 在 index.html 中添加 `<script>` 标签，注入 `@tomjs/vscode-extension-webview/client` 代码
-- vite build
-  - extension: 在调用 `__getWebviewHtml__` 方法的文件顶部注入 `import __getWebviewHtml__ from '@tomjs/vite-plugin-vscode-inject';`
-
-如果为字符串，则设置注入方法名，默认为 `__getWebviewHtml__`。
 
 #### devtools
 
@@ -308,7 +295,6 @@ const value = await acquireVsCodeApi().getState();
 
 | 参数名 | 类型     | 默认值                                                                                                                                                           | 说明             |
 | ------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
-| name   | `string` | `__getWebviewHtml__`                                                                                                                                             | 注入的方法名     |
 | csp    | `string` | `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src {{cspSource}} 'unsafe-inline'; script-src 'nonce-{{nonce}}' 'unsafe-eval';">` | webview 的 `CSP` |
 
 - `{{cspSource}}`: [webview.cspSource](https://code.visualstudio.com/api/references/vscode-api#Webview)
@@ -446,6 +432,38 @@ pnpm build
 - [@tomjs/vscode-webview](https://npmjs.com/package/@tomjs/vscode-webview): 优化 `webview` 页面与 [vscode 扩展](https://marketplace.visualstudio.com/VSCode) 的 `postMessage` 问题
 
 ## 重要说明
+
+### v6.0.0
+
+**破坏性更新：**
+
+全局的 `__getWebviewHtml__` 方法改为 `import { getWebviewHtml } from 'virtual:vscode';` 这种虚拟模块方式调用。
+
+之前:
+
+```ts
+__getWebviewHtml__({
+  // vite 开发模式
+  serverUrl: process.env.VITE_DEV_SERVER_URL,
+  // vite 生产模式
+  webview,
+  context,
+});
+```
+
+之后：
+
+```ts
+import { getWebviewHtml } from 'virtual:vscode';
+
+getWebviewHtml({
+  // vite 开发模式
+  serverUrl: process.env.VITE_DEV_SERVER_URL,
+  // vite 生产模式
+  webview,
+  context,
+});
+```
 
 ### v5.0.0
 

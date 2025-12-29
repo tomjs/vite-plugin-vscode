@@ -1,7 +1,7 @@
 {
   "name": "@tomjs/vite-plugin-vscode",
   "type": "module",
-  "version": "5.2.1",
+  "version": "5.2.0",
   "packageManager": "pnpm@10.26.2",
   "description": "Use vue/react to develop 'vscode extension webview', supporting esm/cjs",
   "author": {
@@ -22,8 +22,7 @@
     "extension",
     "webview",
     "esm",
-    "cjs",
-    "mjs"
+    "cjs"
   ],
   "exports": {
     ".": "./dist/index.js",
@@ -34,8 +33,8 @@
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
-    "dist",
-    "env.d.ts"
+    "*.d.ts",
+    "dist"
   ],
   "engines": {
     "node": ">=18.19"
@@ -55,27 +54,24 @@
     "prepublishOnly": "pnpm build"
   },
   "peerDependencies": {
+    "@types/vscode": "^1.56.0",
     "vite": ">=2"
   },
   "dependencies": {
     "@tomjs/logger": "^1.4.0",
     "@tomjs/node": "^2.2.3",
-    "dayjs": "^1.11.19",
     "execa": "^9.6.1",
-    "kolorist": "^1.8.0",
-    "lodash.clonedeep": "^4.5.0",
     "lodash.merge": "^4.6.2",
     "node-html-parser": "^7.0.1",
     "tsdown": "~0.18.3"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^6.7.1",
+    "@antfu/eslint-config": "^6.7.3",
     "@commitlint/cli": "^20.2.0",
     "@tomjs/commitlint": "^5.0.0",
     "@tomjs/eslint": "^6.0.0",
     "@tomjs/stylelint": "^7.0.0",
     "@tomjs/tsconfig": "^2.2.0",
-    "@types/lodash.clonedeep": "^4.5.9",
     "@types/lodash.merge": "^4.6.9",
     "@types/node": "^20.19.27",
     "@vitejs/plugin-vue": "^6.0.3",

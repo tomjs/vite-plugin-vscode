@@ -82,13 +82,15 @@ Setting `recommended` will modify some preset configurations. See [PluginOptions
 code snippet, more code see examples
 
 ```ts
+import { getWebviewHtml } from 'virtual:vscode';
+
 const panel = window.createWebviewPanel('showHelloWorld', 'Hello World', ViewColumn.One, {
   enableScripts: true,
   localResourceRoots: [Uri.joinPath(extensionUri, 'dist/webview')],
 });
 
 // Vite development mode and production mode inject different webview codes to reduce development work
-panel.webview.html = __getWebviewHtml__({
+panel.webview.html = getWebviewHtml({
   // vite dev mode
   serverUrl: process.env.VITE_DEV_SERVER_URL,
   // vite prod mode
@@ -178,7 +180,9 @@ export default defineConfig({
 - page one
 
 ```ts
-__getWebviewHtml__({
+import { getWebviewHtml } from 'virtual:vscode';
+
+getWebviewHtml({
   // vite dev mode
   serverUrl: process.env.VITE_DEV_SERVER_URL,
   // vite prod mode
@@ -190,7 +194,9 @@ __getWebviewHtml__({
 - page two
 
 ```ts
-__getWebviewHtml__({
+import { getWebviewHtml } from 'virtual:vscode';
+
+getWebviewHtml({
   // vite dev mode
   serverUrl: `${process.env.VITE_DEV_SERVER_URL}/index2.html`,
   // vite prod mode
@@ -203,7 +209,9 @@ __getWebviewHtml__({
 - A single page uses different parameters to achieve different functions
 
 ```ts
-__getWebviewHtml__({
+import { getWebviewHtml } from 'virtual:vscode';
+
+getWebviewHtml({
   // vite dev mode
   serverUrl: `${process.env.VITE_DEV_SERVER_URL}?id=666`,
   // vite prod mode
@@ -238,11 +246,6 @@ interface WebviewHtmlOptions {
    */
   injectCode?: string;
 }
-
-/**
- * Gets the html of webview
- */
-function __getWebviewHtml__(options?: WebviewHtmlOptions): string;
 ```
 
 ### Warning
@@ -252,10 +255,6 @@ When using the `acquireVsCodeApi().getState()` method of [@types/vscode-webview]
 ```ts
 const value = await acquireVsCodeApi().getState();
 ```
-
-## Documentation
-
-- [index.d.ts](https://www.unpkg.com/browse/@tomjs/vite-plugin-vscode/dist/index.d.ts) provided by [unpkg.com](https://www.unpkg.com).
 
 ## Parameters
 
@@ -274,18 +273,6 @@ The `recommended` option is used to set the default configuration and behavior, 
 
 - The output directory is based on the `build.outDir` parameter of `vite`, and outputs `extension` and `src` to `dist/extension` and `dist/webview` respectively.
 - Other behaviors to be implemented
-
-#### Webview
-
-Inject [@tomjs/vscode-extension-webview](https://github.com/tomjs/vscode-extension-webview) into vscode extension code and web client code, so that `webview` can support `HMR` during the development stage.
-
-- vite serve
-  - extension: Inject `import __getWebviewHtml__ from '@tomjs/vite-plugin-vscode/webview';` at the top of the file that calls the `__getWebviewHtml__` method
-  - web: Add `<script>` tag to index.html and inject `@tomjs/vite-plugin-vscode/client` code
-- vite build
-  - extension: Inject `import __getWebviewHtml__ from '@tomjs/vite-plugin-vscode-inject';` at the top of the file that calls the `__getWebviewHtml__` method
-
-If is string, will set inject method name. Default is `__getWebviewHtml__`.
 
 #### devtools
 
@@ -442,6 +429,38 @@ Open the [examples](./examples) directory, there are `vue` and `react` examples.
 - [@tomjs/vscode-webview](https://npmjs.com/package/@tomjs/vscode-webview): Optimize the `postMessage` issue between `webview` page and [vscode extensions](https://marketplace.visualstudio.com/VSCode)
 
 ## Important Notes
+
+### v6.0.0
+
+**Breaking Updates:**
+
+Change the global `__getWebviewHtml__` method to a virtual module method called `import { getWebviewHtml } from 'virtual:vscode';`.
+
+before:
+
+```ts
+__getWebviewHtml__({
+  // vite 开发模式
+  serverUrl: process.env.VITE_DEV_SERVER_URL,
+  // vite 生产模式
+  webview,
+  context,
+});
+```
+
+after：
+
+```ts
+import { getWebviewHtml } from 'virtual:vscode';
+
+getWebviewHtml({
+  // vite 开发模式
+  serverUrl: process.env.VITE_DEV_SERVER_URL,
+  // vite 生产模式
+  webview,
+  context,
+});
+```
 
 ### v5.0.0
 

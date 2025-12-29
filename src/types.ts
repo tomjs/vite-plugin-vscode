@@ -1,11 +1,11 @@
-import type { UserConfig } from 'tsdown';
+import type { InlineConfig } from 'tsdown';
 
 /**
  * vscode extension options. See [tsdown](https://tsdown.dev/) and [Config Options](https://tsdown.dev/reference/config-options) for more information.
  */
 export interface ExtensionOptions
   extends Omit<
-    UserConfig,
+    InlineConfig,
     'entry' | 'format' | 'outDir' | 'watch'
   > {
   /**
@@ -31,10 +31,6 @@ export interface ExtensionOptions
  */
 export interface WebviewOption {
   /**
-   * The method name to inject. Default is `__getWebviewHtml__`
-   */
-  name?: string;
-  /**
    * The CSP meta for the webview. Default is `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src {{cspSource}} 'unsafe-inline'; script-src 'nonce-{{nonce}}' 'unsafe-eval';">`
    */
   csp?: string;
@@ -53,22 +49,17 @@ export interface PluginOptions {
    */
   recommended?: boolean;
   /**
-   * Inject code into vscode extension code and web client code, so that webview can support HMR during the development stage.
+   * During development, inject code into both `vscode extension code` and `web page` code to support `HMR`;
    *
-   * - vite serve
-   *   - extension: Inject `import __getWebviewHtml__ from '@tomjs/vite-plugin-vscode/webview';` at the top of the file that calls the `__getWebviewHtml__` method
-   *   - web: Add `<script>` tag to index.html and inject `@tomjs/vite-plugin-vscode/client` code
-   * - vite build
-   *   - extension: Inject `import __getWebviewHtml__ from '@tomjs/vite-plugin-vscode-inject';` at the top of the file that calls the `__getWebviewHtml__` method
-   *
-   * If is string, will set inject method name. Default is '__getWebviewHtml__'.
-   *
+   * During production builds, inject the final generated `index.html` code into the `vscode extension code` to minimize manual effort.
    *
    * @example
    * extension file
    * ```ts
+   *import {getWebviewHtml} from 'virtual:vscode';
+   *
    *function setupHtml(webview: Webview, context: ExtensionContext) {
-   *  return __getWebviewHtml__({serverUrl:WebviewHtmlOptions, webview, context});
+   *  return getWebviewHtml({serverUrl:process.env.VITE_DEV_SERVER_URL, webview, context});
    *}
    * ```
    */

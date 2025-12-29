@@ -1,9 +1,10 @@
 import type { Disposable, ExtensionContext, Webview } from 'vscode';
+import { getWebviewHtml } from 'virtual:vscode';
 import { window } from 'vscode';
 
 export class WebviewHelper {
   public static setupHtml(webview: Webview, context: ExtensionContext) {
-    return __getWebviewHtml__({
+    return getWebviewHtml({
       serverUrl: process.env.VITE_DEV_SERVER_URL,
       webview,
       context,
@@ -11,7 +12,7 @@ export class WebviewHelper {
   }
 
   public static setupHtml2(webview: Webview, context: ExtensionContext) {
-    return __getWebviewHtml__({
+    return getWebviewHtml({
       serverUrl: `${process.env.VITE_DEV_SERVER_URL}/index2.html`,
       webview,
       context,

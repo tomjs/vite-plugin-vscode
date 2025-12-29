@@ -1,16 +1,15 @@
-import type { UserConfig as TsdownOptions } from 'tsdown';
+import type { InlineConfig as TsdownOptions } from 'tsdown';
 import type { PluginOption, ResolvedConfig, UserConfig } from 'vite';
 import type { ExtensionOptions, PluginOptions, WebviewOption } from './types';
 import fs from 'node:fs';
-import os from 'node:os';
 import path from 'node:path';
 import { cwd } from 'node:process';
-import { emptyDirSync, readFileSync, readJsonSync } from '@tomjs/node';
+import { readFileSync, readJsonSync } from '@tomjs/node';
 import { execa } from 'execa';
 import merge from 'lodash.merge';
 import { parse as htmlParser } from 'node-html-parser';
 import { build as tsdownBuild } from 'tsdown';
-import { ORG_NAME, PACKAGE_NAME, WEBVIEW_METHOD_NAME } from './constants';
+import { ORG_NAME, RESOLVED_VIRTUAL_MODULE_ID, VIRTUAL_MODULE_ID } from './constants';
 import { createLogger } from './logger';
 import { resolveServerUrl } from './utils';
 
@@ -53,9 +52,7 @@ function preMergeOptions(options?: PluginOptions): PluginOptions {
         publint: false,
         // ignore tsdown.config.ts from project
         config: false,
-        outExtensions() {
-          return { js: '.js' };
-        },
+        fixedExtension: false,
         external: ['vscode'],
       } as ExtensionOptions,
     } as PluginOptions,
@@ -93,24 +90,11 @@ function preMergeOptions(options?: PluginOptions): PluginOptions {
 
   opts.extension = opt;
 
-  if (opts.webview !== false) {
-    let name = WEBVIEW_METHOD_NAME;
-    if (typeof opts.webview === 'string') {
-      name = opts.webview ?? WEBVIEW_METHOD_NAME;
-    }
-    opts.webview = Object.assign({ name }, opts.webview);
-  }
-
   return opts;
 }
 
-const prodCachePkgName = `${PACKAGE_NAME}-inject`;
 function genProdWebviewCode(cache: Record<string, string>, webview?: WebviewOption) {
   webview = Object.assign({}, webview);
-
-  const prodCacheFolder = path.join(cwd(), 'node_modules', prodCachePkgName);
-  emptyDirSync(prodCacheFolder);
-  const destFile = path.join(prodCacheFolder, 'index.js');
 
   function handleHtmlCode(html: string) {
     const root = htmlParser(html);
@@ -177,16 +161,7 @@ export default function getWebviewHtml(options){
   return html.replaceAll('{{cspSource}}', webview.cspSource).replaceAll('{{nonce}}', nonce).replaceAll('{{baseUri}}', baseUri);
 }
   `;
-  fs.writeFileSync(destFile, code, { encoding: 'utf8' });
-
-  return fixWindowsPath(destFile);
-}
-
-function fixWindowsPath(webviewPath: string) {
-  if (os.platform() === 'win32') {
-    webviewPath = webviewPath.replaceAll('\\', '/');
-  }
-  return webviewPath;
+  return code;
 }
 
 export function useVSCodePlugin(options?: PluginOptions): PluginOption {
@@ -227,10 +202,8 @@ export function useVSCodePlugin(options?: PluginOptions): PluginOption {
     };
   };
 
-  let devWebviewClient: string;
-  if (opts.webview) {
-    devWebviewClient = readFileSync(path.join(__dirname, 'client.iife.js'));
-  }
+  let devWebviewClientCode: string;
+  let devWebviewVirtualCode: string;
 
   let resolvedConfig: ResolvedConfig;
   // multiple entry index.html
@@ -247,6 +220,11 @@ export function useVSCodePlugin(options?: PluginOptions): PluginOption {
       },
       configResolved(config) {
         resolvedConfig = config;
+
+        if (opts.webview) {
+          devWebviewClientCode = readFileSync(path.join(__dirname, 'client.iife.js'));
+          devWebviewVirtualCode = readFileSync(path.join(__dirname, 'webview.js'));
+        }
       },
       configureServer(server) {
         if (!server || !server.httpServer) {
@@ -276,15 +254,14 @@ export function useVSCodePlugin(options?: PluginOptions): PluginOption {
                 : [
                     {
                       name: `${ORG_NAME}:vscode:inject`,
-                      transform(code, id) {
-                        if (id.includes('node_modules')) {
-                          return;
+                      resolveId(id) {
+                        if (id === VIRTUAL_MODULE_ID) {
+                          return RESOLVED_VIRTUAL_MODULE_ID;
                         }
-
-                        if (code.includes(`${webview.name}(`)) {
-                          return `import ${webview.name} from '${PACKAGE_NAME}/webview';\n${code}`;
-                        }
-                        return code;
+                      },
+                      load(id) {
+                        if (id === RESOLVED_VIRTUAL_MODULE_ID)
+                          return devWebviewVirtualCode;
                       },
                     },
                   ],
@@ -336,7 +313,7 @@ export function useVSCodePlugin(options?: PluginOptions): PluginOption {
           }
         }
 
-        return html.replace(/<head>/i, `<head><script>${devWebviewClient}</script>`);
+        return html.replace(/<head>/i, `<head><script>${devWebviewClientCode}</script>`);
       },
     },
     {
@@ -358,11 +335,11 @@ export function useVSCodePlugin(options?: PluginOptions): PluginOption {
         return html;
       },
       closeBundle() {
-        let webviewPath: string;
+        let webviewVirtualCode: string;
 
         const webview = opts?.webview as WebviewOption;
         if (webview) {
-          webviewPath = genProdWebviewCode(prodHtmlCache, webview);
+          webviewVirtualCode = genProdWebviewCode(prodHtmlCache, webview);
         }
 
         let outDir = resolvedConfig.build.outDir.replace(cwd(), '').replaceAll('\\', '/');
@@ -387,15 +364,14 @@ export function useVSCodePlugin(options?: PluginOptions): PluginOption {
               : [
                   {
                     name: `${ORG_NAME}:vscode:inject`,
-                    transform(code, id) {
-                      if (id.includes('node_modules')) {
-                        return;
+                    resolveId(id) {
+                      if (id === VIRTUAL_MODULE_ID) {
+                        return RESOLVED_VIRTUAL_MODULE_ID;
                       }
-
-                      if (code.includes(`${webview.name}(`)) {
-                        return `import ${webview.name} from "${webviewPath}";\n${code}`;
-                      }
-                      return code;
+                    },
+                    load(id) {
+                      if (id === RESOLVED_VIRTUAL_MODULE_ID)
+                        return webviewVirtualCode;
                     },
                   },
                 ],
