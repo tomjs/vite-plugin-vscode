@@ -1,4 +1,4 @@
-import type { Options as TsdownOptions } from 'tsdown';
+import type { UserConfig as TsdownOptions } from 'tsdown';
 import type { PluginOption, ResolvedConfig, UserConfig } from 'vite';
 import type { ExtensionOptions, PluginOptions, WebviewOption } from './types';
 import fs from 'node:fs';
@@ -264,13 +264,13 @@ export function useVSCodePlugin(options?: PluginOptions): PluginOption {
 
           const webview = opts?.webview as WebviewOption;
 
-          const { onSuccess: _onSuccess, ignoreWatch, silent, watchFiles, ...tsdownOptions } = opts.extension || {};
+          const { onSuccess: _onSuccess, ignoreWatch, logLevel, watchFiles, ...tsdownOptions } = opts.extension || {};
           await tsdownBuild(
             merge(tsdownOptions, {
               watch: watchFiles ?? (opts.recommended ? ['extension'] : true),
-              ignoreWatch: ['.history', '.temp', '.tmp', '.cache', 'dist'].concat(Array.isArray(ignoreWatch) ? ignoreWatch : []),
+              ignoreWatch: (['.history', '.temp', '.tmp', '.cache', 'dist'] as (string | RegExp)[]).concat(Array.isArray(ignoreWatch) ? ignoreWatch : []),
               env,
-              silent: silent ?? true,
+              logLevel: logLevel ?? 'silent',
               plugins: !webview
                 ? []
                 : [
@@ -376,12 +376,12 @@ export function useVSCodePlugin(options?: PluginOptions): PluginOption {
 
         logger.info('extension build start');
 
-        const { onSuccess: _onSuccess, silent, ...tsupOptions } = opts.extension || {};
+        const { onSuccess: _onSuccess, logLevel, ...tsupOptions } = opts.extension || {};
 
         tsdownBuild(
           merge(tsupOptions, {
             env,
-            silent: silent ?? true,
+            logLevel: logLevel ?? 'silent',
             plugins: !webview
               ? []
               : [

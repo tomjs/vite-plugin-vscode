@@ -1,6 +1,6 @@
 import { defineConfig } from 'tsdown';
 
-export default defineConfig(() => {
+export default defineConfig((options) => {
   return [
     {
       entry: ['src/index.ts'],
@@ -11,6 +11,7 @@ export default defineConfig(() => {
       clean: false,
       dts: true,
       publint: true,
+      fixedExtension: false,
     },
     {
       entry: ['src/webview/webview.ts'],
@@ -20,9 +21,11 @@ export default defineConfig(() => {
       clean: false,
       dts: true,
       publint: true,
+      minify: !options.watch,
       loader: {
         '.html': 'text',
       },
+      fixedExtension: false,
     },
     {
       entry: ['src/webview/client.ts'],

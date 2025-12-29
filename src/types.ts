@@ -1,11 +1,11 @@
-import type { Options } from 'tsdown';
+import type { UserConfig } from 'tsdown';
 
 /**
  * vscode extension options. See [tsdown](https://tsdown.dev/) and [Config Options](https://tsdown.dev/reference/config-options) for more information.
  */
 export interface ExtensionOptions
   extends Omit<
-    Options,
+    UserConfig,
     'entry' | 'format' | 'outDir' | 'watch'
   > {
   /**

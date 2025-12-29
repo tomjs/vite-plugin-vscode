@@ -2,7 +2,7 @@
   "name": "@tomjs/vite-plugin-vscode",
   "type": "module",
   "version": "5.2.0",
-  "packageManager": "pnpm@10.13.1",
+  "packageManager": "pnpm@10.26.2",
   "description": "Use vue/react to develop 'vscode extension webview', supporting esm/cjs",
   "author": {
     "name": "Tom Gao",
@@ -26,13 +26,13 @@
     "mjs"
   ],
   "exports": {
-    ".": "./dist/index.mjs",
-    "./webview": "./dist/webview.mjs",
+    ".": "./dist/index.js",
+    "./webview": "./dist/webview.js",
     "./client": "./dist/client.iife.js",
     "./env": "./env.d.ts"
   },
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.mts",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist",
     "env.d.ts"
@@ -66,7 +66,7 @@
     "lodash.clonedeep": "^4.5.0",
     "lodash.merge": "^4.6.2",
     "node-html-parser": "^7.0.1",
-    "tsdown": "~0.18.1"
+    "tsdown": "~0.18.3"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^6.7.1",
