@@ -295,7 +295,6 @@ Based on [Options](https://tsdown.dev/reference/api/Interface.Options) of [tsdow
 
 | Property | Type     | Default                                                                                                                                                          | Description                    |
 | -------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ |
-| name     | `string` | `__getWebviewHtml__`                                                                                                                                             | The inject method name         |
 | csp      | `string` | `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src {{cspSource}} 'unsafe-inline'; script-src 'nonce-{{nonce}}' 'unsafe-eval';">` | The `CSP` meta for the webview |
 
 - `{{cspSource}}`: [webview.cspSource](https://code.visualstudio.com/api/references/vscode-api#Webview)
