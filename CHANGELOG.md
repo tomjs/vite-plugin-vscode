@@ -1,3 +1,7 @@
+## [6.0.1](https://github.com/tomjs/vite-plugin-vscode/compare/v6.0.0...v6.0.1) (2025-12-29)
+
+- docs: delete the removed attributes  [3d9d175](https://github.com/tomjs/vite-plugin-vscode/commit/3d9d175)
+
 ## [6.0.0](https://github.com/tomjs/vite-plugin-vscode/compare/v5.2.1...v6.0.0) (2025-12-29)
 
 - feat: change to virtual module  [f3cd745](https://github.com/tomjs/vite-plugin-vscode/commit/f3cd745)
