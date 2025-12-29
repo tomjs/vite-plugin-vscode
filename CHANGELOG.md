@@ -1,3 +1,9 @@
+## [5.2.1](https://github.com/tomjs/vite-plugin-vscode/compare/v5.1.0...v5.2.1) (2025-12-29)
+
+- fix: types error  [b2993bc](https://github.com/tomjs/vite-plugin-vscode/commit/b2993bc)
+- chore: update tsdown version  [f08de3f](https://github.com/tomjs/vite-plugin-vscode/commit/f08de3f)
+- fix: example env  [d3455e2](https://github.com/tomjs/vite-plugin-vscode/commit/d3455e2)
+
 ## [5.2.0](https://github.com/tomjs/vite-plugin-vscode/compare/v5.1.0...v5.2.0) (2025-12-21)
 
 - chore: update tsdown version  [f08de3f](https://github.com/tomjs/vite-plugin-vscode/commit/f08de3f)
