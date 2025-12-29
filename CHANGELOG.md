@@ -1,3 +1,7 @@
+## [6.0.0](https://github.com/tomjs/vite-plugin-vscode/compare/v5.2.1...v6.0.0) (2025-12-29)
+
+- feat: change to virtual module  [f3cd745](https://github.com/tomjs/vite-plugin-vscode/commit/f3cd745)
+
 ## [5.2.1](https://github.com/tomjs/vite-plugin-vscode/compare/v5.1.0...v5.2.1) (2025-12-29)
 
 - fix: types error  [b2993bc](https://github.com/tomjs/vite-plugin-vscode/commit/b2993bc)
