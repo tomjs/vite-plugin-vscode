@@ -260,12 +260,12 @@ const value = await acquireVsCodeApi().getState();
 
 ### PluginOptions
 
-| Property    | Type                                                     | Default              | Description                                                                                                                                                                           |
-| ----------- | -------------------------------------------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| recommended | `boolean`                                                | `true`               | This option is intended to provide recommended default parameters and behavior.                                                                                                       |
-| extension   | [ExtensionOptions](#ExtensionOptions)                    |                      | Configuration options for the vscode extension.                                                                                                                                       |
-| webview     | `boolean` \| `string` \| [WebviewOption](#WebviewOption) | `__getWebviewHtml__` | Inject html code                                                                                                                                                                      |
-| devtools    | `boolean`                                                | `true`               | Inject script code for [react-devtools](https://github.com/facebook/react/tree/main/packages/react-devtools) or [vue-devtools](https://devtools.vuejs.org/guide/standalone) debugging |
+| Property    | Type                                         | Default | Description                                                                                                                                                                           |
+| ----------- | -------------------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| recommended | `boolean`                                    | `true`  | This option is intended to provide recommended default parameters and behavior.                                                                                                       |
+| extension   | [ExtensionOptions](#ExtensionOptions)        |         | Configuration options for the vscode extension.                                                                                                                                       |
+| webview     | `boolean` \| [WebviewOption](#WebviewOption) | `true`  | Inject html code                                                                                                                                                                      |
+| devtools    | `boolean`                                    | `true`  | Inject script code for [react-devtools](https://github.com/facebook/react/tree/main/packages/react-devtools) or [vue-devtools](https://devtools.vuejs.org/guide/standalone) debugging |
 
 #### Notice
 

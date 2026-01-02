@@ -259,12 +259,12 @@ const value = await acquireVsCodeApi().getState();
 
 ### PluginOptions
 
-| 参数名      | 类型                                                     | 默认值               | 说明                                                                                                                                                                           |
-| ----------- | -------------------------------------------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| recommended | `boolean`                                                | `true`               | 这个选项是为了提供推荐的默认参数和行为                                                                                                                                         |
-| extension   | [ExtensionOptions](#ExtensionOptions)                    |                      | vscode extension 可选配置                                                                                                                                                      |
-| webview     | `boolean` \| `string` \| [WebviewOption](#WebviewOption) | `__getWebviewHtml__` | 注入 html 代码                                                                                                                                                                 |
-| devtools    | `boolean`                                                | `true`               | 注入 script 代码用于 [react-devtools](https://github.com/facebook/react/tree/main/packages/react-devtools) 或 [vue-devtools](https://devtools.vuejs.org/guide/standalone) 调试 |
+| 参数名      | 类型                                         | 默认值 | 说明                                                                                                                                                                           |
+| ----------- | -------------------------------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| recommended | `boolean`                                    | `true` | 这个选项是为了提供推荐的默认参数和行为                                                                                                                                         |
+| extension   | [ExtensionOptions](#ExtensionOptions)        |        | vscode extension 可选配置                                                                                                                                                      |
+| webview     | `boolean` \| [WebviewOption](#WebviewOption) | `true` | 注入 html 代码                                                                                                                                                                 |
+| devtools    | `boolean`                                    | `true` | 注入 script 代码用于 [react-devtools](https://github.com/facebook/react/tree/main/packages/react-devtools) 或 [vue-devtools](https://devtools.vuejs.org/guide/standalone) 调试 |
 
 #### Notice
 
