@@ -28,7 +28,10 @@
     ".": "./dist/index.js",
     "./webview": "./dist/webview.js",
     "./client": "./dist/client.iife.js",
-    "./env": "./env.d.ts"
+    "./env": "./env.d.ts",
+    "./types": {
+      "types": "./env.d.ts"
+    }
   },
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -63,15 +66,15 @@
     "execa": "^9.6.1",
     "lodash.merge": "^4.6.2",
     "node-html-parser": "^7.0.1",
-    "tsdown": "~0.18.3"
+    "tsdown": "~0.18.4"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^6.7.3",
     "@commitlint/cli": "^20.2.0",
     "@tomjs/commitlint": "^5.0.0",
-    "@tomjs/eslint": "^6.0.0",
+    "@tomjs/eslint": "^6.3.0",
     "@tomjs/stylelint": "^7.0.0",
-    "@tomjs/tsconfig": "^2.2.0",
+    "@tomjs/tsconfig": "^3.0.1",
     "@types/lodash.merge": "^4.6.9",
     "@types/node": "^20.19.27",
     "@vitejs/plugin-vue": "^6.0.3",
@@ -87,6 +90,6 @@
     "tsx": "^4.21.0",
     "typescript": "~5.9.3",
     "vite": "^7.3.0",
-    "vue-tsc": "^3.2.0"
+    "vue-tsc": "^3.2.1"
   }
 }

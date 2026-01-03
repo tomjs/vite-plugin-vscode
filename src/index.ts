@@ -149,7 +149,7 @@ function uuid() {
   return text;
 }
 
-export default function getWebviewHtml(options){
+export function getWebviewHtml(options){
   const { webview, context, inputName, injectCode } = options || {};
   const nonce = uuid();
   const baseUri = webview.asWebviewUri(Uri.joinPath(context.extensionUri, (process.env.VITE_WEBVIEW_DIST || 'dist')));
@@ -160,7 +160,9 @@ export default function getWebviewHtml(options){
 
   return html.replaceAll('{{cspSource}}', webview.cspSource).replaceAll('{{nonce}}', nonce).replaceAll('{{baseUri}}', baseUri);
 }
-  `;
+
+export default getWebviewHtml;
+`;
   return code;
 }
 

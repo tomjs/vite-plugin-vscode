@@ -101,6 +101,32 @@ panel.webview.html = getWebviewHtml({
 });
 ```
 
+- Add `"@tomjs/vite-plugin-vscode/types"` to `tsconfig.node.json` or `*.d.ts` file.
+
+`tsconfig.node.json`
+
+```json
+{
+  "extends": "@tomjs/tsconfig/node.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
+    "types": [
+      "@tomjs/vite-plugin-vscode/types"
+    ]
+  },
+  "include": [
+    "extension",
+    "*.config.ts"
+  ]
+}
+```
+
+`*.dt.s`
+
+```ts
+/// <reference types="@tomjs/vite-plugin-vscode/types" />
+```
+
 - `package.json`
 
 ```json

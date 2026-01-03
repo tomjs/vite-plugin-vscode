@@ -27,8 +27,8 @@ importers:
         specifier: ^7.0.1
         version: 7.0.1
       tsdown:
-        specifier: ~0.18.3
-        version: 0.18.3(publint@0.3.16)(synckit@0.11.11)(typescript@5.9.3)(vue-tsc@3.2.0(typescript@5.9.3))
+        specifier: ~0.18.4
+        version: 0.18.4(publint@0.3.16)(synckit@0.11.11)(typescript@5.9.3)(vue-tsc@3.2.1(typescript@5.9.3))
     devDependencies:
       '@antfu/eslint-config':
         specifier: ^6.7.3
@@ -40,14 +40,14 @@ importers:
         specifier: ^5.0.0
         version: 5.0.0(@commitlint/cli@20.2.0(@types/node@20.19.27)(typescript@5.9.3))
       '@tomjs/eslint':
-        specifier: ^6.0.0
-        version: 6.0.0(@antfu/eslint-config@6.7.3(@vue/compiler-sfc@3.5.25)(eslint-plugin-format@1.0.2(eslint@9.39.2(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))
+        specifier: ^6.3.0
+        version: 6.3.0(@antfu/eslint-config@6.7.3(@vue/compiler-sfc@3.5.25)(eslint-plugin-format@1.0.2(eslint@9.39.2(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))
       '@tomjs/stylelint':
         specifier: ^7.0.0
         version: 7.0.0(stylelint@16.26.1(typescript@5.9.3))
       '@tomjs/tsconfig':
-        specifier: ^2.2.0
-        version: 2.2.0
+        specifier: ^3.0.1
+        version: 3.0.1
       '@types/lodash.merge':
         specifier: ^4.6.9
         version: 4.6.9
@@ -94,8 +94,8 @@ importers:
         specifier: ^7.3.0
         version: 7.3.0(@types/node@20.19.27)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.2)
       vue-tsc:
-        specifier: ^3.2.0
-        version: 3.2.0(typescript@5.9.3)
+        specifier: ^3.2.1
+        version: 3.2.1(typescript@5.9.3)
 
   examples/react:
     dependencies:
@@ -1130,8 +1130,8 @@ packages:
     peerDependencies:
       '@commitlint/cli': ^20.1.0
 
-  '@tomjs/eslint@6.0.0':
-    resolution: {integrity: sha512-lL7CsGLkRv7ohV1KDBXglAINVkoPXRA00WO64rEXeCtJK+yeDPwErikSdDqG1Ek7aPLZVVeZpYOwo/0etb3dhQ==}
+  '@tomjs/eslint@6.3.0':
+    resolution: {integrity: sha512-uEQnHLfV3iRHpbT5nUhxgxd87Ix+kUSLC+SOMeznsNMH2mDhE9MSMDmiZ5+t2IonBH7ZN+1u4SgH3B3DMmQrDg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       '@antfu/eslint-config': ^6.2.0
@@ -1155,8 +1155,8 @@ packages:
     resolution: {integrity: sha512-ecddXSN1+3bxTWYA7fMrTyuwf0UMjyeFYHOJxZAQdBu3WjsBUQ28vCTs7TH6lTrRrrs43lzTezjayCMJJFw0Rw==}
     engines: {node: '>=16'}
 
-  '@tomjs/tsconfig@2.2.0':
-    resolution: {integrity: sha512-sZTulNnoCnnZHf/14667k9iIUEncgCPwEG4UK72hZGlhx/g7VU6RnvoU4Uz0Y+pYD2a95Eo4lpPcU2rC8/v+1A==}
+  '@tomjs/tsconfig@3.0.1':
+    resolution: {integrity: sha512-fBVTF76gyWp386+dn/rA3EnwOyfB45CFvh9w4Vv4eTzOojfUCBRzre68cNBMTQznRV2uUIFhbdbqniDPCWNXiw==}
     engines: {node: '>=16'}
 
   '@tomjs/vscode-webview@2.0.2':
@@ -1352,8 +1352,8 @@ packages:
   '@vue/compiler-ssr@3.5.25':
     resolution: {integrity: sha512-ritPSKLBcParnsKYi+GNtbdbrIE1mtuFEJ4U1sWeuOMlIziK5GtOL85t5RhsNy4uWIXPgk+OUdpnXiTdzn8o3A==}
 
-  '@vue/language-core@3.2.0':
-    resolution: {integrity: sha512-CHIuDtZ04CIElAgEuLbwmq3p7QcmYoVPmBPqtdvWJCflZE5W3KHT/5DRBvDv1r2TteCjN02uYHiaAEWq9hQNiA==}
+  '@vue/language-core@3.2.1':
+    resolution: {integrity: sha512-g6oSenpnGMtpxHGAwKuu7HJJkNZpemK/zg3vZzZbJ6cnnXq1ssxuNrXSsAHYM3NvH8p4IkTw+NLmuxyeYz4r8A==}
 
   '@vue/reactivity@3.5.25':
     resolution: {integrity: sha512-5xfAypCQepv4Jog1U4zn8cZIcbKKFka3AgWHEFQeK65OW+Ys4XybP6z2kKgws4YB43KGpqp5D/K3go2UPPunLA==}
@@ -3627,8 +3627,8 @@ packages:
     peerDependencies:
       typescript: '>=4.0.0'
 
-  tsdown@0.18.3:
-    resolution: {integrity: sha512-OVFzktKDTglFAUh/WO8WamBUbZoBlJ9m7NgZZrVyIKe32BfXBeRZ+soFFpuOGVP8g8OU4tOLOpTyPTELWvcTFw==}
+  tsdown@0.18.4:
+    resolution: {integrity: sha512-J/tRS6hsZTkvqmt4+xdELUCkQYDuUCXgBv0fw3ImV09WPGbEKfsPD65E+WUjSu3E7Z6tji9XZ1iWs8rbGqB/ZA==}
     engines: {node: '>=20.19.0'}
     hasBin: true
     peerDependencies:
@@ -3801,8 +3801,8 @@ packages:
     peerDependencies:
       eslint: ^8.57.0 || ^9.0.0
 
-  vue-tsc@3.2.0:
-    resolution: {integrity: sha512-NFhcKKQZeTuG8/gc8XwFANx/lC0Dd3dCZ97TWh1a63PcD22KkFy4QLeT8JMtduaQT1NzySWmx3qXm16Hj1Xsxg==}
+  vue-tsc@3.2.1:
+    resolution: {integrity: sha512-I23Rk8dkQfmcSbxDO0dmg9ioMLjKA1pjlU3Lz6Jfk2pMGu3Uryu9810XkcZH24IzPbhzPCnkKo2rEMRX0skSrw==}
     hasBin: true
     peerDependencies:
       typescript: '>=5.0.0'
@@ -4706,7 +4706,7 @@ snapshots:
       '@commitlint/cli': 20.2.0(@types/node@20.19.27)(typescript@5.9.3)
       '@commitlint/config-conventional': 20.0.0
 
-  '@tomjs/eslint@6.0.0(@antfu/eslint-config@6.7.3(@vue/compiler-sfc@3.5.25)(eslint-plugin-format@1.0.2(eslint@9.39.2(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))':
+  '@tomjs/eslint@6.3.0(@antfu/eslint-config@6.7.3(@vue/compiler-sfc@3.5.25)(eslint-plugin-format@1.0.2(eslint@9.39.2(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))':
     dependencies:
       '@antfu/eslint-config': 6.7.3(@vue/compiler-sfc@3.5.25)(eslint-plugin-format@1.0.2(eslint@9.39.2(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
       eslint: 9.39.2(jiti@2.6.1)
@@ -4739,7 +4739,7 @@ snapshots:
 
   '@tomjs/tsconfig@2.1.0': {}
 
-  '@tomjs/tsconfig@2.2.0': {}
+  '@tomjs/tsconfig@3.0.1': {}
 
   '@tomjs/vscode-webview@2.0.2': {}
 
@@ -4998,7 +4998,7 @@ snapshots:
       '@vue/compiler-dom': 3.5.25
       '@vue/shared': 3.5.25
 
-  '@vue/language-core@3.2.0':
+  '@vue/language-core@3.2.1':
     dependencies:
       '@volar/language-core': 2.4.27
       '@vue/compiler-dom': 3.5.25
@@ -7177,7 +7177,7 @@ snapshots:
       glob: 13.0.0
       package-json-from-dist: 1.0.1
 
-  rolldown-plugin-dts@0.20.0(rolldown@1.0.0-beta.57)(typescript@5.9.3)(vue-tsc@3.2.0(typescript@5.9.3)):
+  rolldown-plugin-dts@0.20.0(rolldown@1.0.0-beta.57)(typescript@5.9.3)(vue-tsc@3.2.1(typescript@5.9.3)):
     dependencies:
       '@babel/generator': 7.28.5
       '@babel/parser': 7.28.5
@@ -7190,7 +7190,7 @@ snapshots:
       rolldown: 1.0.0-beta.57
     optionalDependencies:
       typescript: 5.9.3
-      vue-tsc: 3.2.0(typescript@5.9.3)
+      vue-tsc: 3.2.1(typescript@5.9.3)
     transitivePeerDependencies:
       - oxc-resolver
 
@@ -7620,7 +7620,7 @@ snapshots:
       picomatch: 4.0.3
       typescript: 5.9.3
 
-  tsdown@0.18.3(publint@0.3.16)(synckit@0.11.11)(typescript@5.9.3)(vue-tsc@3.2.0(typescript@5.9.3)):
+  tsdown@0.18.4(publint@0.3.16)(synckit@0.11.11)(typescript@5.9.3)(vue-tsc@3.2.1(typescript@5.9.3)):
     dependencies:
       ansis: 4.2.0
       cac: 6.7.14
@@ -7631,7 +7631,7 @@ snapshots:
       obug: 2.1.1
       picomatch: 4.0.3
       rolldown: 1.0.0-beta.57
-      rolldown-plugin-dts: 0.20.0(rolldown@1.0.0-beta.57)(typescript@5.9.3)(vue-tsc@3.2.0(typescript@5.9.3))
+      rolldown-plugin-dts: 0.20.0(rolldown@1.0.0-beta.57)(typescript@5.9.3)(vue-tsc@3.2.1(typescript@5.9.3))
       semver: 7.7.3
       tinyexec: 1.0.2
       tinyglobby: 0.2.15
@@ -7795,10 +7795,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  vue-tsc@3.2.0(typescript@5.9.3):
+  vue-tsc@3.2.1(typescript@5.9.3):
     dependencies:
       '@volar/typescript': 2.4.27
-      '@vue/language-core': 3.2.0
+      '@vue/language-core': 3.2.1
       typescript: 5.9.3
 
   vue@3.5.25(typescript@5.9.3):

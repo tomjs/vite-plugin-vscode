@@ -24,9 +24,25 @@
   // Enable eslint for all supported languages
   "eslint.validate": [
     "javascript",
+    "javascriptreact",
     "typescript",
-    "markdown",
+    "typescriptreact",
     "vue",
-    "json"
+    "html",
+    "markdown",
+    "json",
+    "jsonc",
+    "yaml",
+    "toml",
+    "xml",
+    "gql",
+    "graphql",
+    "astro",
+    "svelte",
+    "css",
+    "less",
+    "scss",
+    "pcss",
+    "postcss"
   ]
 }

@@ -1,7 +1,13 @@
 {
   "extends": "@tomjs/tsconfig/node.json",
   "compilerOptions": {
-    "composite": true
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
+    "types": [
+      "@tomjs/vite-plugin-vscode/types"
+    ]
   },
-  "include": ["extension", "vite.config.ts"]
+  "include": [
+    "extension",
+    "*.config.ts"
+  ]
 }

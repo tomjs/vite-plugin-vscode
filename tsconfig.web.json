@@ -1,5 +1,5 @@
 {
-  "extends": "@tomjs/tsconfig/web.json",
+  "extends": "@tomjs/tsconfig/vue-dom.json",
   "compilerOptions": {
     "composite": true,
     "allowImportingTsExtensions": false,

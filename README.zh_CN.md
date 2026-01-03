@@ -79,6 +79,32 @@ npm i @tomjs/vite-plugin-vscode -D
 
 ### extension
 
+- 添加 `"@tomjs/vite-plugin-vscode/types"` 到 `tsconfig.node.json` 或 `*.d.ts`
+
+`tsconfig.node.json`
+
+```json
+{
+  "extends": "@tomjs/tsconfig/node.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
+    "types": [
+      "@tomjs/vite-plugin-vscode/types"
+    ]
+  },
+  "include": [
+    "extension",
+    "*.config.ts"
+  ]
+}
+```
+
+`*.dt.s`
+
+```ts
+/// <reference types="@tomjs/vite-plugin-vscode/types" />
+```
+
 代码片段，更多配置看示例
 
 ```ts

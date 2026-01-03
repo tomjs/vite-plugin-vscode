@@ -19,7 +19,9 @@ export default defineConfig((_options) => {
       target: ['node18.19'],
       shims: true,
       clean: false,
-      dts: true,
+      dts: {
+        build: true,
+      },
       publint: true,
       loader: {
         '.html': 'text',
