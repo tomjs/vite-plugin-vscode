@@ -1,3 +1,7 @@
+## [6.1.0](https://github.com/tomjs/vite-plugin-vscode/compare/v6.0.2...v6.1.0) (2026-01-03)
+
+- feat: change env to types  [e373842](https://github.com/tomjs/vite-plugin-vscode/commit/e373842)
+
 ## [6.0.2](https://github.com/tomjs/vite-plugin-vscode/compare/v6.0.1...v6.0.2) (2026-01-02)
 
 - docs: update readme  [d39d42b](https://github.com/tomjs/vite-plugin-vscode/commit/d39d42b)
