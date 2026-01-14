@@ -23,6 +23,14 @@ During development, inject code into both `vscode extension code` and `web page`
 
 The NodeJS extension host now (`v1.100.0+`) supports extensions that use JavaScript-modules (ESM). All it needs is the `"type": "module"` entry in your extension's `package.json` file. With that, the JavaScript code can use `import` and `export` statements, including the special module `import('vscode')`.
 
+## cli Install
+````bash
+bun create  vscodep  [project-name]
+
+# https://github.com/eastgold15/create-vscodep
+````
+
+
 ## Install
 
 ```bash

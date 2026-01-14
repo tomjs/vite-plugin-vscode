@@ -23,6 +23,14 @@
 
 NodeJS 扩展现在(`v1.100.0+`)支持使用 JavaScript 模块 (ESM) 的扩展。它只需要在扩展的 `package.json` 文件中添加 `"type": "module"` 条目即可。这样，JavaScript 代码就可以使用 `import` 和 `export` 语句，包括特殊的模块 `import('vscode')`
 
+## cli 安装
+
+```bash
+bun create vscodep [project-name]
+
+# https://github.com/eastgold15/create-vscodep
+```
+
 ## 安装
 
 ```bash
